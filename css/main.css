@@ -778,7 +778,7 @@ a {
   margin: 0;
 }
 @media (max-width: 480px) {.main-title {
-  font-size: 40px;
+  font-size: 36px;
   letter-spacing: normal;
 }
 }
