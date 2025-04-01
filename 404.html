@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>404 - Strona nie znaleziona | GLOW Hair Atelier</title>
     
     <!-- Font Awesome -->
@@ -22,13 +23,13 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100vw; /* 100% от ширины viewport */
-        height: 100vh; /* 100% от высоты viewport */
+        width: 100vw; 
+        height: 100vh;
         background: 
             linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
             url('../img/coloring/1.jpg') center/cover;
-        filter: blur(20px);
-        -webkit-filter: blur(20px); /* Для Safari */
+        filter: blur(11px);
+        -webkit-filter: blur(11px); /* Для Safari */
         transform: scale(1.2); /* Увеличиваем фон */
         z-index: -1;
         margin: -10px; /* Компенсируем обрезанные края */
@@ -163,19 +164,19 @@
             }
             body::before {
             transform: scale(1.5); /* Большее увеличение для мобильных */
-            filter: blur(15px);
-            -webkit-filter: blur(15px);
+            filter: blur(11px);
+            -webkit-filter: blur(11px);
             margin: -15px;
             padding: 15px;
-        }
+            }
         
         /* Дополнительные исправления для iOS */
         @supports (-webkit-touch-callout: none) {
             body::before {
-                -webkit-backdrop-filter: blur(15px);
-                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(11px);
+                backdrop-filter: blur(11px);
             }
-        }
+            }
     
             .logo-container {
                 top: 40px; /* Уменьшен отступ */
@@ -205,7 +206,7 @@
             bottom: -20px;
             background-size: 120% auto;
             z-index: -1;
-        }
+            }
         }
     </style>
 </head>
