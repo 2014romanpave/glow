@@ -210,7 +210,7 @@ table {
 }
 
 .container {
-  padding: clamp(1.5rem, 5vw, 6.25rem);
+ /*padding: clamp(1.5rem, 5vw, 6.25rem);*/
 }
 
 header {
