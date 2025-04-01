@@ -18,17 +18,15 @@
 
         /* Фон с размытием */
         body::before {
-            content: '';
-            position: fixed;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            background-size: 120% auto;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
-                        url('../img/coloring/1.jpg') center/cover;
-            filter: blur(10px);
-            z-index: -1;
+            background-size: cover; /* Фикс для мобильных */
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            width: calc(100% + 10px);
+            height: calc(100% + 10px);
         }
 
         body {
