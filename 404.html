@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Strona nie znaleziona | GLOW Hair Atelier</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Базовые стили */
+        html, body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* Фон с размытием */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background-size: 120% auto;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                        url('img/coloring/1.jpg') center/cover;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        body {
+            position: relative;
+            min-height: 100vh;
+            color: #ffffff;
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Логотип */
+        .logo-container {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .logo {
+            max-width: 180px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Основной контент */
+        .error-container {
+            text-align: center;
+            padding: 50px 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Текст ошибки */
+        .error-code {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            margin: 20px 0;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .error-message {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+            animation: slideUp 1s ease-out;
+        }
+
+        /* Кнопка */
+        .home-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 35px;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 30px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .home-button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Социальные иконки */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .social-icon:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 0.9; transform: translateY(0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .logo {
+                max-width: 140px;
+            }
+            
+            .error-code {
+                font-size: 6rem;
+            }
+            
+            .error-message {
+                font-size: 1.2rem;
+            }
+            
+            .social-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Логотип -->
+    <a href="index.html" class="logo-container">
+        <img src="img/logo.svg" alt="GLOW Hair Atelier - переход на главную страницу" class="logo">
+    </a>
+
+    <!-- Контент страницы -->
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <p class="error-message">Przepraszamy, strona której szukasz nie istnieje.</p>
+        
+        <a href="index.html" class="home-button">
+            <i class="fas fa-home"></i>
+            <span>Powrót do strony głównej</span>
+        </a>
+
+        <div class="social-links">
+            <a href="https://www.facebook.com/glow.poznan" class="social-icon" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook-f"></i>
+            </a> 
+            <a href="https://www.tiktok.com/@glowhairatelier" class="social-icon" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-tiktok"></i>
+            </a> 
+            <a href="https://www.instagram.com/glow.poznan" class="social-icon" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram"></i>
+            </a> 
+            <a href="https://www.youtube.com/@GLOWHAIRAtelier/shorts" class="social-icon" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
