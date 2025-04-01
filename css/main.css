@@ -448,7 +448,7 @@ a {
   display: flex;
   overflow-x: auto;
   padding: 20px 0;
-  gap: 60px;
+  gap: 59px;
   scroll-behavior: smooth;
 }
 
