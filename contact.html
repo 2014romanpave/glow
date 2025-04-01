@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon Kosmetyczny Glow - Poznań</title>
+    <meta name="description" content="Profesjonalny salon kosmetyczny w Poznaniu. Zabiegi keratynowe, botoks oraz usługi stylizacji.">
+    
+    <!-- Локальные стили -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Nunito:wght@400;600&family=Work+Sans:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Иконки -->
+    <link rel="icon" type="image/png" href="img/favicon.ico">
+</head>
+<body class="body">
+    <div class="page-wrapper">
+        <!-- Навигация -->
+        <div id="menu-container"></div>
+            <div class="container">
+                <div class="layout-grid">
+                    <!-- Левая колонка -->
+                    <div class="left-column">
+                        <div class="map-wrapper">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.274380114293!2d16.87931131580371!3d52.43837997979555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470444c9d7e6d7a9%3A0x3e4e3e4a3e4e3e4!2sRomka%20Strzałkowskiego%2011%2C%2060-857%20Poznań!5e0!3m2!1spl!2spl!4v1620000000000!5m2!1spl!2spl" 
+                                class="google-map"
+                                allowfullscreen=""
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                        <address class="address-block">
+                            <a href="https://www.google.com/maps/search/?api=1&query=Romka+Strza%C5%82kowskiego+11,+60-857+Pozna%C5%84,+Poland"  
+                    target="_blank" rel="noopener noreferrer"  class="link">Romka Strzałkowskiego, 11, 60-857, Poznań, Jeżyce</a>
+                            <a href="tel:+48789822636"class="button"><div>Zadzwoń teraz</div><img src="img/phone.svg" alt=""></a>
+                        </address>
+                    </div>
+
+                    <!-- Правая колонка -->
+                    <div class="right-column">
+                        <h1 class="main-title">GŁOW Hair Atelier</h1>
+                        <p class="description">
+                            Cenisz profesjonalizm i najwyższą jakość? W Glow zadbasz o siebie i znajdziesz chwilę relaksu w codziennym biegu.
+                        </p>
+                        
+                        <div class="contact-info">
+                            <a href="tel:+48789822636" class="phone-link">+48 789 822 636</a>
+                            <a href="mailto:Glowhaira@gmail.com" class="email-link">Glowhaira@gmail.com</a>
+                        </div>
+
+                        <div class="working-hours">
+                            <h2 class="hours-title">Godziny otwarcia:</h2>
+                            <ul class="hours-list">
+                                <li><span>Poniedziałek</span> 10:00 - 19:00</li>
+                                <li><span>Wtorek</span> 10:00 - 19:00</li>
+                                <li><span>Środa</span> 10:00 - 19:00</li>
+                                <li><span>Czwartek</span> 10:00 - 19:00</li>
+                                <li><span>Piątek</span> 10:00 - 19:00</li>
+                                <li><span>Sobota</span> 10:00 - 17:00</li>
+                                <li><span>Niedziela</span> Zamknięte</li>
+                            </ul>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <script>
+document.querySelectorAll('.thumbnail').forEach(img => {
+    img.addEventListener('click', function() {
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = 'content-wrapper';
+        
+        const enlargedImg = document.createElement('img');
+        enlargedImg.src = this.src;
+        enlargedImg.className = 'enlarged-image';
+        
+        const description = document.createElement('div');
+        description.className = 'description-text';
+        description.textContent = this.dataset.description;
+        
+        contentWrapper.appendChild(enlargedImg);
+        contentWrapper.appendChild(description);
+        overlay.appendChild(contentWrapper);
+        document.body.appendChild(overlay);
+
+        // Закрытие по клику
+        overlay.addEventListener('click', (e) => {
+            if(e.target === overlay) {
+                overlay.remove();
+            }
+        });
+    });
+});
+
+// Загрузка меню и инициализация бургера
+window.onload = async () => {
+  try {
+    await loadMenu(); // Ждем загрузки меню
+    initBurgerMenu(); // Инициализируем бургер
+  } catch (error) {
+    console.error('Error loading menu:', error);
+  }
+};
+
+function initBurgerMenu() {
+  const burger = document.querySelector('.burger-icon');
+  const menu = document.querySelector('.nav-menu');
+  
+  if (!burger || !menu) {
+    console.error('Burger elements not found!');
+    return;
+  }
+
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    menu.classList.toggle('active');
+    document.body.classList.toggle('no-scroll');
+  });
+
+  // Остальной код обработчиков...
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const burger = document.querySelector('.burger-icon');
+    const menu = document.querySelector('.nav-menu');
+    
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        menu.classList.toggle('active');
+        
+        // Блокировка прокрутки при открытом меню
+        document.body.classList.toggle('no-scroll');
+    });
+    
+    // Закрытие меню при клике вне его области
+    document.addEventListener('click', (e) => {
+        if(!menu.contains(e.target) && !burger.contains(e.target)) {
+            burger.classList.remove('active');
+            menu.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+    });
+    
+    // Закрытие меню при клике на ссылку
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('active');
+            menu.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        });
+    });
+});
+</script>
+<script src="load-components.js"></script>
+</body>
+</html>
+
