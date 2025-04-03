@@ -237,6 +237,8 @@ a {
   /*justify-content: space-between;*/
   min-height: 100vh;
   padding: 0 var(--container-padding);
+  justify-content: space-between;
+  padding: 0 var(--container-padding);
 }
 
 .nav-container {
