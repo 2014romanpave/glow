@@ -638,7 +638,7 @@ a {
 /* Адаптация модального окна */
 @media (max-width: 768px) {
   .enlarged-image {
-    max-height: 50vh;
+    max-height: 100vh;
   }
 
   .description-text {
@@ -874,7 +874,7 @@ a {
   background: rgba(0,0,0,0.5);
   border: none;
   color: white;
-  padding: 14px 18px;
+  padding: 13px 18px;
   cursor: pointer;
   font-size: 14px;
   border-radius: 100%;
