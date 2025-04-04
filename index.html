@@ -135,7 +135,10 @@ document.querySelectorAll('.thumbnail').forEach(img => {
 
         const overlay = document.createElement('div');
         overlay.className = 'overlay';
-        
+
+        // Блокируем скролл страницы
+        document.body.classList.add('no-scroll');
+
         const contentWrapper = document.createElement('div');
         contentWrapper.className = 'content-wrapper';
         
@@ -214,6 +217,10 @@ document.querySelectorAll('.thumbnail').forEach(img => {
         overlay.addEventListener('click', (e) => {
             if(e.target === overlay) {
                 overlay.remove();
+                // Разблокируем скролл
+                document.body.classList.remove('no-scroll');
+                contentContainer.removeEventListener('touchstart', handleTouchStart);
+                contentContainer.removeEventListener('touchend', handleTouchEnd);
                 contentContainer.removeEventListener('touchstart', handleTouchStart);
                 contentContainer.removeEventListener('touchend', handleTouchEnd);
             }
