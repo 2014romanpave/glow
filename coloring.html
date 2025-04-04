@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Profesjonalny Salon Urody w Poznaniu | Koloryzacja Włosów, Balayage, Ombre, AirTouch – Stylizacja i Pielęgnacja</title>
     <meta name="description" content="Profesjonalna koloryzacja włosów w Poznaniu (Jeżyce). Oferujemy najnowsze techniki: Balayage, Ombre, AirTouch. Dbamy o zdrowie Twoich włosów!">
     <meta name="robots" content="noindex, nofollow">
@@ -123,19 +123,24 @@
             </div>
         </div>
     </div>
-    <script>
-        document.querySelectorAll('.thumbnail').forEach((img, index, arr) => {
+<script>
+        document.querySelectorAll('.thumbnail').forEach(img => {
             img.addEventListener('click', function() {
                 const images = Array.from(document.querySelectorAll('.thumbnail'));
                 let currentIndex = images.indexOf(this);
-                
+                let touchStartX = 0;
+                const SWIPE_THRESHOLD = 50;
+        
                 const overlay = document.createElement('div');
                 overlay.className = 'overlay';
-                
+        
+                // Блокируем скролл страницы
+                document.body.classList.add('no-scroll');
+        
                 const contentWrapper = document.createElement('div');
                 contentWrapper.className = 'content-wrapper';
                 
-                // Кнопки навигации
+                // Кнопки навигации (оставляем как были)
                 const prevBtn = document.createElement('button');
                 prevBtn.innerHTML = '❮';
                 prevBtn.className = 'nav-btn prev';
@@ -144,7 +149,6 @@
                 nextBtn.innerHTML = '❯';
                 nextBtn.className = 'nav-btn next';
         
-                // Контейнер для контента
                 const contentContainer = document.createElement('div');
                 contentContainer.className = 'content-container';
                 
@@ -156,7 +160,7 @@
                 description.className = 'description-text';
                 description.textContent = this.dataset.description;
         
-                // Функция обновления контента
+                // Общая функция обновления контента
                 const updateContent = (index) => {
                     const target = images[index];
                     enlargedImg.src = target.src;
@@ -164,7 +168,7 @@
                     currentIndex = index;
                 };
         
-                // Обработчики для кнопок
+                // Обработчики для кнопок (оставляем как были)
                 prevBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if(currentIndex > 0) updateContent(currentIndex - 1);
@@ -175,7 +179,30 @@
                     if(currentIndex < images.length - 1) updateContent(currentIndex + 1);
                 });
         
-                // Сборка элементов
+                // Обработчики свайпов (добавляем новые)
+                const handleTouchStart = e => {
+                    touchStartX = e.touches[0].clientX;
+                };
+        
+                const handleTouchEnd = e => {
+                    const touchEndX = e.changedTouches[0].clientX;
+                    const deltaX = touchEndX - touchStartX;
+        
+                    if(Math.abs(deltaX) > SWIPE_THRESHOLD) {
+                        if(deltaX > 0 && currentIndex > 0) { // Свайп вправо
+                            updateContent(currentIndex - 1);
+                        } 
+                        else if(deltaX < 0 && currentIndex < images.length - 1) { // Свайп влево
+                            updateContent(currentIndex + 1);
+                        }
+                    }
+                };
+        
+                // Добавляем обработчики свайпов к контейнеру
+                contentContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+                contentContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+        
+                // Сборка элементов (оставляем стрелки)
                 contentContainer.appendChild(enlargedImg);
                 contentContainer.appendChild(description);
                 contentWrapper.appendChild(prevBtn);
@@ -184,12 +211,20 @@
                 overlay.appendChild(contentWrapper);
                 document.body.appendChild(overlay);
         
-                // Закрытие по клику
+                // Закрытие по клику (без изменений)
                 overlay.addEventListener('click', (e) => {
-                    if(e.target === overlay) overlay.remove();
+                    if(e.target === overlay) {
+                        overlay.remove();
+                        // Разблокируем скролл
+                        document.body.classList.remove('no-scroll');
+                        contentContainer.removeEventListener('touchstart', handleTouchStart);
+                        contentContainer.removeEventListener('touchend', handleTouchEnd);
+                        contentContainer.removeEventListener('touchstart', handleTouchStart);
+                        contentContainer.removeEventListener('touchend', handleTouchEnd);
+                    }
                 });
         
-                // Управление клавиатурой
+                // Управление клавиатурой (без изменений)
                 document.addEventListener('keydown', (e) => {
                     if(e.key === 'ArrowLeft' && currentIndex > 0) {
                         updateContent(currentIndex - 1);
@@ -257,7 +292,7 @@
                 });
             });
         });
-        </script>
-        <script src="load-components.js"></script>
-        </body>
-        </html>
+</script>
+<script src="load-components.js"></script>
+</body>
+</html>
