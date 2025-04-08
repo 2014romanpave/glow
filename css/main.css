@@ -10,7 +10,11 @@ html {
   --container-padding: clamp(1.5rem, 5vw, 6.25rem);
   --header-top-padding: 3.75rem;
 }
-
+@font-face {
+  font-family: 'Your Font';
+  src: url('font.woff2') format('woff2');
+  font-display: swap;
+}
 body {
   color: #000;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
