@@ -10,10 +10,8 @@
     <!-- Локальные стили -->
     <link rel="stylesheet" href="css/main.css">
     <!-- Google Fonts -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgEM86xQ.woff2" as="font" crossorigin>
-    <link rel="preload" href="https://fonts.gstatic.com/s/nunito/v25/XRXI3I6Li01BKofiOc5wtlZ2di8HDOUhRTM.woff2" as="font" crossorigin>
-    <link rel="preload" href="https://cdn.prod.website-files.com/.../SnellBT-Regular.otf" as="font" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preload" href="/glow/fonts/playfair-display-v30-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/glow/fonts/nunito-v25-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
     <!-- Иконки -->
     <link rel="icon" type="image/png" href="img/favicon.ico">
 </head>
@@ -329,6 +327,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('no-scroll');
         });
     });
+});
+document.fonts.ready.then(() => {
+  document.documentElement.classList.add('fonts-loaded');
 });
 </script>
 <script defer src="load-components.js"></script>
