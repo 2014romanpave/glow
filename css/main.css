@@ -325,7 +325,7 @@ a {
   grid-row-gap: 30px;
   color: var(--color-01);
   flex-flow: wrap;
-  width: auto;
+  width: 100%;
   margin-top: 0;
   margin-bottom: 0;
   display: block;
@@ -402,7 +402,7 @@ a {
   flex-direction: column;
   align-items: flex-end;
   gap: 68px;
-  width: auto; 
+  width: 100%; 
   padding-top: 24px;
 }
 
