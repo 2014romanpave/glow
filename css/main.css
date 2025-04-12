@@ -24,6 +24,10 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Playfair Display';
+  font-display: optional;
+}
 
 html {
   text-size-adjust: 100%;
@@ -352,7 +356,7 @@ a {
 .paragraph-2 {
   font-family: 'Nunito', Arial, sans-serif;
   color:#8D8787;
-  font-size: 16px;
+  font-size-adjust: 0.5; 
   line-height: 1.5;
 }
 @supports (font-variation-settings: normal) {
@@ -391,7 +395,6 @@ a {
   grid-row-gap: 0px;
   padding-bottom: 60px;
   display: flex;
-  contain: content;
 }
 
 .div-block {
@@ -464,6 +467,7 @@ body.no-scroll {
   overflow: hidden;
 }
 .thumbnails-grid {
+  grid-auto-rows: minmax(400px, auto);
   grid-column-gap: 60px;
   grid-row-gap: 60px;
   flex-flow: wrap;
