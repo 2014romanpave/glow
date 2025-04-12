@@ -378,11 +378,17 @@ a {
 .phone-number {
   color: var(--color-01);
   font-size: 16px;
+  text-align: right;
 }
 
 .link {
   color: var(--color-01);
   font-family: Nunito, sans-serif;
+}
+.link-phone {
+  color: var(--color-01);
+  font-family: Nunito, sans-serif;
+  font-size: 3ch;
 }
 
 .text-wrapper {
