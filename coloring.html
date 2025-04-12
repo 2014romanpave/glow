@@ -97,7 +97,7 @@
             </div>
         </div>
     </div>
-<script>
+    <script>
         document.querySelectorAll('.thumbnail').forEach(img => {
             img.addEventListener('click', function() {
                 const images = Array.from(document.querySelectorAll('.thumbnail'));
@@ -208,6 +208,25 @@
                 });
             });
         });
+        function adjustGallery() {
+          const screenWidth = window.innerWidth;
+          const gallery = document.querySelector('.thumbnails-grid');
+          
+          if(screenWidth <= 1366) {
+            // Скрываем каждое второе изображение
+            document.querySelectorAll('.thumbnail:nth-child(even)').forEach(img => {
+              img.style.display = 'none';
+            });
+          } else {
+            document.querySelectorAll('.thumbnail').forEach(img => {
+              img.style.display = 'block';
+            });
+          }
+        }
+        
+        // Инициализация и обработчик ресайза
+        window.addEventListener('resize', adjustGallery);
+        adjustGallery();
         
         // Загрузка меню и инициализация бургера
         window.onload = async () => {
@@ -267,9 +286,9 @@
             });
         });
         document.fonts.ready.then(() => {
-  document.documentElement.classList.add('fonts-loaded');
-});
-</script>
-<script defer src="load-components.js"></script>
+          document.documentElement.classList.add('fonts-loaded');
+        });
+        </script>
+        <script defer src="load-components.js"></script>
 </body>
-</html>
+ </html>
