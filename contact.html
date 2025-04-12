@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+document.fonts.ready.then(() => {
+  document.documentElement.classList.add('fonts-loaded');
+});
 </script>
 <script defer src="load-components.js"></script>
 </body>

@@ -10,9 +10,9 @@
     <!-- Локальные стили -->
     <link rel="stylesheet" href="css/main.css">
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Nunito:wght@400;600&family=Work+Sans:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/PlayfairDisplay-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="/fonts/SnellBT-Regular.otf" as="font" type="font/otf" crossorigin>
     <!-- Иконки -->
     <link rel="icon" type="image/png" href="img/favicon.ico">
 </head>
@@ -252,6 +252,9 @@
                 });
             });
         });
+        document.fonts.ready.then(() => {
+  document.documentElement.classList.add('fonts-loaded');
+});
 </script>
 <script defer src="load-components.js"></script>
 </body>
