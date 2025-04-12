@@ -676,6 +676,11 @@ body.no-scroll {
     font-size: 14px;
     padding: 0 15px;
   }
+  .phone-number {
+    color: var(--color-01);
+    font-size: 16px;
+    text-align: center;
+  }
 }
 
 /* Стили бургер-иконки */
