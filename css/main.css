@@ -558,7 +558,7 @@ body.no-scroll {
   }
 
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   :root {
     --container-padding: 20px;
   }
@@ -646,7 +646,7 @@ body.no-scroll {
 }
 
 /* Для горизонтальной прокрутки галереи на мобильных */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .gallery-container {
     overflow-x: auto;
     padding-bottom: 15px;
@@ -666,7 +666,7 @@ body.no-scroll {
 }
 
 /* Адаптация модального окна */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .enlarged-image {
     max-height: 100vh;
   }
@@ -721,7 +721,7 @@ body.no-scroll {
 }
 
 /* Мобильное меню */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .burger-icon {
       display: block;
   }
@@ -759,7 +759,7 @@ body.no-scroll {
 }
 
 /* Для мобильного меню */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .nav-container .burger-icon {
     display: block;
     position: absolute;
@@ -777,7 +777,7 @@ body.no-scroll {
   gap: 40px;
   margin-bottom: 40px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .layout-grid {
       grid-template-columns: 1fr;
   }
@@ -883,7 +883,7 @@ body.no-scroll {
 }
 
 /* Адаптация для мобильных */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .social-links {
       gap: 15px;
   }
