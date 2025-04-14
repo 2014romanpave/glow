@@ -1,2 +1,7 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /404
+Disallow: /img/cross.svg
+Disallow: /load-components.js
+
+Sitemap: https://glowpoznan.com/sitemap.xml
