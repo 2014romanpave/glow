@@ -982,3 +982,40 @@ body.no-scroll {
     padding-left: 15px;
   }
 }
+
+/* Стили для подвала */
+.site-footer {
+  padding: 20px 0;
+}
+
+.copyright {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.divider {
+  margin: 0 8px;
+  color: #ccc;
+}
+
+.site-footer a {
+  color: #666;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.site-footer a:hover {
+  color: #000;
+  border-bottom-color: #000;
+}
+
+@media (max-width: 768px) {
+  .copyright {
+      font-size: 10px;
+      padding: 0 15px;
+  }
+}
