@@ -161,6 +161,28 @@ button, [type="button"], [type="reset"] {
 button[disabled], [disabled] {
   cursor: default;
 }
+.booksy-button {
+  width: 300px;
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #1ea4ac;
+  color: white !important;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin-top: 15px;
+  border: 2px solid #1ea4ac;
+}
+
+.booksy-button:hover {
+  background-color: #16818a;
+  border-color: #16818a;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(30, 164, 172, 0.3);
+}
 
 ::-moz-focus-inner {
   border: 0;
@@ -608,6 +630,9 @@ body.no-scroll {
     width: 100%;
     max-width: 300px;
   }
+  .booksy-button{
+    width: 100%;
+  }
 
   .text-wrapper {
     flex-direction: column;
@@ -858,8 +883,9 @@ body.no-scroll {
 }
 .social-links {
   display: flex;
-  gap: 10px;
-  margin-top: 40px;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
 }
 
 .social-icon {
