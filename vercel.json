@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/404.html", "destination": "/", "permanent": true },
+    { "source": "/:page(coloring|haircuts|hairstyles|keratinbotox|makeup|brows|contact).html", "destination": "/:page", "permanent": true },
+    { "source": "/uk/:path*", "destination": "/ua/:path*", "permanent": true }
+  ],
+  "headers": [
+    { "source": "/(img|fonts)/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
+  ]
+}

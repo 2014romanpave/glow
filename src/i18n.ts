@@ -1,0 +1,155 @@
+export const LANGS = ['pl', 'ua'] as const;
+export type Lang = (typeof LANGS)[number];
+export const HTML_LANG: Record<Lang, string> = { pl: 'pl', ua: 'uk' };
+export const SITE_URL = 'https://glowpoznan.com';
+export const BOOKSY = 'https://glowhairatelier.booksy.com/a/';
+export const BOOKSY_PROFILE = 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan';
+export const RATING = { value: '5.0', count: 461 };
+export const C = {
+  name: 'GLOW Hair Atelier',
+  phone: '+48 789 822 636',
+  email: 'glowhairatelier@gmail.com',
+  instagram: 'https://www.instagram.com/glow.poznan',
+  street: 'Romka Strzałkowskiego 11',
+  zip: '60-857',
+  city: 'Poznań',
+  district: 'Jeżyce',
+  maps: 'https://www.google.com/maps/search/?api=1&query=GLOW+Hair+Atelier+Romka+Strza%C5%82kowskiego+11+60-857+Pozna%C5%84',
+  gbp: '', // TODO: link do profilu Google Business, gdy powstanie
+  geo: { lat: 52.4130122, lng: 16.9073264 },
+};
+export const PAGES = ['home', 'coloring', 'haircuts', 'hairstyles', 'keratinbotox', 'makeup', 'brows', 'kursy', 'praca', 'contact'] as const;
+export type Page = (typeof PAGES)[number];
+export const path = (lang: Lang, p: Page) => `${lang === 'ua' ? '/ua' : ''}/${p === 'home' ? '' : p}`.replace(/\/$/, '') || '/';
+
+type Svc = { title: string; h1: string; lead: string; points: string[]; meta: string; dir: string; n: number; alt: string };
+
+export const REVIEWS = [
+  { a: 'Monika', s: 'Upięcia i półupięcia', w: 'Wiktoria', t: 'Przepiękne upięcie, które bez żadnych zastrzeżeń wytrzymało do samego rana 😊 Pani Wiktoria przemiła osoba, która doskonale zna się na tym, co robi.' },
+  { a: 'Patrycja', s: 'Laminacja rzęs + farbowanie + botoks', w: 'Wiktoria', t: 'Szczerze polecam. profesjonalizm, kultura i miła atmosfera. polecam' },
+  { a: 'B', s: 'Laminacja brwi + regulacja + farbowanie + botoks', w: 'Wiktoria', t: 'Bardzo, bardzo polecam! Cudowny efekt, bardzo miła atmosfera, jestem zachwycona!' },
+  { a: 'Геннадий', s: 'Strzyżenie męskie', w: 'Ola', t: 'gorąco polecam panią. fryzura była wykonana doskonale' },
+  { a: 'Emily', s: 'Przedłużanie rzęs 1:1', w: 'Wiktoria', t: 'Jestem mega zadowolona, już drugi raz, robię delikatne rzęsy.' },
+  { a: 'Wiktoria', s: 'Regulacja brwi + geometria', w: '', t: 'Polecam! Wszystko profesjonalnie!' },
+];
+
+const pl = {
+  nav: { coloring: 'Koloryzacja', haircuts: 'Strzyżenie', hairstyles: 'Upięcia', keratinbotox: 'Keratyna i botoks', makeup: 'Makijaż', brows: 'Brwi i rzęsy', kursy: 'Kursy', praca: 'Praca', contact: 'Kontakt' },
+  book: 'Umów bezpłatną konsultację', bookShort: 'Umów wizytę', more: 'Zobacz więcej', menu: 'Menu', close: 'Zamknij',
+  rating: `${RATING.value} ★ · ${RATING.count}+ opinii na Booksy`,
+  home: {
+    title: 'GLOW Hair Atelier — fryzjer i koloryzacja AirTouch w Poznaniu (Jeżyce)',
+    meta: 'Salon fryzjerski GLOW Hair Atelier w Poznaniu, Jeżyce. Koloryzacja AirTouch, strzyżenie, przedłużanie rzęs, makijaż. Ocena 5.0 na Booksy. Bezpłatna konsultacja i pasmo testowe.',
+    eyebrow: 'Poznań · Jeżyce',
+    h1a: 'Salon', h1b: 'fryzjerski', h1c: 'GLOW Hair Atelier', 
+    lead: 'Koloryzacja AirTouch, strzyżenie, rzęsy i makijaż wykonane z precyzją. Zaczynamy od bezpłatnej konsultacji i pasma testowego — żeby efekt był dokładnie taki, jak chcesz.',
+    topT: 'W czym jesteśmy najlepsi', 
+    top: [
+      { p: 'coloring', t: 'Koloryzacja AirTouch', d: 'Miękkie, naturalne przejścia koloru i jasny blond bez efektu odrostu. Technika, która wymaga doświadczenia — i ono widać na zdjęciach.', img: '/img/coloring/airtouch3_1x.webp' },
+      { p: 'brows', t: 'Rzęsy i brwi', d: 'Przedłużanie rzęs 1:1, laminacja rzęs i brwi, geometria. Delikatny, dopracowany efekt, który trzyma się tygodniami.', img: '/img/brows/brows3_1x.webp' },
+      { p: 'makeup', t: 'Makijaż', d: 'Makijaż okolicznościowy, ślubny i artystyczny. Trwały, fotogeniczny, dopasowany do Twojej urody i okazji.', img: '/img/makeup/makeup2_1x.webp' },
+    ],
+    whyT: 'Dlaczego nie ma cennika?', 
+    why: 'Każde włosy mają inną historię: długość, gęstość, wcześniejsze farbowania. Zamiast „ceny z sufitu” proponujemy bezpłatną konsultację i pasmo testowe. Mistrzyni oceni stan włosów, dobierze technikę i poda dokładny koszt jeszcze przed zabiegiem. Bez niespodzianek.',
+    whySteps: ['Bezpłatna konsultacja (20 min)', 'Pasmo testowe i plan zabiegu', 'Dokładna wycena przed rozpoczęciem'],
+    teamT: 'Nasze mistrzynie',
+    team: [
+      { n: 'Ola', r: 'Fryzjerka uniwersalna · strzyżenie, koloryzacja, AirTouch', d: 'Założycielka GLOW. Od strzyżenia po złożone koloryzacje — zawsze z dbałością o kondycję włosów.' },
+      { n: 'Wiktoria', r: 'Brwi · rzęsy · upięcia · makijaż', d: 'Laminacje, przedłużanie rzęs 1:1, upięcia wieczorowe i makijaż okolicznościowy.' },
+    ],
+    photoTodo: 'Zdjęcie wkrótce',
+    revT: 'Co mówią klientki', revAll: 'Wszystkie opinie na Booksy', revG: 'Opinie Google — wkrótce',
+    galT: 'Nasze prace',
+    kursT: 'Kursy GLOW Academy', kursSoon: 'Wkrótce',
+    vacT: 'Szukamy kolorystki / kolorysty', vacD: 'Dołącz do zespołu z oceną 5.0. Wynagrodzenie prowizyjne — procent ustalamy na rozmowie.', vacCta: 'Szczegóły oferty',
+  },
+  svc: {
+    coloring: { title: 'Koloryzacja AirTouch, balayage i blond w Poznaniu | GLOW Hair Atelier', meta: 'Koloryzacja włosów w Poznaniu (Jeżyce): AirTouch, Brazilian blonde, balayage, Total Blond, kolor jednolity. Bezpłatna konsultacja i pasmo testowe.', h1: 'Koloryzacja włosów', lead: 'AirTouch, balayage, Brazilian blonde, Total Blond i kolor jednolity. Dobieramy odcień do Twojej karnacji i kondycji włosów, a rozjaśniamy z ochroną struktury.', points: ['AirTouch — naturalne, miękkie przejścia', 'Brazilian blonde / balayage / pasemka', 'Total Blond i wyjście z ciemnego koloru', 'Tonowanie, konturowanie, koloryzacja odrostu'], dir: 'coloring', n: 12, alt: 'Koloryzacja AirTouch Poznań' },
+    haircuts: { title: 'Strzyżenie damskie, męskie i dziecięce — fryzjer Poznań Jeżyce | GLOW', meta: 'Fryzjer w Poznaniu na Jeżycach: strzyżenie damskie, męskie, dziecięce, grzywka. Fryzura dopasowana do kształtu twarzy i stylu życia.', h1: 'Strzyżenie', lead: 'Fryzura dopasowana do kształtu twarzy, struktury włosów i Twojego stylu życia — łatwa w codziennym układaniu.', points: ['Strzyżenie damskie', 'Strzyżenie męskie', 'Strzyżenie dziecka', 'Cięcie grzywki, modelowanie'], dir: 'haircut', n: 15, alt: 'Strzyżenie damskie Poznań' },
+    hairstyles: { title: 'Upięcia ślubne i wieczorowe w Poznaniu | GLOW Hair Atelier', meta: 'Upięcia i półupięcia ślubne, wieczorowe i okolicznościowe w Poznaniu. Trwałe fryzury, które wytrzymają całą noc. Pakiet makijaż + upięcie.', h1: 'Upięcia i fryzury okolicznościowe', lead: 'Ślub, studniówka, sesja zdjęciowa — upięcia, które wyglądają lekko i wytrzymują do rana.', points: ['Upięcia i półupięcia', 'Fryzury ślubne', 'Modelowanie', 'Pakiet makijaż + upięcie'], dir: 'hairstyles', n: 22, alt: 'Upięcie wieczorowe Poznań' },
+    keratinbotox: { title: 'Keratynowe prostowanie i botoks na włosy w Poznaniu | GLOW', meta: 'Keratynowe prostowanie, botoks i rekonstrukcja włosów w Poznaniu. Gładkie, lśniące i zdrowe włosy. Bezpłatna konsultacja.', h1: 'Keratyna, botoks i pielęgnacja', lead: 'Odbudowujemy strukturę włosów i przywracamy im gładkość oraz blask. Zabieg dobieramy po ocenie kondycji włosów.', points: ['Keratynowe prostowanie', 'Botoks na włosy', 'Rekonstrukcja JOICO K-PAK', 'Pielęgnacja lipidowa'], dir: 'keratin-Botox', n: 7, alt: 'Keratynowe prostowanie włosów Poznań' },
+    makeup: { title: 'Makijaż ślubny i okolicznościowy w Poznaniu | GLOW Hair Atelier', meta: 'Makijaż ślubny, okolicznościowy, artystyczny i próbny w Poznaniu (Jeżyce). Trwały i fotogeniczny. Pakiet makijaż + upięcie.', h1: 'Makijaż', lead: 'Trwały, fotogeniczny makijaż, który podkreśla urodę — na ślub, wieczór, sesję lub ważne wydarzenie.', points: ['Makijaż okolicznościowy', 'Makijaż ślubny i próbny', 'Makijaż artystyczny / charakteryzacja', 'Pakiet makijaż + upięcie'], dir: 'makeup', n: 8, alt: 'Makijaż okolicznościowy Poznań' },
+    brows: { title: 'Laminacja brwi i przedłużanie rzęs 1:1 w Poznaniu | GLOW', meta: 'Laminacja brwi i rzęs, regulacja z geometrią, przedłużanie rzęs 1:1 w Poznaniu na Jeżycach. Naturalny, trwały efekt.', h1: 'Brwi i rzęsy', lead: 'Laminacja, geometria i przedłużanie rzęs 1:1. Naturalny efekt, który podkreśla spojrzenie i utrzymuje się tygodniami.', points: ['Przedłużanie rzęs 1:1', 'Laminacja rzęs + farbowanie + botoks', 'Laminacja brwi + regulacja', 'Regulacja brwi z geometrią'], dir: 'brows', n: 13, alt: 'Laminacja brwi Poznań' },
+  } as Record<string, Omit<Svc, 'meta'> & { meta: string }>,
+  kursy: {
+    title: 'Kursy fryzjerskie w Poznaniu — strzyżenie bob | GLOW Academy', meta: 'Kursy fryzjerskie GLOW Academy w Poznaniu. Pierwszy kurs: strzyżenie bob. Wkrótce: koloryzacja i techniki farbowania. Zapisz się na listę oczekujących.',
+    h1: 'GLOW Academy — kursy fryzjerskie', lead: 'Praktyczne kursy w małych grupach, prowadzone przez Olę — fryzjerkę z salonu z oceną 5.0.',
+    list: [{ t: 'Strzyżenie bob', s: 'Pierwszy kurs · wkrótce', d: 'Geometria, linie i techniki cięcia boba — od konsultacji z klientką po finalne modelowanie.' }, { t: 'Koloryzacja', s: 'W przygotowaniu', d: 'Teoria koloru, dobór odcienia, praca z rozjaśniaczem.' }, { t: 'Techniki farbowania', s: 'W przygotowaniu', d: 'AirTouch, balayage, Brazilian blonde w praktyce.' }],
+    bioT: 'Prowadząca: Ola', bio: '[Tekst do uzupełnienia] Kilka zdań o doświadczeniu Oli, szkoleniach i certyfikatach.', 
+    waitT: 'Zapisz się na listę oczekujących', wait: 'Napisz do nas na Instagramie, zadzwoń lub wyślij e-mail — damy znać jako pierwsi o terminie i szczegółach kursu.',
+  },
+  praca: {
+    title: 'Praca: kolorystka / kolorysta w Poznaniu | GLOW Hair Atelier', meta: 'GLOW Hair Atelier w Poznaniu (Jeżyce) szuka fryzjera-kolorysty. Wynagrodzenie prowizyjne, procent ustalany na rozmowie. Aplikuj przez Instagram, telefon lub e-mail.',
+    h1: 'Szukamy kolorystki / kolorysty', lead: 'Dołącz do zespołu GLOW Hair Atelier — salonu z oceną 5.0 i stałą bazą klientek na poznańskich Jeżycach.',
+    offerT: 'Oferujemy', offer: ['Wynagrodzenie prowizyjne — procent ustalamy indywidualnie na rozmowie', 'Stały napływ klientek z Booksy', 'Estetyczne, nowoczesne miejsce pracy', 'Profesjonalne kosmetyki i zgrany zespół'],
+    needT: 'Czekamy na Ciebie, jeśli', need: ['masz doświadczenie w koloryzacji (blond, AirTouch, balayage)', 'dbasz o jakość i kondycję włosów klientki', 'lubisz pracę z ludźmi i rozwój'],
+    applyT: 'Jak aplikować', apply: 'Wyślij portfolio na Instagramie, zadzwoń lub napisz e-mail.',
+  },
+  contact: { title: 'Kontakt — GLOW Hair Atelier, Romka Strzałkowskiego 11, Poznań', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-857 Poznań (Jeżyce). Tel. +48 789 822 636. Pn–pt 10–19, sob 10–17. Zapisy przez Booksy.', h1: 'Kontakt', hoursT: 'Godziny otwarcia', hours: [['Poniedziałek – piątek', '10:00 – 19:00'], ['Sobota', '10:00 – 17:00'], ['Niedziela', 'nieczynne']], route: 'Wyznacz trasę' },
+  footer: { rights: 'Wszelkie prawa zastrzeżone.', design: 'Design: Roman Pavel' },
+};
+
+type D = typeof pl;
+const ua: D = {
+  nav: { coloring: 'Фарбування', haircuts: 'Стрижки', hairstyles: 'Зачіски', keratinbotox: 'Кератин і ботокс', makeup: 'Макіяж', brows: 'Брови й вії', kursy: 'Курси', praca: 'Вакансія', contact: 'Контакти' },
+  book: 'Записатися на безкоштовну консультацію', bookShort: 'Записатися', more: 'Детальніше', menu: 'Меню', close: 'Закрити',
+  rating: `${RATING.value} ★ · ${RATING.count}+ відгуків на Booksy`,
+  home: {
+    title: 'GLOW Hair Atelier — перукар і фарбування AirTouch у Познані (Єжице)',
+    meta: 'Салон GLOW Hair Atelier у Познані, район Єжице. Фарбування AirTouch, стрижки, нарощування вій, макіяж. Рейтинг 5.0 на Booksy. Безкоштовна консультація і тестове пасмо.',
+    eyebrow: 'Познань · Єжице',
+    h1a: 'Салон', h1b: 'краси', h1c: 'GLOW Hair Atelier',
+    lead: 'Фарбування AirTouch, стрижки, вії та макіяж — з точністю до деталей. Починаємо з безкоштовної консультації та тестового пасма, щоб результат був саме таким, як ви хочете.',
+    topT: 'У чому ми найкращі',
+    top: [
+      { p: 'coloring', t: 'Фарбування AirTouch', d: 'М’які природні переходи кольору й чистий блонд без помітного відростання. Техніка, що потребує досвіду — і він видно на фото.', img: '/img/coloring/airtouch3_1x.webp' },
+      { p: 'brows', t: 'Вії та брови', d: 'Нарощування вій 1:1, ламінування вій і брів, геометрія. Делікатний результат, що тримається тижнями.', img: '/img/brows/brows3_1x.webp' },
+      { p: 'makeup', t: 'Макіяж', d: 'Святковий, весільний і художній макіяж. Стійкий, фотогенічний, підібраний під вашу зовнішність і подію.', img: '/img/makeup/makeup2_1x.webp' },
+    ],
+    whyT: 'Чому немає прайсу?',
+    why: 'Кожне волосся має свою історію: довжина, густота, попередні фарбування. Тому замість «середньої ціни» ми пропонуємо безкоштовну консультацію і тестове пасмо. Майстриня оцінить стан волосся, підбере техніку і назве точну вартість ще до початку процедури. Без сюрпризів.',
+    whySteps: ['Безкоштовна консультація (20 хв)', 'Тестове пасмо і план процедури', 'Точна вартість до початку роботи'],
+    teamT: 'Наші майстрині',
+    team: [
+      { n: 'Оля', r: 'Майстер-універсал · стрижки, фарбування, AirTouch', d: 'Засновниця GLOW. Від стрижки до складних фарбувань — завжди з турботою про якість волосся.' },
+      { n: 'Вікторія', r: 'Брови · вії · зачіски · макіяж', d: 'Ламінування, нарощування вій 1:1, вечірні зачіски та святковий макіяж.' },
+    ],
+    photoTodo: 'Фото незабаром',
+    revT: 'Що кажуть клієнтки', revAll: 'Усі відгуки на Booksy', revG: 'Відгуки Google — незабаром',
+    galT: 'Наші роботи',
+    kursT: 'Курси GLOW Academy', kursSoon: 'Незабаром',
+    vacT: 'Шукаємо майстра-колориста', vacD: 'Приєднуйтесь до команди з рейтингом 5.0. Оплата — відсоток, який узгоджуємо на співбесіді.', vacCta: 'Деталі вакансії',
+  },
+  svc: {
+    coloring: { title: 'Фарбування AirTouch, балаяж і блонд у Познані | GLOW Hair Atelier', meta: 'Фарбування волосся в Познані (Єжице): AirTouch, Brazilian blonde, балаяж, Total Blond, однотонне фарбування. Безкоштовна консультація і тестове пасмо.', h1: 'Фарбування волосся', lead: 'AirTouch, балаяж, Brazilian blonde, Total Blond та однотонне фарбування. Підбираємо відтінок під ваш колорит і стан волосся, освітлюємо зі збереженням структури.', points: ['AirTouch — природні м’які переходи', 'Brazilian blonde / балаяж / мелірування', 'Total Blond і вихід із темного кольору', 'Тонування, контуринг, фарбування коренів'], dir: 'coloring', n: 12, alt: 'Фарбування AirTouch Познань' },
+    haircuts: { title: 'Жіночі, чоловічі та дитячі стрижки — перукар у Познані | GLOW', meta: 'Перукар у Познані (Єжице): жіночі, чоловічі, дитячі стрижки, чубчик. Стрижка під форму обличчя і ваш ритм життя.', h1: 'Стрижки', lead: 'Стрижка під форму обличчя, структуру волосся і ваш ритм життя — легко укладати щодня.', points: ['Жіноча стрижка', 'Чоловіча стрижка', 'Дитяча стрижка', 'Чубчик, укладка'], dir: 'haircut', n: 15, alt: 'Жіноча стрижка Познань' },
+    hairstyles: { title: 'Весільні та вечірні зачіски в Познані | GLOW Hair Atelier', meta: 'Зачіски й напівзачіски для весілля, вечора і фотосесії в Познані. Стійкі укладки на всю ніч. Пакет макіяж + зачіска.', h1: 'Зачіски та укладки', lead: 'Весілля, випускний, фотосесія — зачіски, що виглядають легко і тримаються до ранку.', points: ['Зачіски й напівзачіски', 'Весільні зачіски', 'Укладка', 'Пакет макіяж + зачіска'], dir: 'hairstyles', n: 22, alt: 'Вечірня зачіска Познань' },
+    keratinbotox: { title: 'Кератинове випрямлення і ботокс для волосся в Познані | GLOW', meta: 'Кератинове випрямлення, ботокс і реконструкція волосся в Познані. Гладке, блискуче, здорове волосся. Безкоштовна консультація.', h1: 'Кератин, ботокс і догляд', lead: 'Відновлюємо структуру волосся, повертаємо гладкість і блиск. Процедуру підбираємо після оцінки стану волосся.', points: ['Кератинове випрямлення', 'Ботокс для волосся', 'Реконструкція JOICO K-PAK', 'Ліпідний догляд'], dir: 'keratin-Botox', n: 7, alt: 'Кератинове випрямлення Познань' },
+    makeup: { title: 'Весільний і святковий макіяж у Познані | GLOW Hair Atelier', meta: 'Весільний, святковий, художній і пробний макіяж у Познані (Єжице). Стійкий і фотогенічний. Пакет макіяж + зачіска.', h1: 'Макіяж', lead: 'Стійкий, фотогенічний макіяж, що підкреслює вашу красу — на весілля, вечір, фотосесію чи важливу подію.', points: ['Святковий макіяж', 'Весільний і пробний макіяж', 'Художній макіяж', 'Пакет макіяж + зачіска'], dir: 'makeup', n: 8, alt: 'Святковий макіяж Познань' },
+    brows: { title: 'Ламінування брів і нарощування вій 1:1 у Познані | GLOW', meta: 'Ламінування брів і вій, корекція з геометрією, нарощування вій 1:1 у Познані (Єжице). Природний стійкий результат.', h1: 'Брови й вії', lead: 'Ламінування, геометрія і нарощування вій 1:1. Природний результат, що підкреслює погляд і тримається тижнями.', points: ['Нарощування вій 1:1', 'Ламінування вій + фарбування + ботокс', 'Ламінування брів + корекція', 'Корекція брів з геометрією'], dir: 'brows', n: 13, alt: 'Ламінування брів Познань' },
+  },
+  kursy: {
+    title: 'Курси перукарів у Познані — стрижка боб | GLOW Academy', meta: 'Курси GLOW Academy у Познані. Перший курс: стрижка боб-каре. Незабаром: колористика і техніки фарбування. Запишіться в лист очікування.',
+    h1: 'GLOW Academy — курси для перукарів', lead: 'Практичні курси в малих групах від Олі — майстрині салону з рейтингом 5.0.',
+    list: [{ t: 'Стрижка боб-каре', s: 'Перший курс · незабаром', d: 'Геометрія, лінії й техніки стрижки боба — від консультації з клієнткою до фінальної укладки.' }, { t: 'Колористика', s: 'Готуємо', d: 'Теорія кольору, підбір відтінку, робота з освітлювачем.' }, { t: 'Техніки фарбування', s: 'Готуємо', d: 'AirTouch, балаяж, Brazilian blonde на практиці.' }],
+    bioT: 'Викладачка: Оля', bio: '[Текст буде додано] Кілька речень про досвід Олі, навчання і сертифікати.',
+    waitT: 'Запишіться в лист очікування', wait: 'Напишіть нам в Instagram, зателефонуйте або надішліть e-mail — ми першими повідомимо дату і деталі курсу.',
+  },
+  praca: {
+    title: 'Вакансія: майстер-колорист у Познані | GLOW Hair Atelier', meta: 'GLOW Hair Atelier у Познані (Єжице) шукає перукаря-колориста. Оплата — відсоток, узгоджуємо на співбесіді. Відгукнутися через Instagram, телефон або e-mail.',
+    h1: 'Шукаємо майстра-колориста', lead: 'Приєднуйтесь до команди GLOW Hair Atelier — салону з рейтингом 5.0 і постійними клієнтками в районі Єжице.',
+    offerT: 'Ми пропонуємо', offer: ['Оплата — відсоток, який узгоджуємо індивідуально на співбесіді', 'Постійний потік клієнток з Booksy', 'Сучасне естетичне робоче місце', 'Професійна косметика і дружня команда'],
+    needT: 'Чекаємо на вас, якщо ви', need: ['маєте досвід у фарбуванні (блонд, AirTouch, балаяж)', 'дбаєте про якість і стан волосся клієнтки', 'любите працювати з людьми і розвиватися'],
+    applyT: 'Як відгукнутися', apply: 'Надішліть портфоліо в Instagram, зателефонуйте або напишіть e-mail.',
+  },
+  contact: { title: 'Контакти — GLOW Hair Atelier, Romka Strzałkowskiego 11, Познань', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-857 Познань (Єжице). Тел. +48 789 822 636. Пн–пт 10–19, сб 10–17. Запис через Booksy.', h1: 'Контакти', hoursT: 'Години роботи', hours: [['Понеділок – пʼятниця', '10:00 – 19:00'], ['Субота', '10:00 – 17:00'], ['Неділя', 'вихідний']], route: 'Прокласти маршрут' },
+  footer: { rights: 'Усі права захищені.', design: 'Design: Roman Pavel' },
+};
+export const DICT: Record<Lang, D> = { pl, ua };
+
+export function meta(lang: Lang, p: Page) {
+  const t = DICT[lang];
+  if (p === 'home') return { title: t.home.title, desc: t.home.meta };
+  if (p === 'kursy' || p === 'praca' || p === 'contact') return { title: t[p].title, desc: t[p].meta };
+  return { title: t.svc[p].title, desc: t.svc[p].meta };
+}
