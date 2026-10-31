@@ -68,7 +68,7 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
       </div>}
       {/* carousel row (service pages, and mobile on home) */}
       <div className={`${scatter ? 'md:hidden' : ''} absolute inset-x-0 top-[84px] z-10`}>
-        <div className="drag flex gap-3 overflow-x-auto px-5 md:px-10 no-sb" data-drag data-cursor={lang === 'pl' ? 'Przeciągnij' : 'Тягніть'}>
+        <div className="drag flex gap-3 overflow-x-auto px-5 md:px-[max(40px,calc((100vw-1440px)/2+40px))] no-sb" data-drag data-cursor={lang === 'pl' ? 'Przeciągnij' : 'Тягніть'}>
           {imgs.map((s, i) => <button key={s} className="thumb fly shrink-0" data-swap={s} style={{ ['--d' as string]: `${100 + Math.min(i, 10) * 50}ms` }}>
             <img src={s} alt="" draggable={false} loading={i < 8 ? 'eager' : 'lazy'} className="h-16 w-16 md:h-20 md:w-20 object-cover" /></button>)}
         </div>
@@ -81,8 +81,8 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
       </div>
       {/* bottom band, inverted */}
       <div className="absolute inset-x-0 bottom-0 z-30 text-white">
-        <div className="mx-auto grid gap-6 px-5 pb-8 band md:items-end md:px-10 md:pb-12">
-          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[38px] md:text-[clamp(34px,3.25vw,72px)]" : "text-[32px] md:text-[clamp(30px,2.6vw,56px)]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
+        <div className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-8 band md:items-end md:px-10 md:pb-12">
+          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[38px] md:text-[clamp(34px,3.25vw,72px)]" : "svc-h1 text-[32px]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
           <p className="fly max-w-sm text-sm text-white/70 md:mb-3" style={{ ['--d' as string]: '360ms' }}>{lead}</p>
           <div className="fly flex flex-wrap items-center gap-5 md:mb-2 md:flex-col md:items-end" style={{ ['--d' as string]: '440ms' }}>
             <Pill href={BOOKSY} light>{t.bookShort}</Pill>

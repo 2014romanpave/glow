@@ -135,3 +135,4 @@ body:has(.lb) .cursor { display: none !important; }
 
 @media (min-width: 768px) and (max-width: 1400px) { .hh-info p { -webkit-line-clamp: 2; } .hh-info .mt-5 { margin-top: 12px; } }
 @media (hover: hover) and (pointer: fine) { .cursor.link span { width: 0; height: 0; margin: 0; } }
+@media (min-width: 768px) { .svc-h1 { font-size: clamp(24px, calc((min(100vw, 1440px) - 160px - var(--fw)) / 2 / 10.5), 54px); } .band { column-gap: 40px; } }
