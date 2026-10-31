@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 
@@ -279,6 +279,7 @@ function Home({ lang }: { lang: Lang }) {
       <HomeGallery lang={lang} />
     </Sec>
     <Courses lang={lang} />
+    <WaitForm lang={lang} />
   </>;
 }
 
@@ -292,10 +293,64 @@ function CourseVideo({ lang }: { lang: Lang }) {
 }
 
 const Waitlist = ({ lang }: { lang: Lang }) => <div className="flex flex-wrap items-center gap-3">
-  <Pill href={C.instagram} light>{DICT[lang].kursy.cta}</Pill>
+  <Pill href="#zapis" light>{DICT[lang].kursy.cta}</Pill>
   <a href={`tel:${tel}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">{C.phone}</a>
   <a href={`mailto:${C.email}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">E-mail</a>
 </div>;
+
+const WF = {
+  pl: { eyebrow: 'Kurs karé / bob-karé', name: 'Imię', phone: 'Telefon', ig: 'Instagram (opcjonalnie)', level: 'Doświadczenie (opcjonalnie)', levels: { beginner: 'Początkująca / początkujący', working: 'Pracuję jako fryzjer(ka)', experienced: 'Doświadczona / doświadczony' }, choose: 'Wybierz…', comment: 'Komentarz (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych przez GLOW Hair Atelier wyłącznie w celu kontaktu w sprawie kursu.', send: 'Zapisz mnie', lead: 'Zostaw kontakt — damy znać jako pierwsi o terminie i szczegółach kursu.', sending: 'Wysyłanie…', ok: 'Dziękujemy! Ola skontaktuje się z Tobą wkrótce.', err: 'Nie udało się wysłać formularza.', fb: 'Napisz do nas na Instagramie lub zadzwoń:', req: 'Uzupełnij wymagane pola: imię, telefon i zgodę.', rate: 'Zbyt wiele prób — spróbuj za kilka minut.' },
+  ua: { eyebrow: 'Курс каре / боб-каре', name: 'Імʼя', phone: 'Телефон', ig: 'Instagram (необовʼязково)', level: 'Досвід (необовʼязково)', levels: { beginner: 'Початківець', working: 'Працюю перукарем', experienced: 'Досвідчений майстер' }, choose: 'Оберіть…', comment: 'Коментар (необовʼязково)', consent: 'Погоджуюсь на обробку моїх даних GLOW Hair Atelier виключно для звʼязку щодо курсу.', send: 'Записатися', lead: 'Залиште контакт — ми першими повідомимо про дату й деталі курсу.', sending: 'Надсилаємо…', ok: 'Дякуємо! Оля звʼяжеться з вами найближчим часом.', err: 'Не вдалося надіслати форму.', fb: 'Напишіть нам в Instagram або зателефонуйте:', req: 'Заповніть обовʼязкові поля: імʼя, телефон і згоду.', rate: 'Забагато спроб — спробуйте за кілька хвилин.' },
+};
+function WaitForm({ lang }: { lang: Lang }) {
+  const f = WF[lang], k = DICT[lang].kursy;
+  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err' | 'invalid' | 'rate'>('idle');
+  const [bad, setBad] = useState<string[]>([]);
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    const body = { ...Object.fromEntries(fd), consent: fd.get('consent') === 'on', lang, page: location.pathname };
+    const miss = (['name', 'phone'] as const).filter((n) => !String(fd.get(n) || '').trim()) as string[];
+    if (!body.consent) miss.push('consent');
+    if (miss.length) { setBad(miss); setSt('invalid'); return; }
+    setSt('sending'); setBad([]);
+    try {
+      const r = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const j = await r.json().catch(() => ({}));
+      if (j.ok) { setSt('ok'); (window as any).dataLayer?.push({ event: 'waitlist_submit', lang, page: location.pathname }); return; }
+      if (j.error === 'invalid') { setBad(j.fields || []); setSt('invalid'); return; }
+      setSt(j.error === 'rate' ? 'rate' : 'err');
+    } catch { setSt('err'); }
+  };
+  const inp = 'w-full border-0 border-b border-black/25 bg-transparent px-0 py-3 text-[16px] outline-none transition-colors focus:border-black placeholder:text-black/30';
+  const lab = 'block text-[11px] uppercase tracking-[0.2em] text-[#8D8787]';
+  const field = (n: string, label: string, el: ReactNode) => <label className="block"><span className={lab}>{label}{bad.includes(n) && <span className="text-[#b3261e]"> *</span>}</span>{el}</label>;
+  return <section id="zapis" className="scroll-mt-24 bg-white px-5 py-24 md:px-10 md:py-32">
+    <div className="mx-auto grid max-w-[1360px] gap-12 md:grid-cols-[1fr_1.2fr] md:gap-20">
+      <div><Eyebrow>{f.eyebrow}</Eyebrow><H2>{k.waitT}</H2><p className="rv max-w-md text-[#8D8787]">{f.lead}</p></div>
+      {st === 'ok' ? <div role="status" aria-live="polite" className="self-center"><p className="font-serif text-[32px] leading-tight md:text-[44px]">{f.ok}</p></div> :
+      <form onSubmit={onSubmit} noValidate className="grid gap-7" aria-describedby="wf-msg">
+        <div className="grid gap-7 sm:grid-cols-2">
+          {field('name', f.name + ' *', <input name="name" required maxLength={80} autoComplete="name" aria-invalid={bad.includes('name')} className={inp} />)}
+          {field('phone', f.phone + ' *', <input name="phone" type="tel" required maxLength={32} autoComplete="tel" inputMode="tel" placeholder="+48 …" aria-invalid={bad.includes('phone')} className={inp} />)}
+          {field('instagram', f.ig, <input name="instagram" maxLength={31} placeholder="@" autoCapitalize="none" aria-invalid={bad.includes('instagram')} className={inp} />)}
+          {field('level', f.level, <select name="level" defaultValue="" className={inp + ' cursor-pointer appearance-none rounded-none'}><option value="">{f.choose}</option>{Object.entries(f.levels).map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select>)}
+        </div>
+        {field('comment', f.comment, <textarea name="comment" rows={2} maxLength={1000} className={inp + ' resize-y'} />)}
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
+        <label className="flex items-start gap-3 text-[13px] leading-relaxed text-[#555]"><input type="checkbox" name="consent" required className="mt-1 h-4 w-4 shrink-0 accent-black" aria-invalid={bad.includes('consent')} /><span>{f.consent}{bad.includes('consent') && <span className="text-[#b3261e]"> *</span>}</span></label>
+        <div className="flex flex-wrap items-center gap-5">
+          <button type="submit" disabled={st === 'sending'} className="inline-flex items-center rounded-full bg-black px-7 py-3.5 text-[13px] tracking-wide text-white transition-colors hover:bg-[#222] disabled:opacity-60">{st === 'sending' ? f.sending : f.send}<Arrow /></button>
+        </div>
+        <div id="wf-msg" role="alert" aria-live="assertive" className="text-[14px]">
+          {st === 'invalid' && <p className="text-[#b3261e]">{f.req}</p>}
+          {st === 'rate' && <p className="text-[#b3261e]">{f.rate}</p>}
+          {st === 'err' && <p>{f.err} {f.fb} <a className="underline" href={C.instagram} target="_blank" rel="noopener">Instagram</a> · <a className="underline" href={`tel:${tel}`}>{C.phone}</a></p>}
+        </div>
+      </form>}
+    </div>
+  </section>;
+}
 
 function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
   const k = DICT[lang].kursy;
@@ -383,7 +438,7 @@ function Kursy({ lang }: { lang: Lang }) {
         <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
       </div>
     </Sec>
-    <Sec dark><H2>{k.waitT}</H2><p className="rv max-w-2xl text-white/70">{k.wait}</p><div className="rv mt-8"><Waitlist lang={lang} /></div></Sec>
+    <WaitForm lang={lang} />
   </>;
 }
 
