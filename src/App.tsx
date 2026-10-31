@@ -2,8 +2,8 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 
-const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'keratinbotox', 'kursy', 'praca'];
-const SVC = ['coloring', 'haircuts', 'hairstyles', 'keratinbotox', 'makeup', 'brows'] as const;
+const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca'];
+const SVC = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows'] as const;
 const tel = C.phone.replace(/\s/g, '');
 const Arrow = () => <span aria-hidden className="ml-3 inline-block transition-transform group-hover:translate-x-1">→</span>;
 

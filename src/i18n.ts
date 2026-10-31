@@ -18,7 +18,7 @@ export const C = {
   gbp: '', // TODO: link do profilu Google Business, gdy powstanie
   geo: { lat: 52.4130122, lng: 16.9073264 },
 };
-export const PAGES = ['home', 'coloring', 'haircuts', 'hairstyles', 'keratinbotox', 'makeup', 'brows', 'kursy', 'praca', 'contact'] as const;
+export const PAGES = ['home', 'coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca', 'contact'] as const;
 export type Page = (typeof PAGES)[number];
 export const path = (lang: Lang, p: Page) => `${lang === 'ua' ? '/ua' : ''}/${p === 'home' ? '' : p}`.replace(/\/$/, '') || '/';
 
@@ -26,15 +26,15 @@ type Svc = { title: string; h1: string; lead: string; points: string[]; meta: st
 
 export const REVIEWS = [
   { a: 'Monika', s: 'Upięcia i półupięcia', w: 'Wiktoria', t: 'Przepiękne upięcie, które bez żadnych zastrzeżeń wytrzymało do samego rana 😊 Pani Wiktoria przemiła osoba, która doskonale zna się na tym, co robi.' },
-  { a: 'Patrycja', s: 'Laminacja rzęs + farbowanie + botoks', w: 'Wiktoria', t: 'Szczerze polecam. profesjonalizm, kultura i miła atmosfera. polecam' },
-  { a: 'B', s: 'Laminacja brwi + regulacja + farbowanie + botoks', w: 'Wiktoria', t: 'Bardzo, bardzo polecam! Cudowny efekt, bardzo miła atmosfera, jestem zachwycona!' },
+  { a: 'Patrycja', s: 'Laminacja rzęs + farbowanie', w: 'Wiktoria', t: 'Szczerze polecam. profesjonalizm, kultura i miła atmosfera. polecam' },
+  { a: 'B', s: 'Laminacja brwi + regulacja + farbowanie', w: 'Wiktoria', t: 'Bardzo, bardzo polecam! Cudowny efekt, bardzo miła atmosfera, jestem zachwycona!' },
   { a: 'Геннадий', s: 'Strzyżenie męskie', w: 'Ola', t: 'gorąco polecam panią. fryzura była wykonana doskonale' },
   { a: 'Emily', s: 'Przedłużanie rzęs 1:1', w: 'Wiktoria', t: 'Jestem mega zadowolona, już drugi raz, robię delikatne rzęsy.' },
   { a: 'Wiktoria', s: 'Regulacja brwi + geometria', w: '', t: 'Polecam! Wszystko profesjonalnie!' },
 ];
 
 const pl = {
-  nav: { coloring: 'Koloryzacja', haircuts: 'Strzyżenie', hairstyles: 'Fryzury', keratinbotox: 'Keratyna i Botox', makeup: 'Makijaż', brows: 'Brwi', kursy: 'Kursy', praca: 'Praca', contact: 'Kontakty' },
+  nav: { coloring: 'Koloryzacja', haircuts: 'Strzyżenie', hairstyles: 'Fryzury', makeup: 'Makijaż', brows: 'Brwi', kursy: 'Kursy', praca: 'Praca', contact: 'Kontakty' },
   book: 'Umów bezpłatną konsultację', bookShort: 'Zarezerwuj wizytę', more: 'Zobacz więcej', menu: 'Menu', close: 'Zamknij',
   rating: `${RATING.value} ★ · ${RATING.count}+ opinii na Booksy`,
   home: {
@@ -67,9 +67,8 @@ const pl = {
     coloring: { title: 'Koloryzacja AirTouch, balayage i blond w Poznaniu | GLOW Hair Atelier', meta: 'Koloryzacja włosów w Poznaniu (Jeżyce): AirTouch, Brazilian blonde, balayage, Total Blond, kolor jednolity. Bezpłatna konsultacja i pasmo testowe.', h1: 'Koloryzacja włosów i AirTouch w Poznaniu', lead: 'AirTouch, balayage, Brazilian blonde, Total Blond i kolor jednolity. Dobieramy odcień do Twojej karnacji i kondycji włosów, a rozjaśniamy z ochroną struktury.', points: ['AirTouch — naturalne, miękkie przejścia', 'Brazilian blonde / balayage / pasemka', 'Total Blond i wyjście z ciemnego koloru', 'Tonowanie, konturowanie, koloryzacja odrostu'], dir: 'coloring', n: 12, alt: 'Koloryzacja AirTouch Poznań' },
     haircuts: { title: 'Strzyżenie damskie, męskie i dziecięce — fryzjer Poznań Jeżyce | GLOW', meta: 'Fryzjer w Poznaniu na Jeżycach: strzyżenie damskie, męskie, dziecięce, grzywka. Fryzura dopasowana do kształtu twarzy i stylu życia.', h1: 'Strzyżenie', lead: 'Fryzura dopasowana do kształtu twarzy, struktury włosów i Twojego stylu życia — łatwa w codziennym układaniu.', points: ['Strzyżenie damskie', 'Strzyżenie męskie', 'Strzyżenie dziecka', 'Cięcie grzywki, modelowanie'], dir: 'haircut', n: 15, alt: 'Strzyżenie damskie Poznań' },
     hairstyles: { title: 'Upięcia ślubne i wieczorowe w Poznaniu | GLOW Hair Atelier', meta: 'Upięcia i półupięcia ślubne, wieczorowe i okolicznościowe w Poznaniu. Trwałe fryzury, które wytrzymają całą noc. Pakiet makijaż + upięcie.', h1: 'Upięcia i fryzury okolicznościowe', lead: 'Ślub, studniówka, sesja zdjęciowa — upięcia, które wyglądają lekko i wytrzymują do rana.', points: ['Upięcia i półupięcia', 'Fryzury ślubne', 'Modelowanie', 'Pakiet makijaż + upięcie'], dir: 'hairstyles', n: 22, alt: 'Upięcie wieczorowe Poznań' },
-    keratinbotox: { title: 'Keratynowe prostowanie i botoks na włosy w Poznaniu | GLOW', meta: 'Keratynowe prostowanie, botoks i rekonstrukcja włosów w Poznaniu. Gładkie, lśniące i zdrowe włosy. Bezpłatna konsultacja.', h1: 'Keratyna, botoks i pielęgnacja', lead: 'Odbudowujemy strukturę włosów i przywracamy im gładkość oraz blask. Zabieg dobieramy po ocenie kondycji włosów.', points: ['Keratynowe prostowanie', 'Botoks na włosy', 'Rekonstrukcja JOICO K-PAK', 'Pielęgnacja lipidowa'], dir: 'keratin-Botox', n: 7, alt: 'Keratynowe prostowanie włosów Poznań' },
     makeup: { title: 'Makijaż ślubny i okolicznościowy w Poznaniu | GLOW Hair Atelier', meta: 'Makijaż ślubny, okolicznościowy, artystyczny i próbny w Poznaniu (Jeżyce). Trwały i fotogeniczny. Pakiet makijaż + upięcie.', h1: 'Makijaż', lead: 'Trwały, fotogeniczny makijaż, który podkreśla urodę — na ślub, wieczór, sesję lub ważne wydarzenie.', points: ['Makijaż okolicznościowy', 'Makijaż ślubny i próbny', 'Makijaż artystyczny / charakteryzacja', 'Pakiet makijaż + upięcie'], dir: 'makeup', n: 8, alt: 'Makijaż okolicznościowy Poznań' },
-    brows: { title: 'Laminacja brwi i przedłużanie rzęs 1:1 w Poznaniu | GLOW', meta: 'Laminacja brwi i rzęs, regulacja z geometrią, przedłużanie rzęs 1:1 w Poznaniu na Jeżycach. Naturalny, trwały efekt.', h1: 'Brwi i rzęsy', lead: 'Laminacja, geometria i przedłużanie rzęs 1:1. Naturalny efekt, który podkreśla spojrzenie i utrzymuje się tygodniami.', points: ['Przedłużanie rzęs 1:1', 'Laminacja rzęs + farbowanie + botoks', 'Laminacja brwi + regulacja', 'Regulacja brwi z geometrią'], dir: 'brows', n: 13, alt: 'Laminacja brwi Poznań' },
+    brows: { title: 'Laminacja brwi i przedłużanie rzęs 1:1 w Poznaniu | GLOW', meta: 'Laminacja brwi i rzęs, regulacja z geometrią, przedłużanie rzęs 1:1 w Poznaniu na Jeżycach. Naturalny, trwały efekt.', h1: 'Brwi i rzęsy', lead: 'Laminacja, geometria i przedłużanie rzęs 1:1. Naturalny efekt, który podkreśla spojrzenie i utrzymuje się tygodniami.', points: ['Przedłużanie rzęs 1:1', 'Laminacja rzęs + farbowanie', 'Laminacja brwi + regulacja', 'Regulacja brwi z geometrią'], dir: 'brows', n: 13, alt: 'Laminacja brwi Poznań' },
   } as Record<string, Omit<Svc, 'meta'> & { meta: string }>,
   kursy: {
     title: 'Kursy fryzjerskie w Poznaniu — karé i bob-karé | GLOW Academy', meta: 'Kursy fryzjerskie GLOW Academy w Poznaniu. Pierwszy kurs: karé i bob-karé. Wkrótce: koloryzacja i techniki farbowania. Zapisz się na listę oczekujących.',
@@ -96,7 +95,7 @@ const pl = {
 
 type D = typeof pl;
 const ua: D = {
-  nav: { coloring: 'Фарбування', haircuts: 'Стрижки', hairstyles: 'Зачіски', keratinbotox: 'Кератин і ботокс', makeup: 'Макіяж', brows: 'Брови й вії', kursy: 'Курси', praca: 'Вакансія', contact: 'Контакти' },
+  nav: { coloring: 'Фарбування', haircuts: 'Стрижки', hairstyles: 'Зачіски', makeup: 'Макіяж', brows: 'Брови й вії', kursy: 'Курси', praca: 'Вакансія', contact: 'Контакти' },
   book: 'Записатися на безкоштовну консультацію', bookShort: 'Записатися', more: 'Детальніше', menu: 'Меню', close: 'Закрити',
   rating: `${RATING.value} ★ · ${RATING.count}+ відгуків на Booksy`,
   home: {
@@ -129,9 +128,8 @@ const ua: D = {
     coloring: { title: 'Фарбування AirTouch, балаяж і блонд у Познані | GLOW Hair Atelier', meta: 'Фарбування волосся в Познані (Єжице): AirTouch, Brazilian blonde, балаяж, Total Blond, однотонне фарбування. Безкоштовна консультація і тестове пасмо.', h1: 'Фарбування волосся і AirTouch у Познані', lead: 'AirTouch, балаяж, Brazilian blonde, Total Blond та однотонне фарбування. Підбираємо відтінок під ваш колорит і стан волосся, освітлюємо зі збереженням структури.', points: ['AirTouch — природні м’які переходи', 'Brazilian blonde / балаяж / мелірування', 'Total Blond і вихід із темного кольору', 'Тонування, контуринг, фарбування коренів'], dir: 'coloring', n: 12, alt: 'Фарбування AirTouch Познань' },
     haircuts: { title: 'Жіночі, чоловічі та дитячі стрижки — перукар у Познані | GLOW', meta: 'Перукар у Познані (Єжице): жіночі, чоловічі, дитячі стрижки, чубчик. Стрижка під форму обличчя і ваш ритм життя.', h1: 'Стрижки', lead: 'Стрижка під форму обличчя, структуру волосся і ваш ритм життя — легко укладати щодня.', points: ['Жіноча стрижка', 'Чоловіча стрижка', 'Дитяча стрижка', 'Чубчик, укладка'], dir: 'haircut', n: 15, alt: 'Жіноча стрижка Познань' },
     hairstyles: { title: 'Весільні та вечірні зачіски в Познані | GLOW Hair Atelier', meta: 'Зачіски й напівзачіски для весілля, вечора і фотосесії в Познані. Стійкі укладки на всю ніч. Пакет макіяж + зачіска.', h1: 'Зачіски та укладки', lead: 'Весілля, випускний, фотосесія — зачіски, що виглядають легко і тримаються до ранку.', points: ['Зачіски й напівзачіски', 'Весільні зачіски', 'Укладка', 'Пакет макіяж + зачіска'], dir: 'hairstyles', n: 22, alt: 'Вечірня зачіска Познань' },
-    keratinbotox: { title: 'Кератинове випрямлення і ботокс для волосся в Познані | GLOW', meta: 'Кератинове випрямлення, ботокс і реконструкція волосся в Познані. Гладке, блискуче, здорове волосся. Безкоштовна консультація.', h1: 'Кератин, ботокс і догляд', lead: 'Відновлюємо структуру волосся, повертаємо гладкість і блиск. Процедуру підбираємо після оцінки стану волосся.', points: ['Кератинове випрямлення', 'Ботокс для волосся', 'Реконструкція JOICO K-PAK', 'Ліпідний догляд'], dir: 'keratin-Botox', n: 7, alt: 'Кератинове випрямлення Познань' },
     makeup: { title: 'Весільний і святковий макіяж у Познані | GLOW Hair Atelier', meta: 'Весільний, святковий, художній і пробний макіяж у Познані (Єжице). Стійкий і фотогенічний. Пакет макіяж + зачіска.', h1: 'Макіяж', lead: 'Стійкий, фотогенічний макіяж, що підкреслює вашу красу — на весілля, вечір, фотосесію чи важливу подію.', points: ['Святковий макіяж', 'Весільний і пробний макіяж', 'Художній макіяж', 'Пакет макіяж + зачіска'], dir: 'makeup', n: 8, alt: 'Святковий макіяж Познань' },
-    brows: { title: 'Ламінування брів і нарощування вій 1:1 у Познані | GLOW', meta: 'Ламінування брів і вій, корекція з геометрією, нарощування вій 1:1 у Познані (Єжице). Природний стійкий результат.', h1: 'Брови й вії', lead: 'Ламінування, геометрія і нарощування вій 1:1. Природний результат, що підкреслює погляд і тримається тижнями.', points: ['Нарощування вій 1:1', 'Ламінування вій + фарбування + ботокс', 'Ламінування брів + корекція', 'Корекція брів з геометрією'], dir: 'brows', n: 13, alt: 'Ламінування брів Познань' },
+    brows: { title: 'Ламінування брів і нарощування вій 1:1 у Познані | GLOW', meta: 'Ламінування брів і вій, корекція з геометрією, нарощування вій 1:1 у Познані (Єжице). Природний стійкий результат.', h1: 'Брови й вії', lead: 'Ламінування, геометрія і нарощування вій 1:1. Природний результат, що підкреслює погляд і тримається тижнями.', points: ['Нарощування вій 1:1', 'Ламінування вій + фарбування', 'Ламінування брів + корекція', 'Корекція брів з геометрією'], dir: 'brows', n: 13, alt: 'Ламінування брів Познань' },
   },
   kursy: {
     title: 'Курси перукарів у Познані — стрижка боб | GLOW Academy', meta: 'Курси GLOW Academy у Познані. Перший курс: стрижка боб-каре. Незабаром: колористика і техніки фарбування. Запишіться в лист очікування.',
