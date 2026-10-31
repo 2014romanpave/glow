@@ -122,8 +122,8 @@ function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
       </div>
       <div className="hh-bottom mx-auto max-w-[1600px]">
         <h1 className="fly font-serif leading-[1.05]" style={{ ['--d' as string]: '300ms' }}>
-          <span className="block whitespace-nowrap">{lang === 'pl' ? <span className="font-script ml-[0.12em] mr-[-0.12em] inline-block text-[1.15em] leading-none">{salon}</span> : <em className="italic">{salon}</em>} {h.h1a.split(' ').slice(1).join(' ')}</span>
-          <span className="block whitespace-nowrap">{h.h1b} {lang === 'pl' ? <span className="font-script mx-[0.08em] inline-block text-[0.8em]">w</span> : <em className="text-[0.6em] italic">у</em>} {h.h1c}</span>
+          <span className="block whitespace-nowrap">{lang === 'pl' ? <span className="font-script inline-block pl-[0.14em] text-[1.15em] leading-none">{salon}</span> : <em className="italic">{salon}</em>} {h.h1a.split(' ').slice(1).join(' ')}</span>
+          <span className="block whitespace-nowrap">{h.h1b}&nbsp;{lang === 'pl' ? <span className="font-script inline-block px-[0.12em] text-[0.8em]">w</span> : <em className="text-[0.6em] italic">у</em>} {h.h1c}</span>
         </h1>
         <div className="fly flex flex-col justify-between gap-4 self-stretch" style={{ ['--d' as string]: '400ms' }}>
           <p className="max-w-md text-[15px] leading-relaxed text-[#8D8787]">{h.lead}</p>
