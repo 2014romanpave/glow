@@ -14,10 +14,10 @@ export const C = {
   facebook: 'https://www.facebook.com/glow.poznan',
   tiktok: 'https://www.tiktok.com/@glowhairatelier',
   street: 'Romka Strzałkowskiego 11',
-  zip: '60-857',
+  zip: '60-854',
   city: 'Poznań',
   district: 'Jeżyce',
-  maps: 'https://www.google.com/maps/search/?api=1&query=GLOW+Hair+Atelier+Romka+Strza%C5%82kowskiego+11+60-857+Pozna%C5%84',
+  maps: 'https://maps.app.goo.gl/UaWPZjVQbtzsgh7y8', mapEmbed: 'https://maps.google.com/maps?cid=5580633792286186044&output=embed', hasMap: 'https://maps.google.com/?cid=5580633792286186044',
   gbp: '', // TODO: link do profilu Google Business, gdy powstanie
   geo: { lat: 52.4130122, lng: 16.9073264 },
 };
@@ -92,7 +92,7 @@ const pl = {
     needT: 'Czekamy na Ciebie, jeśli', need: ['masz doświadczenie w koloryzacji (blond, AirTouch, balayage)', 'dbasz o jakość i kondycję włosów klientki', 'lubisz pracę z ludźmi i rozwój'],
     applyT: 'Jak aplikować', apply: 'Wyślij portfolio na Instagramie, zadzwoń lub napisz e-mail.',
   },
-  contact: { title: 'Kontakt — GLOW Hair Atelier, Romka Strzałkowskiego 11, Poznań', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-857 Poznań (Jeżyce). Tel. +48 789 822 636. Pn–pt 10–19, sob 10–17. Zapisy przez Booksy.', h1: 'Kontakt', hoursT: 'Godziny otwarcia', hours: [['Poniedziałek – piątek', '10:00 – 19:00'], ['Sobota', '10:00 – 17:00'], ['Niedziela', 'nieczynne']], route: 'Wyznacz trasę' },
+  contact: { title: 'Kontakt — GLOW Hair Atelier, Romka Strzałkowskiego 11, Poznań', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-854 Poznań (Jeżyce). Tel. +48 789 822 636. Pn–pt 10–19, sob 10–17. Zapisy przez Booksy.', h1: 'Kontakt', hoursT: 'Godziny otwarcia', hours: [['Poniedziałek – piątek', '10:00 – 19:00'], ['Sobota', '10:00 – 17:00'], ['Niedziela', 'nieczynne']], route: 'Wyznacz trasę' },
   footer: { rights: 'Wszelkie prawa zastrzeżone.', design: 'Design: Roman Pavel' },
 };
 
@@ -153,7 +153,7 @@ const ua: D = {
     needT: 'Чекаємо на вас, якщо ви', need: ['маєте досвід у фарбуванні (блонд, AirTouch, балаяж)', 'дбаєте про якість і стан волосся клієнтки', 'любите працювати з людьми і розвиватися'],
     applyT: 'Як відгукнутися', apply: 'Надішліть портфоліо в Instagram, зателефонуйте або напишіть e-mail.',
   },
-  contact: { title: 'Контакти — GLOW Hair Atelier, Romka Strzałkowskiego 11, Познань', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-857 Познань (Єжице). Тел. +48 789 822 636. Пн–пт 10–19, сб 10–17. Запис через Booksy.', h1: 'Контакти', hoursT: 'Години роботи', hours: [['Понеділок – пʼятниця', '10:00 – 19:00'], ['Субота', '10:00 – 17:00'], ['Неділя', 'вихідний']], route: 'Прокласти маршрут' },
+  contact: { title: 'Контакти — GLOW Hair Atelier, Romka Strzałkowskiego 11, Познань', meta: 'GLOW Hair Atelier: Romka Strzałkowskiego 11, 60-854 Познань (Єжице). Тел. +48 789 822 636. Пн–пт 10–19, сб 10–17. Запис через Booksy.', h1: 'Контакти', hoursT: 'Години роботи', hours: [['Понеділок – пʼятниця', '10:00 – 19:00'], ['Субота', '10:00 – 17:00'], ['Неділя', 'вихідний']], route: 'Прокласти маршрут' },
   footer: { rights: 'Усі права захищені.', design: 'Design: Roman Pavel' },
 };
 export const DICT: Record<Lang, D> = { pl, ua };

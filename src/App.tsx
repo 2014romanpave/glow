@@ -181,7 +181,7 @@ function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
     <div className="mx-auto grid max-w-[1360px] grid-cols-1 gap-10 md:grid-cols-2 [&>*]:min-w-0 md:gap-16">
       <div className="rv order-2 md:order-1 flex flex-col">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1a1b1f] md:aspect-auto md:flex-1 md:min-h-[440px]">
-          <iframe title="Mapa" loading="lazy" className="absolute inset-0 h-full w-full border-0 map-dark" src={`https://maps.google.com/maps?q=${encodeURIComponent(`${C.street}, ${C.zip} ${C.city}`)}&z=16&output=embed`} />
+          <iframe title="Mapa" loading="lazy" className="absolute inset-0 h-full w-full border-0 map-dark" src={C.mapEmbed} />
         </div>
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
           <address className="not-italic text-sm">{C.street}, {C.zip} {C.city}, {C.district}</address>
