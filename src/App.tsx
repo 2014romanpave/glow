@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
+import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 
 const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca'];
@@ -161,8 +161,8 @@ function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
   </section>;
 }
 
-function Consult({ lang }: { lang: Lang }) {
-  const t = DICT[lang].home;
+function Consult({ lang, k = 'home' }: { lang: Lang; k?: string }) {
+  const t = WHY[lang][k] ?? WHY[lang].home;
   return <Sec dark>
     <div className="grid gap-12 md:grid-cols-2 md:items-center">
       <div><Eyebrow>{lang === 'pl' ? 'Konsultacja' : 'Консультація'}</Eyebrow><H2>{t.whyT}</H2><p className="rv text-lg leading-relaxed text-white/70">{t.why}</p></div>
@@ -292,7 +292,7 @@ function Service({ lang, p }: { lang: Lang; p: (typeof SVC)[number] }) {
       </div>
     </Sec>
     <Sec cls="!pt-0"><Gallery lang={lang} imgs={imgs} alt={s.alt} /></Sec>
-    <Consult lang={lang} />
+    <Consult lang={lang} k={p} />
   </>;
 }
 
