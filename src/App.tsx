@@ -269,7 +269,7 @@ function Home({ lang }: { lang: Lang }) {
       <div className="grid gap-12 md:grid-cols-2">
         {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-end gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
           <Placeholder ch={m.n[0]} />
-          <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p></div>
+          <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b}>{m.c}</Pill></div></div>
         </div>)}
       </div>
     </Sec>

@@ -6,6 +6,20 @@
     <title>GLOW Hair Atelier</title>
     <script>document.documentElement.classList.add('js');setTimeout(function(){document.documentElement.classList.add('in')},2500)</script>
     <!--head-->
+    <style>#pre{position:fixed;inset:0;z-index:200;background:#fff;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .5s ease;pointer-events:none}
+html.pre-show #pre{display:flex;opacity:1;pointer-events:auto}html.pre-show.pre-out #pre{opacity:0;pointer-events:none}
+#pre .pr{position:relative;width:200px;height:200px}#pre svg{position:absolute;inset:0;width:100%;height:100%;animation:prerot 14s linear infinite}
+#pre img{position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%)}
+#pre text{font-family:Nunito,system-ui,sans-serif;font-size:10.5px;letter-spacing:.32em;font-variant:small-caps;fill:#111}
+@keyframes prerot{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){#pre svg{animation:none}}</style>
+    <script>(function(){var d=document.documentElement,done=false,t0=Date.now();
+      function ready(){if(done)return;done=true;if(!d.classList.contains('pre-show'))return;d.classList.add('pre-out');setTimeout(function(){d.classList.remove('pre-show','pre-out')},550)}
+      window.__preDone=ready;
+      setTimeout(function(){if(!done)d.classList.add('pre-show')},400);
+      setTimeout(ready,4000);
+      document.addEventListener('DOMContentLoaded',function(){        var img=document.querySelector('[data-feature]')||document.querySelector('main img');
+        if(!img||img.complete)ready();else{img.addEventListener('load',ready);img.addEventListener('error',ready)}});
+    })()</script>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="preload" href="/fonts/playfair.woff2" as="font" type="font/woff2" crossorigin />
@@ -16,6 +30,8 @@
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9C4GBPT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="pre" aria-hidden="true"><div class="pr"><svg viewBox="0 0 180 180"><defs><path id="pre-c" d="M90,90 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0"/></defs><text><textPath href="#pre-c" textLength="448">GLOW HAIR ATELIER • POZNAŃ • JEŻYCE • </textPath></text></svg><img src="/img/logo.svg" alt="" width="64" height="64"/></div></div>
+    <script>if(location.pathname.indexOf('/ua')===0)document.querySelector('#pre textPath').textContent='GLOW HAIR ATELIER • ПОЗНАНЬ • ЄЖИЦЕ • '</script>
     <div id="root"><!--app--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
