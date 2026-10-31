@@ -73,6 +73,11 @@ const pl = {
   } as Record<string, Omit<Svc, 'meta'> & { meta: string }>,
   kursy: {
     title: 'Kursy fryzjerskie w Poznaniu — karé i bob-karé | GLOW Academy', meta: 'Kursy fryzjerskie GLOW Academy w Poznaniu. Pierwszy kurs: karé i bob-karé. Wkrótce: koloryzacja i techniki farbowania. Zapisz się na listę oczekujących.',
+    eyebrow: 'GLOW Academy · Kurs karé i bob-karé', hook: 'Strzyż karé i bob-karé pewnie, precyzyjnie i drożej',
+    forT: 'Dla kogo', forList: ['Fryzjerów, którzy chcą podnieść swoje umiejętności', 'Początkujących po szkole fryzjerskiej', 'Mistrzów, którzy chcą opanować karé i bob-karé do perfekcji'],
+    getT: 'Co zyskasz', getList: [['15+ lat doświadczenia', 'Wiedza Oli zebrana w praktyce salonu z oceną 5.0.'], ['Wszystkie odmiany karé i bob-karé', 'Od klasyki po nowoczesne formy — w jednym kursie.'], ['Praktyka', 'Uczysz się na realnych przykładach, nie tylko z teorii.'], ['Techniki od razu do pracy', 'Wdrożysz je w salonie już następnego dnia.'], ['Pewność i wyższe ceny', 'Lepszy efekt to zadowolone klientki i odwaga, by cenić swoją pracę.'], ['Indywidualne podejście', 'Mała grupa lub zajęcia indywidualne — czas na każde pytanie.']],
+    progT: 'Program', soon: 'Wkrótce', first: 'Pierwszy kurs', detailsSoon: 'Termin, czas trwania i szczegóły — wkrótce.',
+    cta: 'Zapisz się na listę oczekujących', videoAlt: 'Najlepsze prace: karé, bob-karé i koloryzacja',
     h1: 'GLOW Academy — kursy fryzjerskie', lead: 'Praktyczne kursy prowadzone przez Olę — fryzjerkę z ponad 15-letnim doświadczeniem i salonem z oceną 5.0.',
     list: [{ t: 'Karé i bob-karé', s: 'Pierwszy kurs · wkrótce', d: 'Wszystkie odmiany karé i bob-karé w jednym kursie: dobór formy, geometria cięcia, praca z różną strukturą włosów i stylizacja.' }, { t: 'Koloryzacja', s: 'W przygotowaniu', d: 'Teoria koloru, dobór odcienia, praca z rozjaśniaczem.' }, { t: 'Techniki farbowania', s: 'W przygotowaniu', d: 'AirTouch, balayage, Brazilian blonde w praktyce.' }],
     bioT: 'Prowadząca: Ola', bio: 'Ola pracuje w zawodzie od ponad 15 lat. Przez ten czas stała się mistrzynią uniwersalną — równie pewnie czuje się w strzyżeniu, jak i w koloryzacji. W pierwszym kursie zebrała najbardziej przydatną wiedzę o wszystkich odmianach karé i bob-karé: od doboru formy do twarzy, przez geometrię cięcia, po stylizację. O terminy i szczegóły zapytaj nas dowolnym kanałem podanym na stronie.', 
@@ -130,6 +135,11 @@ const ua: D = {
   },
   kursy: {
     title: 'Курси перукарів у Познані — стрижка боб | GLOW Academy', meta: 'Курси GLOW Academy у Познані. Перший курс: стрижка боб-каре. Незабаром: колористика і техніки фарбування. Запишіться в лист очікування.',
+    eyebrow: 'GLOW Academy · Курс каре та боб-каре', hook: 'Стрижіть каре та боб-каре впевнено, точно і дорожче',
+    forT: 'Для кого', forList: ['Перукарів, які хочуть підвищити майстерність', 'Початківців після перукарської школи', 'Майстрів, які хочуть досконало опанувати каре та боб-каре'],
+    getT: 'Що ви отримаєте', getList: [['15+ років досвіду', 'Знання Олі, зібрані на практиці в салоні з рейтингом 5.0.'], ['Усі варіації каре та боб-каре', 'Від класики до сучасних форм — в одному курсі.'], ['Практика', 'Навчаєтесь на реальних прикладах, а не лише в теорії.'], ['Техніки одразу в роботу', 'Застосуєте їх у салоні вже наступного дня.'], ['Впевненість і вищі ціни', 'Кращий результат — це задоволені клієнтки й сміливість цінувати свою роботу.'], ['Індивідуальний підхід', 'Мала група або індивідуальні заняття — час на кожне питання.']],
+    progT: 'Програма', soon: 'Незабаром', first: 'Перший курс', detailsSoon: 'Дата, тривалість і деталі — незабаром.',
+    cta: 'Записатися в лист очікування', videoAlt: 'Найкращі роботи: каре, боб-каре та фарбування',
     h1: 'GLOW Academy — курси для перукарів', lead: 'Практичні курси від Олі — майстрині з понад 15-річним досвідом і салоном з рейтингом 5.0.',
     list: [{ t: 'Каре та боб-каре', s: 'Перший курс · незабаром', d: 'Усі варіації каре та боб-каре в одному курсі: підбір форми, геометрія стрижки, робота з різною структурою волосся та укладка.' }, { t: 'Колористика', s: 'Готуємо', d: 'Теорія кольору, підбір відтінку, робота з освітлювачем.' }, { t: 'Техніки фарбування', s: 'Готуємо', d: 'AirTouch, балаяж, Brazilian blonde на практиці.' }],
     bioT: 'Викладачка: Оля', bio: 'Оля працює в професії понад 15 років. За цей час вона стала майстром-універсалом — однаково впевнено працює і зі стрижками, і з фарбуванням. У першому курсі вона зібрала найкорисніші знання про всі варіації каре та боб-каре: від підбору форми під тип обличчя й геометрії стрижки до укладки. Про дати й деталі питайте нас будь-яким зручним способом зі сторінки.',

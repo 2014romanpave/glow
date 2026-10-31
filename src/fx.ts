@@ -7,6 +7,11 @@ export function startFx() {
   requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('in')));
   setTimeout(() => root.classList.add('settled'), 1600);
 
+  // lazy video: load sources when near viewport
+  const vio = new IntersectionObserver((es) => es.forEach((e) => { const v = e.target as HTMLVideoElement;
+    if (e.isIntersecting) { if (!v.dataset.loaded) { v.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((s) => (s.src = s.dataset.src!)); v.load(); v.dataset.loaded = '1'; } if (!reduce) v.play().catch(() => {}); } else v.pause(); }), { rootMargin: '200px' });
+  document.querySelectorAll('video.lazy-video').forEach((v) => vio.observe(v));
+
   // scroll reveal
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
   document.querySelectorAll('.rv, .reveal-img').forEach((el) => io.observe(el));

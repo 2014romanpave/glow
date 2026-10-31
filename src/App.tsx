@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 
@@ -18,7 +18,9 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
   const t = DICT[lang];
   const [open, setOpen] = useState(false);
   const other: Lang = lang === 'pl' ? 'ua' : 'pl';
-  return (
+  const close = () => setOpen(false);
+  useEffect(() => { document.documentElement.style.overflow = open ? 'hidden' : ''; const k = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open]);
+  return (<>
     <header className="fixed inset-x-0 top-0 z-50 bg-[#F7F7F7]/85 backdrop-blur-md" style={{ viewTransitionName: 'hdr' }}>
       <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 md:px-10">
         <a href={path(lang, 'home')} aria-label={C.name}><Logo /></a>
@@ -31,16 +33,20 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
           <button className="xl:hidden" onClick={() => setOpen(true)} aria-label={t.menu}><Stack a="ME" b="NU" /></button>
         </div>
       </div>
-      <div className={`mmenu xl:hidden fixed inset-0 z-50 bg-white flex flex-col ${open ? 'is-open' : ''}`} aria-hidden={!open}>
-        <div className="flex h-[72px] items-center justify-between px-5"><Logo /><button onClick={() => setOpen(false)} aria-label={t.close}><Stack a="BA" b="CK" /></button></div>
-        <nav className="flex flex-1 flex-col items-center justify-center gap-4 font-serif text-3xl">
-          <a href={path(lang, 'home')}>Home</a>
-          {[...MENU, 'contact' as Page].map((p, i) => <a key={p} href={path(lang, p)} style={{ transitionDelay: `${80 + i * 40}ms` }}>{t.nav[p as keyof typeof t.nav]}</a>)}
-        </nav>
-        <div className="flex justify-between px-5 py-6 text-xs text-[#8D8787]"><a href={`tel:${tel}`}>{C.phone}</a><a href={path(other, page)}>{other.toUpperCase()}</a></div>
-      </div>
     </header>
-  );
+    <div className={`mshade xl:hidden ${open ? 'is-open' : ''}`} onClick={close} aria-hidden />
+    <aside className={`mpanel xl:hidden ${open ? 'is-open' : ''}`} aria-hidden={!open} aria-label={t.menu}>
+      <div className="flex h-[72px] items-center justify-between px-6 border-b border-black/10"><Logo /><button onClick={close} aria-label={t.close}><Stack a="BA" b="CK" /></button></div>
+      <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-6 py-8 font-serif text-[28px] leading-tight">
+        <a href={path(lang, 'home')} onClick={close} className={page === 'home' ? 'italic' : ''}>Home</a>
+        {[...MENU, 'contact' as Page].map((p, i) => <a key={p} href={path(lang, p)} onClick={close} className={`py-1 ${p === page ? 'italic' : ''}`} style={{ transitionDelay: `${60 + i * 35}ms` }}>{t.nav[p as keyof typeof t.nav]}</a>)}
+      </nav>
+      <div className="border-t border-black/10 px-6 py-6 text-sm">
+        <a href={BOOKSY} target="_blank" rel="noopener" className="mb-4 flex justify-center rounded-full bg-black px-6 py-3.5 text-white">{t.bookShort} →</a>
+        <div className="flex justify-between text-[#8D8787]"><a href={`tel:${tel}`}>{C.phone}</a><a href={path(other, page)} onClick={close}>{other.toUpperCase()}</a></div>
+      </div>
+    </aside>
+  </>);
 }
 
 /* scattered grid slots (x%, y%, size vw) — sparse asymmetric, around the centre feature */
@@ -213,21 +219,64 @@ function Home({ lang }: { lang: Lang }) {
         <div className="rv mb-12 flex flex-wrap gap-x-6 gap-y-2 text-[13px]">{SVC.map((p) => <a key={p} href={path(lang, p)} className="navl">{t.nav[p]}</a>)}</div></div>
       <Gallery lang={lang} alt="GLOW Hair Atelier Poznań" imgs={[GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8]]} />
     </Sec>
-    <Sec dark>
-      <div className="grid gap-16 md:grid-cols-2">
-        <div>
-          <Eyebrow>{h.kursSoon}</Eyebrow><H2>{h.kursT}</H2>
-          <ul>{t.kursy.list.map((k) => <li key={k.t} className="rv flex items-baseline justify-between gap-4 border-b border-white/15 py-4"><span className="font-serif text-2xl md:text-3xl">{k.t}</span><span className="text-[11px] uppercase tracking-[0.18em] text-white/50">{k.s}</span></li>)}</ul>
-          <div className="rv mt-10"><Pill href={path(lang, 'kursy')} light>{t.more}</Pill></div>
-        </div>
-        <div className="rv self-start border border-white/20 p-8 md:p-12">
-          <Eyebrow>{t.nav.praca}</Eyebrow>
-          <h2 className="font-serif text-4xl leading-tight md:text-5xl">{h.vacT}</h2><p className="mt-5 text-white/70">{h.vacD}</p>
-          <div className="mt-10"><Pill href={path(lang, 'praca')} light>{h.vacCta}</Pill></div>
-        </div>
-      </div>
-    </Sec>
+    <Courses lang={lang} />
   </>;
+}
+
+function CourseVideo({ lang }: { lang: Lang }) {
+  return <div className="rv relative aspect-[4/5] w-full overflow-hidden bg-[#111]" data-cursor={lang === 'pl' ? 'Prace' : 'Роботи'}>
+    <video className="lazy-video absolute inset-0 h-full w-full object-cover" muted loop playsInline autoPlay preload="none" poster="/video/kurs-poster.jpg" aria-label={DICT[lang].kursy.videoAlt}>
+      <source data-src="/video/kurs.webm" type="video/webm" /><source data-src="/video/kurs.mp4" type="video/mp4" />
+    </video>
+    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
+  </div>;
+}
+
+const Waitlist = ({ lang }: { lang: Lang }) => <div className="flex flex-wrap items-center gap-3">
+  <Pill href={C.instagram} light>{DICT[lang].kursy.cta}</Pill>
+  <a href={`tel:${tel}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">{C.phone}</a>
+  <a href={`mailto:${C.email}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">E-mail</a>
+</div>;
+
+function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
+  const k = DICT[lang].kursy;
+  return <section className="bg-black px-5 py-24 text-white md:px-10 md:py-32" id="kursy">
+    <div className="mx-auto max-w-[1280px]">
+      <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
+        <div>
+          <Eyebrow>{k.eyebrow}</Eyebrow>
+          {full ? <h1 className="fly font-serif text-[40px] leading-[1.04] md:text-[68px]">{k.hook}</h1> : <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[64px]">{k.hook}</h2>}
+          <p className="rv mt-6 max-w-xl text-lg text-white/70">{k.lead}</p>
+          <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.forT}</p>
+            <ul>{k.forList.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
+          <div className="rv mt-10"><Waitlist lang={lang} /></div>
+        </div>
+        <CourseVideo lang={lang} />
+      </div>
+      <div className="mt-24"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.getT}</p>
+        <div className="grid gap-px bg-white/15 sm:grid-cols-2 lg:grid-cols-3">{k.getList.map(([t, d], i) => <div key={t} className="rv bg-black p-8" style={{ ['--d' as string]: `${(i % 3) * 100}ms` }}>
+          <span className="font-serif text-4xl italic text-white/30">0{i + 1}</span><h3 className="mt-5 font-serif text-2xl">{t}</h3><p className="mt-3 text-sm leading-relaxed text-white/60">{d}</p></div>)}</div></div>
+      <div className="mt-24 grid gap-10 md:grid-cols-[1fr_2fr]">
+        <p className="rv text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
+        <ul>{k.list.map((c, i) => <li key={c.t} className="rv flex flex-wrap items-baseline justify-between gap-3 border-b border-white/15 py-5">
+          <span className="font-serif text-3xl md:text-4xl">{c.t}</span>
+          <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] ${i === 0 ? 'bg-white text-black' : 'border border-white/30 text-white/60'}`}>{i === 0 ? k.first : k.soon}</span>
+          <span className="w-full text-sm text-white/55">{c.d}</span></li>)}
+          <li className="rv pt-5 text-sm text-white/45">{k.detailsSoon}</li></ul>
+      </div>
+      {!full && <div className="rv mt-14"><a href={path(lang, 'kursy')} className="navl text-[13px]">GLOW Academy →</a></div>}
+    </div>
+  </section>;
+}
+
+function Vacancy({ lang }: { lang: Lang }) {
+  const h = DICT[lang].home, v = DICT[lang].praca;
+  return <section className="bg-[#F7F7F7] px-5 py-20 md:px-10 md:py-24">
+    <div className="rv mx-auto grid max-w-[1280px] gap-10 border border-black/15 bg-white p-8 md:grid-cols-[1.4fr_1fr] md:items-end md:p-14">
+      <div><Eyebrow>{DICT[lang].nav.praca}</Eyebrow><h2 className="font-serif text-[36px] leading-[1.05] md:text-[56px]">{h.vacT}</h2><p className="mt-5 max-w-xl text-[#8D8787]">{h.vacD}</p></div>
+      <div className="flex flex-col items-start gap-4 md:items-end"><Pill href={path(lang, 'praca')}>{h.vacCta}</Pill><span className="text-sm text-[#8D8787]">{v.apply}</span></div>
+    </div>
+  </section>;
 }
 
 function Service({ lang, p }: { lang: Lang; p: (typeof SVC)[number] }) {
@@ -267,16 +316,15 @@ function PageHead({ eyebrow, h1, lead }: { eyebrow: string; h1: string; lead: st
 function Kursy({ lang }: { lang: Lang }) {
   const k = DICT[lang].kursy;
   return <>
-    <PageHead eyebrow="GLOW Academy" h1={k.h1} lead={k.lead} />
+    <div className="h-[72px] bg-black" />
+    <Courses lang={lang} full />
     <Sec>
-      <div className="grid gap-4 md:grid-cols-3">{k.list.map((c, i) => <div key={c.t} className={`rv p-8 md:p-10 ${i === 0 ? 'bg-black text-white' : 'border border-black/10 bg-white'}`} style={{ ['--d' as string]: `${i * 120}ms` }}>
-        <p className="text-[11px] uppercase tracking-[0.2em] opacity-60">{c.s}</p><h2 className="mt-4 font-serif text-3xl">{c.t}</h2><p className="mt-4 text-sm leading-relaxed opacity-75">{c.d}</p></div>)}</div>
-      <div className="mt-24 grid items-end gap-10 md:grid-cols-[260px_1fr]">
+      <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
         <div className="rv"><Placeholder ch="O" /></div>
         <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
       </div>
     </Sec>
-    <Sec dark><H2>{k.waitT}</H2><p className="rv max-w-2xl text-white/70">{k.wait}</p><div className="rv"><Apply light /></div></Sec>
+    <Sec dark><H2>{k.waitT}</H2><p className="rv max-w-2xl text-white/70">{k.wait}</p><div className="rv mt-8"><Waitlist lang={lang} /></div></Sec>
   </>;
 }
 
@@ -315,7 +363,7 @@ export default function App({ lang, page }: { lang: Lang; page: Page }) {
   const body = page === 'home' ? <Home lang={lang} /> : page === 'kursy' ? <Kursy lang={lang} /> : page === 'praca' ? <Praca lang={lang} /> : page === 'contact' ? null : <Service lang={lang} p={page} />;
   return <>
     <Header lang={lang} page={page} />
-    <main style={{ viewTransitionName: 'main' }}>{body}<Contacts lang={lang} h1={page === 'contact'} /></main>
+    <main style={{ viewTransitionName: 'main' }}>{body}<Contacts lang={lang} h1={page === 'contact'} />{page !== 'praca' && <Vacancy lang={lang} />}</main>
     <Footer lang={lang} />
     <div className="cursor" aria-hidden><span /></div>
   </>;
