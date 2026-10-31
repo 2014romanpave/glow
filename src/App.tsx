@@ -132,7 +132,7 @@ function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
 
 const Eyebrow = ({ children }: { children: ReactNode }) => <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-[#8D8787]">{children}</p>;
 const Sec = ({ children, dark, id, cls = '' }: { children: ReactNode; dark?: boolean; id?: string; cls?: string }) => (
-  <section id={id} className={`${dark ? 'bg-black text-white' : 'bg-[#F7F7F7]'} px-5 py-24 md:px-10 md:py-32 ${cls}`}><div className="mx-auto max-w-[1280px]">{children}</div></section>
+  <section id={id} className={`${dark ? 'bg-black text-white' : 'bg-[#F7F7F7]'} px-5 py-24 md:px-10 md:py-32 ${cls}`}><div className="mx-auto max-w-[1360px]">{children}</div></section>
 );
 const H2 = ({ children }: { children: ReactNode }) => <h2 className="rv font-serif text-[40px] leading-[1.05] md:text-[64px] mb-12">{children}</h2>;
 const Badge = ({ lang, light }: { lang: Lang; light?: boolean }) => (
@@ -143,7 +143,7 @@ function Reviews({ lang }: { lang: Lang }) {
   const t = DICT[lang].home;
   const row = [...REVIEWS, ...REVIEWS];
   return <section className="overflow-hidden bg-black py-24 text-white md:py-32">
-    <div className="mx-auto mb-12 flex max-w-[1280px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
+    <div className="mx-auto mb-12 flex max-w-[1440px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
       <h2 className="rv font-serif text-[40px] leading-none md:text-[64px]">{t.revT}</h2>
       <div className="rv flex flex-col items-start gap-3 md:items-end"><span className="font-serif text-6xl">5.0<span className="ml-2 text-2xl align-top">★</span></span><Badge lang={lang} light /></div>
     </div>
@@ -156,7 +156,7 @@ function Reviews({ lang }: { lang: Lang }) {
         </figure>)}
       </div>
     </div>
-    <div className="mx-auto mt-10 flex max-w-[1280px] flex-wrap gap-6 px-5 text-[13px] md:px-10">
+    <div className="mx-auto mt-10 flex max-w-[1440px] flex-wrap gap-6 px-5 text-[13px] md:px-10">
       <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" className="navl">{t.revAll} →</a>
       {/* TODO: Google Business Profile — link i opinie Google, gdy profil powstanie (C.gbp) */}
       {C.gbp ? <a href={C.gbp} className="navl">Google →</a> : <span className="text-white/40">{t.revG}</span>}
@@ -178,7 +178,7 @@ function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
   const H = h1 ? 'h1' : 'h2';
   const intro = lang === 'pl' ? 'Cenisz profesjonalizm i najwyższą jakość? W Glow zadbasz o siebie i znajdziesz chwilę relaksu w codziennym biegu.' : 'Цінуєте професіоналізм і найвищу якість? У Glow ви подбаєте про себе і знайдете хвилину відпочинку серед щоденного поспіху.';
   return <section id="kontakt" className={`bg-white px-5 md:px-10 ${h1 ? 'pt-28 pb-20' : 'py-24 md:py-32'}`}>
-    <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 md:gap-16">
+    <div className="mx-auto grid max-w-[1360px] gap-10 md:grid-cols-2 md:gap-16">
       <div className="rv order-2 md:order-1 flex flex-col">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1a1b1f] md:aspect-auto md:flex-1 md:min-h-[440px]">
           <iframe title="Mapa" loading="lazy" className="absolute inset-0 h-full w-full border-0 map-dark" src={`https://maps.google.com/maps?q=${encodeURIComponent(`${C.street}, ${C.zip} ${C.city}`)}&z=16&output=embed`} />
@@ -300,7 +300,7 @@ const Waitlist = ({ lang }: { lang: Lang }) => <div className="flex flex-wrap it
 function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
   const k = DICT[lang].kursy;
   return <section className="bg-black px-5 py-24 text-white md:px-10 md:py-32" id="kursy">
-    <div className="mx-auto max-w-[1280px]">
+    <div className="mx-auto max-w-[1360px]">
       <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
         <div>
           <Eyebrow>{k.eyebrow}</Eyebrow>
@@ -331,7 +331,7 @@ function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
 function Vacancy({ lang }: { lang: Lang }) {
   const h = DICT[lang].home, v = DICT[lang].praca;
   return <section className="bg-[#F7F7F7] px-5 py-20 md:px-10 md:py-24">
-    <div className="rv mx-auto grid max-w-[1280px] gap-10 border border-black/15 bg-white p-8 md:grid-cols-[1.4fr_1fr] md:items-end md:p-14">
+    <div className="rv mx-auto grid max-w-[1360px] gap-10 border border-black/15 bg-white p-8 md:grid-cols-[1.4fr_1fr] md:items-end md:p-14">
       <div><Eyebrow>{DICT[lang].nav.praca}</Eyebrow><h2 className="font-serif text-[36px] leading-[1.05] md:text-[56px]">{h.vacT}</h2><p className="mt-5 max-w-xl text-[#8D8787]">{h.vacD}</p></div>
       <div className="flex flex-col items-start gap-4 md:items-end"><Pill href={path(lang, 'praca')}>{h.vacCta}</Pill><span className="text-sm text-[#8D8787]">{v.apply}</span></div>
     </div>
@@ -364,7 +364,7 @@ const Apply = ({ light }: { light?: boolean }) => <div className="mt-8 flex flex
 function PageHead({ eyebrow, h1, lead }: { eyebrow: string; h1: string; lead: string }) {
   return <section className="relative overflow-hidden bg-[#F7F7F7] px-5 pt-40 pb-20 md:px-10">
     <div aria-hidden className="giant pointer-events-none absolute -right-[5vw] top-16 select-none font-serif leading-none text-[#ececec]" data-parallax="0.2">GLOW</div>
-    <div className="relative mx-auto max-w-[1280px]">
+    <div className="relative mx-auto max-w-[1360px]">
       <Eyebrow>{eyebrow}</Eyebrow>
       <h1 className="fly max-w-4xl font-serif text-[44px] leading-[1.02] md:text-[80px]" style={{ ['--d' as string]: '120ms' }}>{h1}</h1>
       <p className="fly mt-8 max-w-2xl text-lg text-[#8D8787]" style={{ ['--d' as string]: '240ms' }}>{lead}</p>
@@ -404,7 +404,7 @@ function Praca({ lang }: { lang: Lang }) {
 function Footer({ lang }: { lang: Lang }) {
   const t = DICT[lang];
   return <footer className="bg-black px-5 pt-20 pb-8 text-white/60 md:px-10">
-    <div className="mx-auto max-w-[1280px]">
+    <div className="mx-auto max-w-[1360px]">
       <div aria-hidden className="mb-14 select-none font-serif text-[22vw] leading-[0.8] text-white/[0.06] md:text-[16vw]">GLOW</div>
       <div className="flex flex-wrap justify-between gap-10 text-sm">
         <div><a href={path(lang, 'home')} aria-label={C.name} className="inline-block"><Logo inv /></a><p className="mt-4">{C.street}, {C.zip} {C.city}</p><p><a href={`tel:${tel}`} className="hover:text-white">{C.phone}</a></p></div>

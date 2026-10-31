@@ -129,7 +129,10 @@ body:has(.lb) .cursor { display: none !important; }
   .hh-strip { display: none; }
   .hh-h1, .hh-info { background: none; margin: 0; padding: 0 0 clamp(26px, 3.5svh, 44px); align-self: end; }
   .hh-h1 { grid-column: 1; grid-row: 2; font-size: min(4.2vw, calc((3 * var(--s) + 2 * var(--g)) / 8.4)); }
-  .hh-info { grid-column: 3; grid-row: 2; }
+  .hh-info { grid-column: 3; grid-row: 2; margin-right: var(--dx); }
+  .hh { container-type: inline-size; }
+  .hh-wrap { --Gw: calc(5 * var(--s) + 3 * var(--g) + var(--F) + 2 * var(--G)); --dx: calc(max(40px, (100cqw - 1440px) / 2 + 40px) - (100cqw - var(--Gw)) / 2); }
+  .hh-h1 { margin-left: var(--dx); font-size: min(4.2vw, calc((3 * var(--s) + 2 * var(--g) - var(--dx)) / 8.4)); }
   .hh-info p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 }
 
