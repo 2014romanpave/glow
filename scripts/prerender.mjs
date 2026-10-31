@@ -17,7 +17,7 @@ const salon = {
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '10:00', closes: '19:00' },
     { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '10:00', closes: '17:00' }],
   aggregateRating: { '@type': 'AggregateRating', ratingValue: RATING.value, bestRating: '5', reviewCount: RATING.count },
-  sameAs: [C.instagram, 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan'],
+  sameAs: [C.instagram, C.facebook, C.youtube, C.tiktok, 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan'],
   potentialAction: { '@type': 'ReserveAction', target: BOOKSY },
 };
 function ld(lang, pg) {

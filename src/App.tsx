@@ -94,44 +94,33 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
   );
 }
 
-/* left 3x3 + right 2x3 cells: [size %, justify, align] for organic but aligned grid */
-const LCELLS: [number, string, string][] = [[72, 'start', 'start'], [70, 'center', 'start'], [68, 'end', 'start'], [80, 'start', 'center'], [66, 'center', 'center'], [92, 'end', 'center'], [70, 'start', 'end'], [88, 'center', 'end'], [72, 'end', 'end']];
-const RCELLS: [number, string, string][] = [[86, 'start', 'start'], [72, 'end', 'start'], [96, 'start', 'center'], [72, 'end', 'center'], [80, 'start', 'end'], [70, 'end', 'end']];
-
 function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
   const t = DICT[lang]; const h = t.home;
   const see = lang === 'pl' ? 'Zobacz' : 'Дивитись';
-  const cell = (s: string, i: number, c: [number, string, string]) => (
-    <div key={s} className="flex min-h-0" style={{ justifyContent: c[1], alignItems: c[2] }}>
-      <button className="thumb mg fly block" data-swap={s} data-cursor={see} data-depth={(0.4 + (i % 4) * 0.25).toFixed(2)} style={{ width: `${c[0]}%`, ['--d' as string]: `${120 + i * 50}ms` }}>
-        <img src={s} alt="" loading="eager" className="aspect-square w-full object-cover" />
-      </button>
-    </div>);
+  const cell = (src: string, i: number) => (
+    <button key={src} className="thumb mg fly block overflow-hidden" data-swap={src} data-cursor={see} data-depth={(0.3 + (i % 4) * 0.2).toFixed(2)} style={{ ['--d' as string]: `${120 + i * 45}ms` }}>
+      <img src={src} alt="" loading="eager" className="h-full w-full object-cover" />
+    </button>);
   const salon = h.h1a.split(' ')[0];
   return (
-    <section className="hhero relative bg-[#F7F7F7] px-5 pt-[88px] md:px-10" data-hero>
-      <div className="hh-grid mx-auto max-w-[1600px]" data-magnet-area>
-        <div className="hh-l hidden md:grid">{imgs.slice(1, 10).map((s, i) => cell(s, i, LCELLS[i]))}</div>
-        <div className="feature-s fly relative overflow-hidden" style={{ ['--d' as string]: '60ms' }} data-cursor={see}>
+    <section className="hh relative" data-hero>
+      <div className="hh-wrap" data-magnet-area>
+        <div className="hh-l">{imgs.slice(1, 10).map((s2, i) => cell(s2, i))}</div>
+        <div className="hh-f fly relative overflow-hidden" style={{ ['--d' as string]: '60ms' }} data-cursor={see}>
           <img data-feature src={imgs[0]} alt={`${C.name} — Poznań`} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
         </div>
-        <div className="hh-r hidden md:grid">{imgs.slice(10, 16).map((s, i) => cell(s, i + 9, RCELLS[i]))}</div>
-        <div className="drag no-sb flex gap-3 overflow-x-auto md:hidden" data-drag>
-          {imgs.slice(1, 13).map((s) => <button key={s} className="thumb shrink-0" data-swap={s}><img src={s} alt="" draggable={false} className="h-16 w-16 object-cover" /></button>)}
+        <div className="hh-r">{imgs.slice(10, 16).map((s2, i) => cell(s2, i + 9))}</div>
+        <div className="hh-strip drag no-sb" data-drag>
+          {imgs.slice(1, 13).map((s2) => <button key={s2} className="thumb shrink-0" data-swap={s2}><img src={s2} alt="" draggable={false} className="h-16 w-16 object-cover" /></button>)}
         </div>
-      </div>
-      <div className="hh-bottom mx-auto max-w-[1600px]">
-        <h1 className="fly font-serif leading-[1.05]" style={{ ['--d' as string]: '300ms' }}>
+        <h1 className="hh-h1 fly font-serif text-white" style={{ ['--d' as string]: '300ms' }}>
           <span className="block whitespace-nowrap">{lang === 'pl' ? <span className="font-script inline-block pl-[0.14em] text-[1.15em] leading-none">{salon}</span> : <em className="italic">{salon}</em>} {h.h1a.split(' ').slice(1).join(' ')}</span>
           <span className="block whitespace-nowrap">{h.h1b}&nbsp;{lang === 'pl' ? <span className="font-script inline-block px-[0.12em] text-[0.8em]">w</span> : <em className="text-[0.6em] italic">у</em>} {h.h1c}</span>
         </h1>
-        <div className="fly flex flex-col justify-between gap-4 self-stretch" style={{ ['--d' as string]: '400ms' }}>
-          <p className="max-w-md text-[15px] leading-relaxed text-[#8D8787]">{h.lead}</p>
-          <address className="text-[13px] not-italic">{C.street}, {C.zip} {C.city}, {C.district}</address>
-        </div>
-        <div className="fly flex flex-col items-start justify-between gap-4 self-stretch md:items-end" style={{ ['--d' as string]: '480ms' }}>
-          <Pill href={BOOKSY}>{t.bookShort}</Pill>
-          <a href={`tel:${tel}`} className="text-[13px] hover:opacity-60">{C.phone}</a>
+        <div className="hh-info fly text-white" style={{ ['--d' as string]: '420ms' }}>
+          <p className="text-[14px] leading-relaxed text-white/65">{h.lead}</p>
+          <address className="mt-3 text-[13px] not-italic text-white/85">{C.street}, {C.zip} {C.city}, {C.district}</address>
+          <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3"><Pill href={BOOKSY} light>{t.bookShort}</Pill><a href={`tel:${tel}`} className="text-[13px] text-white/85 hover:text-white">{C.phone}</a></div>
         </div>
       </div>
     </section>
@@ -174,6 +163,9 @@ function Reviews({ lang }: { lang: Lang }) {
 
 const Social = () => <div className="flex gap-3">
   <a href={C.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg></a>
+  <a href={C.youtube} target="_blank" rel="noopener" aria-label="YouTube" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8c1.6.4 7.8.4 7.8.4s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15V9l5.2 3L10 15Z" /></svg></a>
+  <a href={C.facebook} target="_blank" rel="noopener" aria-label="Facebook" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21h3Z" /></svg></a>
+  <a href={C.tiktok} target="_blank" rel="noopener" aria-label="TikTok" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M16.6 3c.3 2.2 1.6 3.6 3.9 3.8v2.6c-1.4.1-2.6-.3-3.9-1.1v5.1c0 6.4-7 8.4-9.8 3.8-1.8-3-.7-8.2 5.2-8.4v2.7c-.4.1-.9.2-1.3.3-1.3.4-2 1.3-1.8 2.8.4 2.7 5.4 3.5 5-1.8V3h2.7Z" /></svg></a>
   <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" aria-label="Booksy" className="ico text-[11px] font-bold">B</a>
   <a href={`tel:${tel}`} aria-label="Telefon" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z" /></svg></a>
 </div>;
@@ -410,7 +402,7 @@ function Footer({ lang }: { lang: Lang }) {
   const t = DICT[lang];
   return <footer className="bg-black px-5 pt-20 pb-8 text-white/60 md:px-10">
     <div className="mx-auto max-w-[1280px]">
-      <div aria-hidden className="mb-14 select-none font-serif text-[22vw] leading-[0.8] text-white/[0.06] md:text-[16vw]" data-parallax="-0.08">GLOW</div>
+      <div aria-hidden className="mb-14 select-none font-serif text-[22vw] leading-[0.8] text-white/[0.06] md:text-[16vw]">GLOW</div>
       <div className="flex flex-wrap justify-between gap-10 text-sm">
         <div><a href={path(lang, 'home')} aria-label={C.name} className="inline-block"><Logo inv /></a><p className="mt-4">{C.street}, {C.zip} {C.city}</p><p><a href={`tel:${tel}`} className="hover:text-white">{C.phone}</a></p></div>
         <nav className="grid grid-cols-2 gap-x-10 gap-y-2">{[...MENU, 'contact' as Page].map((p) => <a key={p} href={path(lang, p)} className="hover:text-white">{t.nav[p as keyof typeof t.nav]}</a>)}</nav>

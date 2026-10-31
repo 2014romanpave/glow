@@ -108,7 +108,7 @@ export function startFx() {
     addEventListener('mousemove', (e) => {
       tx = e.clientX; ty = e.clientY;
       const t = (e.target as Element).closest?.('[data-cursor]') as HTMLElement | null;
-      cur.classList.toggle('lbl', !!t); if (t) dot.textContent = t.dataset.cursor || '';
+      cur.classList.toggle('lbl', !!t); cur.classList.toggle('link', !t && !!(e.target as Element).closest?.('a,button')); if (t) dot.textContent = t.dataset.cursor || '';
       cur.classList.toggle('dark', !!(e.target as Element).closest?.('.bg-black'));
     });
     const loop = () => { cx += (tx - cx) * 0.2; cy += (ty - cy) * 0.2; cur.style.transform = `translate3d(${cx}px, ${cy}px, 0)`; requestAnimationFrame(loop); };
