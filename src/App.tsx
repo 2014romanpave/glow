@@ -122,8 +122,8 @@ function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
         </h1>
         <div className="hh-info fly text-white" style={{ ['--d' as string]: '420ms' }}>
           <p className="text-[14px] leading-relaxed text-white/65">{h.lead}</p>
-          <address className="mt-3 text-[13px] not-italic text-white/85">{C.street}, {C.zip} {C.city}, {C.district}</address>
-          <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3"><Pill href={BOOKSY} light>{t.bookShort}</Pill><a href={`tel:${tel}`} className="text-[13px] text-white/85 hover:text-white">{C.phone}</a></div>
+          <div className="mt-3 flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[13px] text-white/85"><address className="not-italic">{C.street}, {C.zip} {C.city}, {C.district}</address><a href={`tel:${tel}`} className="whitespace-nowrap hover:text-white">{C.phone}</a></div>
+          <div className="mt-5"><Pill href={BOOKSY} light>{t.bookShort}</Pill></div>
         </div>
       </div>
     </section>
@@ -178,7 +178,7 @@ function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
   const H = h1 ? 'h1' : 'h2';
   const intro = lang === 'pl' ? 'Cenisz profesjonalizm i najwyższą jakość? W Glow zadbasz o siebie i znajdziesz chwilę relaksu w codziennym biegu.' : 'Цінуєте професіоналізм і найвищу якість? У Glow ви подбаєте про себе і знайдете хвилину відпочинку серед щоденного поспіху.';
   return <section id="kontakt" className={`bg-white px-5 md:px-10 ${h1 ? 'pt-28 pb-20' : 'py-24 md:py-32'}`}>
-    <div className="mx-auto grid max-w-[1360px] gap-10 md:grid-cols-2 md:gap-16">
+    <div className="mx-auto grid max-w-[1360px] grid-cols-1 gap-10 md:grid-cols-2 [&>*]:min-w-0 md:gap-16">
       <div className="rv order-2 md:order-1 flex flex-col">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1a1b1f] md:aspect-auto md:flex-1 md:min-h-[440px]">
           <iframe title="Mapa" loading="lazy" className="absolute inset-0 h-full w-full border-0 map-dark" src={`https://maps.google.com/maps?q=${encodeURIComponent(`${C.street}, ${C.zip} ${C.city}`)}&z=16&output=embed`} />

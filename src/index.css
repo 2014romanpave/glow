@@ -108,10 +108,10 @@ body:has(.lb) .cursor { display: none !important; }
 .hh-strip { display: flex; gap: 10px; overflow-x: auto; }
 .hh-h1 { font-size: 38px; line-height: 1.05; }
 .hh-h1, .hh-info { background: #000; margin: 0 -20px; padding: 0 20px; }
-.hh-h1 { padding-top: 32px; margin-top: 10px; } .hh-info { padding-bottom: 40px; padding-top: 16px; }
+.hh-h1 { padding-top: 32px; margin-top: 10px; } .hh-info { padding-bottom: 40px; padding-top: 30px; margin-top: -15px; position: relative; }
 @media (min-width: 768px) {
   .hh {
-    --B: clamp(215px, 24svh, 260px); --g: clamp(14px, 1.4vw, 28px); --G: clamp(20px, 2vw, 36px);
+    --B: clamp(250px, 27svh, 300px); --g: clamp(14px, 1.4vw, 28px); --G: clamp(20px, 2vw, 36px);
     --F: min(28vw, 560px);
     --W: min(100vw, 1760px);
     --H: max(380px, calc(100svh - 104px - var(--B) - 20px));
@@ -129,7 +129,7 @@ body:has(.lb) .cursor { display: none !important; }
   .hh-strip { display: none; }
   .hh-h1, .hh-info { background: none; margin: 0; padding: 0 0 clamp(26px, 3.5svh, 44px); align-self: end; }
   .hh-h1 { grid-column: 1; grid-row: 2; font-size: min(4.2vw, calc((3 * var(--s) + 2 * var(--g)) / 8.4)); }
-  .hh-info { grid-column: 3; grid-row: 2; margin-right: var(--dx); }
+  .hh-info { grid-column: 3; grid-row: 2; margin-right: var(--dx); align-self: stretch; display: flex; flex-direction: column; justify-content: center; padding-block: clamp(24px, 3.2svh, 40px); }
   .hh { container-type: inline-size; }
   .hh-wrap { --Gw: calc(5 * var(--s) + 3 * var(--g) + var(--F) + 2 * var(--G)); --dx: calc(max(40px, (100cqw - 1440px) / 2 + 40px) - (100cqw - var(--Gw)) / 2); }
   .hh-h1 { margin-left: var(--dx); font-size: min(4.2vw, calc((3 * var(--s) + 2 * var(--g) - var(--dx)) / 8.4)); }
@@ -139,3 +139,6 @@ body:has(.lb) .cursor { display: none !important; }
 @media (min-width: 768px) and (max-width: 1400px) { .hh-info p { -webkit-line-clamp: 2; } .hh-info .mt-5 { margin-top: 12px; } }
 @media (hover: hover) and (pointer: fine) { .cursor.link span { width: 0; height: 0; margin: 0; } }
 @media (min-width: 768px) { .svc-h1 { font-size: clamp(24px, calc((min(100vw, 1440px) - 160px - var(--fw)) / 2 / 10.5), 54px); } .band { column-gap: 40px; } }
+.grid > * { min-width: 0; }
+html, body { overflow-x: clip; max-width: 100%; }
+h1, h2, h3, p, dd, address { overflow-wrap: anywhere; }
