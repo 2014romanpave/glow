@@ -81,8 +81,8 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
       </div>
       {/* bottom band, inverted */}
       <div className="absolute inset-x-0 bottom-0 z-30 text-white">
-        <div className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-8 band md:items-end md:px-10 md:pb-12">
-          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[40px] md:text-[3.8vw]" : "text-[34px] md:text-[3vw]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
+        <div className="mx-auto grid gap-6 px-5 pb-8 band md:items-end md:px-10 md:pb-12">
+          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[38px] md:text-[clamp(34px,3.25vw,72px)]" : "text-[32px] md:text-[clamp(30px,2.6vw,56px)]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
           <p className="fly max-w-sm text-sm text-white/70 md:mb-3" style={{ ['--d' as string]: '360ms' }}>{lead}</p>
           <div className="fly flex flex-wrap items-center gap-5 md:mb-2 md:flex-col md:items-end" style={{ ['--d' as string]: '440ms' }}>
             <Pill href={BOOKSY} light>{t.bookShort}</Pill>
@@ -174,10 +174,32 @@ function Consult({ lang, k = 'home' }: { lang: Lang; k?: string }) {
   </Sec>;
 }
 
+const GCATS = [['coloring', 'coloring'], ['haircuts', 'haircut'], ['hairstyles', 'hairstyles'], ['makeup', 'makeup'], ['brows', 'brows']] as const;
+function HomeGallery({ lang }: { lang: Lang }) {
+  const t = DICT[lang];
+  const [cat, setCat] = useState<string>('all');
+  const [anim, setAnim] = useState(0);
+  const pick = (dir: string) => GAL[dir].slice(0, 8);
+  const all = [GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8], GAL.haircut[9], GAL.hairstyles[7], GAL.brows[4], GAL.makeup[5]];
+  const imgs = cat === 'all' ? all : pick(GCATS.find((c) => c[0] === cat)![1]);
+  const label = (k: string) => k === 'all' ? (lang === 'pl' ? 'Wszystkie' : 'Усі') : k === 'brows' ? (lang === 'pl' ? 'Brwi i rzęsy' : 'Брови й вії') : t.nav[k as keyof typeof t.nav];
+  return <>
+    <div className="rv mb-10 flex flex-wrap gap-2" role="tablist">
+      {['all', ...GCATS.map((c) => c[0])].map((k) => <button key={k} role="tab" aria-selected={cat === k} onClick={() => { if (k !== cat) { setCat(k); setAnim((a) => a + 1); } }}
+        className={`rounded-full border px-5 py-2.5 text-[13px] transition-colors ${cat === k ? 'border-black bg-black text-white' : 'border-black/20 hover:border-black'}`}>{label(k)}</button>)}
+    </div>
+    <div key={anim} className="gal-swap columns-2 gap-3 md:columns-4 [&>figure]:mb-3">
+      {imgs.map((s, i) => <figure key={s} className="overflow-hidden break-inside-avoid" style={{ ['--i' as string]: i }} data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
+        <img src={s} alt={`GLOW Hair Atelier Poznań — ${label(cat)} ${i + 1}`} loading="lazy" data-lb className="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
+    </div>
+    {cat !== 'all' && <div className="mt-8"><a href={path(lang, cat as Page)} className="navl text-[13px]">{lang === 'pl' ? 'Zobacz więcej' : 'Дивитись більше'} →</a></div>}
+  </>;
+}
+
 function Gallery({ imgs, alt, lang }: { imgs: string[]; alt: string; lang: Lang }) {
   return <div className="columns-2 gap-3 md:columns-4 [&>figure]:mb-3">
     {imgs.map((s, i) => <figure key={s} className="rv reveal-img overflow-hidden break-inside-avoid" data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
-      <img src={s} alt={`${alt} — ${i + 1}`} loading="lazy" className="w-full transition duration-700 hover:scale-[1.04]" /></figure>)}
+      <img src={s} alt={`${alt} — ${i + 1}`} loading="lazy" data-lb className="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
   </div>;
 }
 
@@ -191,7 +213,7 @@ function Home({ lang }: { lang: Lang }) {
   const heroImgs = [GAL.coloring[0], GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11]];
   return <>
     <Hero lang={lang} scatter imgs={heroImgs} lead={h.lead}
-      h1={<><em className="italic">{h.h1a.split(' ')[0]}</em> {h.h1a.split(' ').slice(1).join(' ')}<br />{h.h1b} <em className="text-[0.55em] italic">{lang === 'pl' ? 'w' : 'у'}</em> {h.h1c}</>} />
+      h1={<><span className="block whitespace-nowrap"><em className="italic">{h.h1a.split(' ')[0]}</em> {h.h1a.split(' ').slice(1).join(' ')}</span><span className="block whitespace-nowrap">{h.h1b} <em className="text-[0.55em] italic">{lang === 'pl' ? 'w' : 'у'}</em> {h.h1c}</span></>} />
     <Sec>
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6"><div><Eyebrow>{h.eyebrow}</Eyebrow><H2><em>{h.topT}</em></H2></div><div className="rv"><Badge lang={lang} /></div></div>
       <div className="grid gap-10 md:grid-cols-3">
@@ -215,9 +237,8 @@ function Home({ lang }: { lang: Lang }) {
     </Sec>
     <Reviews lang={lang} />
     <Sec>
-      <div className="flex flex-wrap items-end justify-between gap-6"><H2>{h.galT}</H2>
-        <div className="rv mb-12 flex flex-wrap gap-x-6 gap-y-2 text-[13px]">{SVC.map((p) => <a key={p} href={path(lang, p)} className="navl">{t.nav[p]}</a>)}</div></div>
-      <Gallery lang={lang} alt="GLOW Hair Atelier Poznań" imgs={[GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8]]} />
+      <H2>{h.galT}</H2>
+      <HomeGallery lang={lang} />
     </Sec>
     <Courses lang={lang} />
   </>;

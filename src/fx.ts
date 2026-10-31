@@ -2,7 +2,33 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 const root = document.documentElement;
 
+function lightbox() {
+  let box: HTMLDivElement | null = null, list: HTMLImageElement[] = [], idx = 0, img: HTMLImageElement, count: HTMLElement;
+  const fit = (el: HTMLImageElement) => { const nw = el.naturalWidth || 4, nh = el.naturalHeight || 5; const W = innerWidth * 0.9, H = innerHeight * 0.86; const k = Math.min(W / nw, H / nh); const w = nw * k, h = nh * k; return { left: (innerWidth - w) / 2, top: (innerHeight - h) / 2, width: w, height: h }; };
+  const set = (r: { left: number; top: number; width: number; height: number }) => Object.assign(img.style, { left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+  const rect = (el: Element) => { const r = el.getBoundingClientRect(); return { left: r.left, top: r.top, width: r.width, height: r.height }; };
+  const show = (i: number) => { idx = (i + list.length) % list.length; const src = list[idx]; img.style.opacity = '0'; setTimeout(() => { img.src = src.currentSrc || src.src; img.alt = src.alt; const go = () => { set(fit(src)); img.style.opacity = '1'; }; img.decode ? img.decode().then(go, go) : go(); }, 180); count.textContent = `${idx + 1} / ${list.length}`; };
+  const close = () => { if (!box) return; const b = box; const t = list[idx]; const r = t.getBoundingClientRect(); if (r.bottom > 0 && r.top < innerHeight && !reduce) set(rect(t)); else img.style.opacity = '0'; b.classList.remove('open'); root.style.overflow = ''; removeEventListener('keydown', key); setTimeout(() => b.remove(), 500); box = null; };
+  const key = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); if (e.key === 'ArrowRight') show(idx + 1); if (e.key === 'ArrowLeft') show(idx - 1); };
+  document.addEventListener('click', (e) => {
+    const t = (e.target as Element).closest?.('img[data-lb]') as HTMLImageElement | null; if (!t) return;
+    const scope = t.closest('.gal-swap, .columns-2') ?? document;
+    list = [...scope.querySelectorAll<HTMLImageElement>('img[data-lb]')]; idx = list.indexOf(t);
+    box = document.createElement('div'); box.className = 'lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+    box.innerHTML = '<img class="lb-img" alt=""><button class="lb-x" style="top:10px;right:14px" aria-label="Close">✕</button><button class="lb-p" style="left:10px;top:50%;font-size:28px" aria-label="Prev">←</button><button class="lb-n" style="right:10px;top:50%;font-size:28px" aria-label="Next">→</button><span class="lb-count"></span>';
+    document.body.appendChild(box); img = box.querySelector('.lb-img')!; count = box.querySelector('.lb-count')!;
+    img.src = t.currentSrc || t.src; img.alt = t.alt; set(rect(t)); count.textContent = `${idx + 1} / ${list.length}`;
+    root.style.overflow = 'hidden'; addEventListener('keydown', key);
+    requestAnimationFrame(() => requestAnimationFrame(() => { box!.classList.add('open'); set(fit(t)); }));
+    box.addEventListener('click', (ev) => { const el = ev.target as Element; if (el.closest('.lb-p')) show(idx - 1); else if (el.closest('.lb-n')) show(idx + 1); else if (el === box || el.closest('.lb-x')) close(); });
+    let x0 = 0; box.addEventListener('touchstart', (ev) => { x0 = ev.touches[0].clientX; }, { passive: true });
+    box.addEventListener('touchend', (ev) => { const dx = ev.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1)); }, { passive: true });
+  });
+  addEventListener('resize', () => { if (box && img) set(fit(list[idx])); });
+}
+
 export function startFx() {
+  lightbox();
   // load fly-in
   requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('in')));
   setTimeout(() => root.classList.add('settled'), 1600);

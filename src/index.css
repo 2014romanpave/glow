@@ -85,3 +85,13 @@ em { font-style: italic; }
   .js .reveal-img { clip-path: none !important; }
   .cursor { display: none !important; }
 }
+
+.gal-swap > figure { animation: gin .7s var(--ez) both; animation-delay: calc(var(--i) * 45ms); }
+@keyframes gin { from { opacity: 0; transform: translateY(18px) scale(.96); } }
+.lb { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0); transition: background .45s var(--ez); touch-action: pan-y; }
+.lb.open { background: rgba(0,0,0,.92); }
+.lb img.lb-img { position: fixed; max-width: none; object-fit: cover; transition: left .55s var(--ez), top .55s var(--ez), width .55s var(--ez), height .55s var(--ez), opacity .3s; will-change: left, top, width, height; }
+.lb button { position: absolute; color: #fff; font-size: 13px; letter-spacing: .15em; opacity: 0; transition: opacity .4s .2s; padding: 14px; }
+.lb.open button, .lb.open .lb-count { opacity: 1; }
+.lb-count { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.7); font-size: 12px; letter-spacing: .2em; opacity: 0; transition: opacity .4s .2s; }
+body:has(.lb) .cursor { display: none !important; }
