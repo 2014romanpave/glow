@@ -94,6 +94,50 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
   );
 }
 
+/* left 3x3 + right 2x3 cells: [size %, justify, align] for organic but aligned grid */
+const LCELLS: [number, string, string][] = [[72, 'start', 'start'], [70, 'center', 'start'], [68, 'end', 'start'], [80, 'start', 'center'], [66, 'center', 'center'], [92, 'end', 'center'], [70, 'start', 'end'], [88, 'center', 'end'], [72, 'end', 'end']];
+const RCELLS: [number, string, string][] = [[86, 'start', 'start'], [72, 'end', 'start'], [96, 'start', 'center'], [72, 'end', 'center'], [80, 'start', 'end'], [70, 'end', 'end']];
+
+function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
+  const t = DICT[lang]; const h = t.home;
+  const see = lang === 'pl' ? 'Zobacz' : 'Дивитись';
+  const cell = (s: string, i: number, c: [number, string, string]) => (
+    <div key={s} className="flex min-h-0" style={{ justifyContent: c[1], alignItems: c[2] }}>
+      <button className="thumb mg fly block" data-swap={s} data-cursor={see} data-depth={(0.4 + (i % 4) * 0.25).toFixed(2)} style={{ width: `${c[0]}%`, ['--d' as string]: `${120 + i * 50}ms` }}>
+        <img src={s} alt="" loading="eager" className="aspect-square w-full object-cover" />
+      </button>
+    </div>);
+  const salon = h.h1a.split(' ')[0];
+  return (
+    <section className="hhero relative bg-[#F7F7F7] px-5 pt-[88px] md:px-10" data-hero>
+      <div className="hh-grid mx-auto max-w-[1600px]" data-magnet-area>
+        <div className="hh-l hidden md:grid">{imgs.slice(1, 10).map((s, i) => cell(s, i, LCELLS[i]))}</div>
+        <div className="feature-s fly relative overflow-hidden" style={{ ['--d' as string]: '60ms' }} data-cursor={see}>
+          <img data-feature src={imgs[0]} alt={`${C.name} — Poznań`} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div className="hh-r hidden md:grid">{imgs.slice(10, 16).map((s, i) => cell(s, i + 9, RCELLS[i]))}</div>
+        <div className="drag no-sb flex gap-3 overflow-x-auto md:hidden" data-drag>
+          {imgs.slice(1, 13).map((s) => <button key={s} className="thumb shrink-0" data-swap={s}><img src={s} alt="" draggable={false} className="h-16 w-16 object-cover" /></button>)}
+        </div>
+      </div>
+      <div className="hh-bottom mx-auto max-w-[1600px]">
+        <h1 className="fly font-serif leading-[1.05]" style={{ ['--d' as string]: '300ms' }}>
+          <span className="block whitespace-nowrap">{lang === 'pl' ? <span className="font-script ml-[0.12em] mr-[-0.12em] inline-block text-[1.15em] leading-none">{salon}</span> : <em className="italic">{salon}</em>} {h.h1a.split(' ').slice(1).join(' ')}</span>
+          <span className="block whitespace-nowrap">{h.h1b} {lang === 'pl' ? <span className="font-script mx-[0.08em] inline-block text-[0.8em]">w</span> : <em className="text-[0.6em] italic">у</em>} {h.h1c}</span>
+        </h1>
+        <div className="fly flex flex-col justify-between gap-4 self-stretch" style={{ ['--d' as string]: '400ms' }}>
+          <p className="max-w-md text-[15px] leading-relaxed text-[#8D8787]">{h.lead}</p>
+          <address className="text-[13px] not-italic">{C.street}, {C.zip} {C.city}, {C.district}</address>
+        </div>
+        <div className="fly flex flex-col items-start justify-between gap-4 self-stretch md:items-end" style={{ ['--d' as string]: '480ms' }}>
+          <Pill href={BOOKSY}>{t.bookShort}</Pill>
+          <a href={`tel:${tel}`} className="text-[13px] hover:opacity-60">{C.phone}</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const Eyebrow = ({ children }: { children: ReactNode }) => <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-[#8D8787]">{children}</p>;
 const Sec = ({ children, dark, id, cls = '' }: { children: ReactNode; dark?: boolean; id?: string; cls?: string }) => (
   <section id={id} className={`${dark ? 'bg-black text-white' : 'bg-[#F7F7F7]'} px-5 py-24 md:px-10 md:py-32 ${cls}`}><div className="mx-auto max-w-[1280px]">{children}</div></section>
@@ -210,10 +254,9 @@ const Placeholder = ({ ch }: { ch: string }) => (
 
 function Home({ lang }: { lang: Lang }) {
   const t = DICT[lang]; const h = t.home;
-  const heroImgs = [GAL.coloring[0], GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11]];
+  const heroImgs = [GAL.coloring[0], GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11], GAL.haircut[11], GAL.makeup[6], GAL.hairstyles[9]];
   return <>
-    <Hero lang={lang} scatter imgs={heroImgs} lead={h.lead}
-      h1={<><span className="block whitespace-nowrap"><em className="italic">{h.h1a.split(' ')[0]}</em> {h.h1a.split(' ').slice(1).join(' ')}</span><span className="block whitespace-nowrap">{h.h1b} <em className="text-[0.55em] italic">{lang === 'pl' ? 'w' : 'у'}</em> {h.h1c}</span></>} />
+    <HomeHero lang={lang} imgs={heroImgs} />
     <Sec>
       <div className="mb-14 flex flex-wrap items-end justify-between gap-6"><div><Eyebrow>{h.eyebrow}</Eyebrow><H2><em>{h.topT}</em></H2></div><div className="rv"><Badge lang={lang} /></div></div>
       <div className="grid gap-10 md:grid-cols-3">
