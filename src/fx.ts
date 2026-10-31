@@ -65,8 +65,8 @@ export function startFx() {
     if (fine) b.addEventListener('mouseenter', () => { clearTimeout(hoverT); hoverT = window.setTimeout(() => swap(b.dataset.swap!, b), 140); });
   });
 
-  // hero autoplay (home only)
-  const hero = document.querySelector<HTMLElement>('.hh');
+  // hero autoplay — shared by home (.hh) and service heroes ([data-hero])
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero && feat && !reduce) {
     const vis = () => [...hero.querySelectorAll<HTMLElement>('[data-swap]')].filter((b) => b.offsetParent);
     const srcs = () => { const seen: string[] = []; vis().forEach((b) => { if (!seen.includes(b.dataset.swap!)) seen.push(b.dataset.swap!); }); return seen; };
@@ -78,20 +78,20 @@ export function startFx() {
       const src = nextSrc(); if (!src) return;
       const btn = vis().find((b) => b.dataset.swap === src)!;
       swap(src, btn, true);
-      const strip = btn.closest('.hh-strip') as HTMLElement | null;
+      const strip = btn.closest('.hh-strip, .drag') as HTMLElement | null;
       if (strip) strip.scrollTo({ left: btn.offsetLeft - strip.clientWidth / 2 + btn.clientWidth / 2, behavior: 'smooth' });
       setTimeout(() => preload(nextSrc()), 1200);
     };
     const start = () => { clearInterval(timer); timer = window.setInterval(tick, 4000); };
     preload(nextSrc()); start();
     const pause = (ms: number) => { pauseUntil = Date.now() + ms; };
-    const grid = hero.querySelector('[data-magnet-area]');
+    const grid = hero.querySelector('[data-magnet-area]') ?? hero.querySelector('.drag');
     if (fine && grid) {
       grid.querySelectorAll('[data-swap]').forEach((b) => b.addEventListener('mouseenter', () => pause(1e9)));
       grid.addEventListener('mouseleave', () => { pause(2000); start(); });
     }
     hero.querySelectorAll('[data-swap]').forEach((b) => b.addEventListener('click', () => { pause(6000); start(); }));
-    hero.querySelector('.hh-strip')?.addEventListener('touchstart', () => pause(6000), { passive: true });
+    hero.querySelectorAll('.hh-strip, .drag').forEach((st) => st.addEventListener('touchstart', () => pause(6000), { passive: true }));
     document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
     new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0.2 }).observe(hero);
   }
