@@ -267,7 +267,7 @@ function Home({ lang }: { lang: Lang }) {
     <Sec>
       <Eyebrow>GLOW Hair Atelier</Eyebrow><H2>{h.teamT}</H2>
       <div className="grid gap-12 lg:grid-cols-2">
-        {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-end gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
+        {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
           <Placeholder ch={m.n[0]} />
           <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b}>{m.c}</Pill></div></div>
         </div>)}
@@ -423,8 +423,8 @@ function NotFound({ lang }: { lang: Lang }) {
   return <section className="relative flex min-h-[78svh] items-center overflow-hidden bg-white px-5 pt-32 pb-20 md:px-10">
     <div className="relative mx-auto w-full max-w-[1360px]">
       <p className="fly mb-4 text-[11px] uppercase tracking-[0.3em] text-[#8D8787]">{ua ? 'Помилка 404' : 'Błąd 404'}</p>
-      <div aria-hidden className="fly font-serif text-[clamp(120px,26vw,340px)] leading-[0.85] tracking-tight" style={{ ['--d' as string]: '60ms' }}>4<em className="italic">0</em>4</div>
-      <h1 className="fly mt-6 max-w-3xl font-serif text-[34px] leading-[1.05] md:text-[56px]" style={{ ['--d' as string]: '160ms' }}>{ua ? 'Сторінку не знайдено' : 'Nie znaleziono strony'}</h1>
+      <div aria-hidden className="fly font-serif text-[clamp(120px,26vw,340px)] leading-none tracking-tight pb-[0.08em]" style={{ ['--d' as string]: '60ms' }}>4<em className="italic">0</em>4</div>
+      <h1 className="fly mt-8 max-w-3xl font-serif text-[34px] md:mt-10 leading-[1.05] md:text-[56px]" style={{ ['--d' as string]: '160ms' }}>{ua ? 'Сторінку не знайдено' : 'Nie znaleziono strony'}</h1>
       <p className="fly mt-5 max-w-xl text-[#8D8787]" style={{ ['--d' as string]: '240ms' }}>{ua ? 'Можливо, посилання застаріло або сторінку перенесено. Поверніться на головну або запишіться на візит.' : 'Link mógł się zdezaktualizować lub strona została przeniesiona. Wróć na stronę główną albo umów wizytę.'}</p>
       <div className="fly mt-10 flex flex-wrap items-center gap-4" style={{ ['--d' as string]: '320ms' }}>
         <Pill href={ua ? '/ua' : '/'}>{ua ? 'На головну' : 'Strona główna'}</Pill>
