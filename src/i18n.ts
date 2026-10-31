@@ -45,7 +45,7 @@ const pl = {
     meta: 'Salon fryzjerski GLOW Hair Atelier w Poznaniu, Jeżyce. Koloryzacja AirTouch, strzyżenie, przedłużanie rzęs, makijaż. Ocena 5.0 na Booksy. Bezpłatna konsultacja i pasmo testowe.',
     eyebrow: 'Poznań · Jeżyce',
     h1a: 'Salon piękności', h1b: 'Glow', h1c: 'Poznaniu', 
-    lead: 'Koloryzacja AirTouch, strzyżenie, rzęsy i makijaż wykonane z precyzją. Zaczynamy od bezpłatnej konsultacji i pasma testowego — żeby efekt był dokładnie taki, jak chcesz.',
+    lead: 'Autorska koloryzacja AirTouch, strzyżenia, rzęsy, brwi i makijaż w sercu Jeżyc. Każda usługa zaczyna się od bezpłatnej konsultacji — dobieramy rozwiązanie właśnie dla Ciebie. 5.0 na Booksy, ponad 460 opinii.',
     topT: 'W czym jesteśmy najlepsi', 
     top: [
       { p: 'coloring', t: 'Koloryzacja AirTouch', d: 'Miękkie, naturalne przejścia koloru i jasny blond bez efektu odrostu. Technika, która wymaga doświadczenia — i ono widać na zdjęciach.', img: '/img/coloring/airtouch3_1x.webp' },
@@ -106,7 +106,7 @@ const ua: D = {
     meta: 'Салон GLOW Hair Atelier у Познані, район Єжице. Фарбування AirTouch, стрижки, нарощування вій, макіяж. Рейтинг 5.0 на Booksy. Безкоштовна консультація і тестове пасмо.',
     eyebrow: 'Познань · Єжице',
     h1a: 'Салон краси', h1b: 'Glow', h1c: 'Познані',
-    lead: 'Фарбування AirTouch, стрижки, вії та макіяж — з точністю до деталей. Починаємо з безкоштовної консультації та тестового пасма, щоб результат був саме таким, як ви хочете.',
+    lead: 'Авторське фарбування AirTouch, стрижки, вії, брови та макіяж у центрі Єжиць. Кожна послуга починається з безкоштовної консультації — підбираємо рішення саме під вас. 5.0 на Booksy, понад 460 відгуків.',
     topT: 'У чому ми найкращі',
     top: [
       { p: 'coloring', t: 'Фарбування AirTouch', d: 'М’які природні переходи кольору й чистий блонд без помітного відростання. Техніка, що потребує досвіду — і він видно на фото.', img: '/img/coloring/airtouch3_1x.webp' },
