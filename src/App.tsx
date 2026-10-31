@@ -194,7 +194,7 @@ function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
         <p className="rv mt-8 font-serif text-3xl"><a href={`tel:${tel}`}>{C.phone}</a></p>
         <p className="rv mt-1 text-sm"><a href={`mailto:${C.email}`} className="navl">{C.email}</a></p>
         <dl className="rv mt-8 border-t border-black/10 text-sm">{t.hours.map(([d, h]) => <div key={d} className="flex justify-between border-b border-black/10 py-3"><dt className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-black" />{d}</dt><dd className="text-[#8D8787]">{h}</dd></div>)}</dl>
-        <div className="rv mt-8 flex items-center justify-between gap-4"><Social /><Pill href={BOOKSY}>{DICT[lang].bookShort}</Pill></div>
+        <div className="rv mt-8 flex flex-wrap items-center justify-between gap-4"><Social /><Pill href={BOOKSY}>{DICT[lang].bookShort}</Pill></div>
       </div>
     </div>
   </section>;
@@ -418,7 +418,28 @@ function Footer({ lang }: { lang: Lang }) {
   </footer>;
 }
 
-export default function App({ lang, page }: { lang: Lang; page: Page }) {
+function NotFound({ lang }: { lang: Lang }) {
+  const ua = lang === 'ua';
+  return <section className="relative flex min-h-[78svh] items-center overflow-hidden bg-white px-5 pt-32 pb-20 md:px-10">
+    <div className="relative mx-auto w-full max-w-[1360px]">
+      <p className="fly mb-4 text-[11px] uppercase tracking-[0.3em] text-[#8D8787]">{ua ? 'Помилка 404' : 'Błąd 404'}</p>
+      <div aria-hidden className="fly font-serif text-[clamp(120px,26vw,340px)] leading-[0.85] tracking-tight" style={{ ['--d' as string]: '60ms' }}>4<em className="italic">0</em>4</div>
+      <h1 className="fly mt-6 max-w-3xl font-serif text-[34px] leading-[1.05] md:text-[56px]" style={{ ['--d' as string]: '160ms' }}>{ua ? 'Сторінку не знайдено' : 'Nie znaleziono strony'}</h1>
+      <p className="fly mt-5 max-w-xl text-[#8D8787]" style={{ ['--d' as string]: '240ms' }}>{ua ? 'Можливо, посилання застаріло або сторінку перенесено. Поверніться на головну або запишіться на візит.' : 'Link mógł się zdezaktualizować lub strona została przeniesiona. Wróć na stronę główną albo umów wizytę.'}</p>
+      <div className="fly mt-10 flex flex-wrap items-center gap-4" style={{ ['--d' as string]: '320ms' }}>
+        <Pill href={ua ? '/ua' : '/'}>{ua ? 'На головну' : 'Strona główna'}</Pill>
+        <a href={BOOKSY} target="_blank" rel="noopener" className="inline-flex items-center rounded-full border border-black/20 px-6 py-3.5 text-[13px] tracking-wide transition-colors hover:border-black">{DICT[lang].book}</a>
+      </div>
+    </div>
+  </section>;
+}
+export default function App({ lang, page, nf }: { lang: Lang; page: Page; nf?: boolean }) {
+  if (nf) return <>
+    <Header lang={lang} page={page} />
+    <main style={{ viewTransitionName: 'main' }}><NotFound lang={lang} /></main>
+    <Footer lang={lang} />
+    <div className="cursor" aria-hidden><span /></div>
+  </>;
   const body = page === 'home' ? <Home lang={lang} /> : page === 'kursy' ? <Kursy lang={lang} /> : page === 'praca' ? <Praca lang={lang} /> : page === 'contact' ? null : <Service lang={lang} p={page} />;
   return <>
     <Header lang={lang} page={page} />

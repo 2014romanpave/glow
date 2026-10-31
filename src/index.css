@@ -142,3 +142,5 @@ body:has(.lb) .cursor { display: none !important; }
 .grid > * { min-width: 0; }
 html, body { overflow-x: clip; max-width: 100%; }
 h1, h2, h3, p, dd, address { overflow-wrap: anywhere; }
+img.xfade { opacity: 0; transform: scale(1.04); transition: opacity 1s ease, transform 1.4s var(--ez); }
+img.xfade.go { opacity: 1; transform: scale(1); }

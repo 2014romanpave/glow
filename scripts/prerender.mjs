@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 const dist = path.resolve('dist');
-const { render, DICT, LANGS, HTML_LANG, SITE_URL, PAGES, C, RATING, BOOKSY, meta, path: p } = await import(pathToFileURL(path.resolve('dist-ssr/entry-server.js')).href);
+const { render, render404, DICT, LANGS, HTML_LANG, SITE_URL, PAGES, C, RATING, BOOKSY, meta, path: p } = await import(pathToFileURL(path.resolve('dist-ssr/entry-server.js')).href);
 const tpl = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
 const url = (l, pg) => SITE_URL + (p(l, pg) === '/' ? '/' : p(l, pg));
@@ -50,6 +50,9 @@ for (const l of LANGS) for (const pg of PAGES) {
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.html'), html);
 }
+{ const h = tpl.replace(/<title>.*?<\/title>/, '').replace('<!--head-->', `<title>Nie znaleziono strony — ${C.name}</title>\n    <meta name="robots" content="noindex, follow" />`)
+    .replace('<div id="root"><!--app--></div>', `<div id="root" data-ssr="1" data-nf="1">${render404('pl')}</div>`);
+  fs.writeFileSync(path.join(dist, '404.html'), h); }
 const today = new Date().toISOString().slice(0, 10);
 const urls = PAGES.flatMap((pg) => LANGS.map((l) => `  <url><loc>${url(l, pg)}</loc><lastmod>${today}</lastmod>${LANGS.map((a) => `<xhtml:link rel="alternate" hreflang="${HTML_LANG[a]}" href="${url(a, pg)}"/>`).join('')}<xhtml:link rel="alternate" hreflang="x-default" href="${url('pl', pg)}"/></url>`)).join('\n');
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}\n</urlset>\n`);

@@ -46,14 +46,14 @@ export function startFx() {
   const feat = document.querySelector<HTMLImageElement>('[data-feature]');
   let current = feat?.getAttribute('src') ?? '';
   let busy = false;
-  const swap = (src: string, btn: Element) => {
+  const swap = (src: string, btn: Element, soft = false) => {
     if (!feat || src === current || busy) return;
     document.querySelectorAll('.thumb.is-active').forEach((b) => b.classList.remove('is-active'));
     btn.classList.add('is-active');
     current = src;
     const box = feat.parentElement!;
     const img = new Image();
-    img.src = src; img.alt = feat.alt; img.className = 'absolute inset-0 h-full w-full object-cover incoming';
+    img.src = src; img.alt = feat.alt; img.className = 'absolute inset-0 h-full w-full object-cover ' + (soft ? 'xfade' : 'incoming');
     if (reduce) { feat.src = src; return; }
     busy = true;
     const go = () => { box.appendChild(img); requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add('go'))); setTimeout(() => { feat.src = src; img.remove(); busy = false; }, 950); };
@@ -64,6 +64,37 @@ export function startFx() {
     b.addEventListener('click', () => swap(b.dataset.swap!, b));
     if (fine) b.addEventListener('mouseenter', () => { clearTimeout(hoverT); hoverT = window.setTimeout(() => swap(b.dataset.swap!, b), 140); });
   });
+
+  // hero autoplay (home only)
+  const hero = document.querySelector<HTMLElement>('.hh');
+  if (hero && feat && !reduce) {
+    const vis = () => [...hero.querySelectorAll<HTMLElement>('[data-swap]')].filter((b) => b.offsetParent);
+    const srcs = () => { const seen: string[] = []; vis().forEach((b) => { if (!seen.includes(b.dataset.swap!)) seen.push(b.dataset.swap!); }); return seen; };
+    let pauseUntil = 0, onScreen = true, timer = 0;
+    const preload = (src?: string) => { if (src) { const i = new Image(); i.src = src; } };
+    const nextSrc = () => { const l = srcs(); const i = l.indexOf(current); return l[(i + 1) % l.length]; };
+    const tick = () => {
+      if (document.hidden || !onScreen || Date.now() < pauseUntil || busy) return;
+      const src = nextSrc(); if (!src) return;
+      const btn = vis().find((b) => b.dataset.swap === src)!;
+      swap(src, btn, true);
+      const strip = btn.closest('.hh-strip') as HTMLElement | null;
+      if (strip) strip.scrollTo({ left: btn.offsetLeft - strip.clientWidth / 2 + btn.clientWidth / 2, behavior: 'smooth' });
+      setTimeout(() => preload(nextSrc()), 1200);
+    };
+    const start = () => { clearInterval(timer); timer = window.setInterval(tick, 4000); };
+    preload(nextSrc()); start();
+    const pause = (ms: number) => { pauseUntil = Date.now() + ms; };
+    const grid = hero.querySelector('[data-magnet-area]');
+    if (fine && grid) {
+      grid.querySelectorAll('[data-swap]').forEach((b) => b.addEventListener('mouseenter', () => pause(1e9)));
+      grid.addEventListener('mouseleave', () => { pause(2000); start(); });
+    }
+    hero.querySelectorAll('[data-swap]').forEach((b) => b.addEventListener('click', () => { pause(6000); start(); }));
+    hero.querySelector('.hh-strip')?.addEventListener('touchstart', () => pause(6000), { passive: true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) start(); });
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; }, { threshold: 0.2 }).observe(hero);
+  }
 
   if (reduce) return;
 
