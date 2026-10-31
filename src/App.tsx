@@ -94,13 +94,16 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
   );
 }
 
+/* hand-tuned [width%, height%] per slot, anchored top-left (designer grid) */
+const LSZ: [number, number][] = [[68, 60], [70, 52], [64, 62], [84, 64], [64, 72], [86, 92], [68, 52], [86, 66], [72, 50]];
+const RSZ: [number, number][] = [[80, 66], [62, 86], [92, 92], [64, 62], [80, 54], [64, 40]];
 function HomeHero({ lang, imgs }: { lang: Lang; imgs: string[] }) {
   const t = DICT[lang]; const h = t.home;
   const see = lang === 'pl' ? 'Zobacz' : 'Дивитись';
-  const cell = (src: string, i: number) => (
-    <button key={src} className="thumb mg fly block overflow-hidden" data-swap={src} data-cursor={see} data-depth={(0.3 + (i % 4) * 0.2).toFixed(2)} style={{ ['--d' as string]: `${120 + i * 45}ms` }}>
+  const cell = (src: string, i: number) => { const z = i < 9 ? LSZ[i] : RSZ[i - 9]; return (
+    <button key={src} className="thumb mg fly block self-start justify-self-start overflow-hidden" data-swap={src} data-cursor={see} data-depth={(0.3 + (i % 4) * 0.2).toFixed(2)} style={{ width: `${z[0]}%`, height: `${z[1]}%`, ['--d' as string]: `${120 + i * 45}ms` }}>
       <img src={src} alt="" loading="eager" className="h-full w-full object-cover" />
-    </button>);
+    </button>); };
   const salon = h.h1a.split(' ')[0];
   return (
     <section className="hh relative" data-hero>

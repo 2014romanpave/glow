@@ -111,7 +111,7 @@ body:has(.lb) .cursor { display: none !important; }
 .hh-h1 { padding-top: 32px; margin-top: 10px; } .hh-info { padding-bottom: 40px; padding-top: 16px; }
 @media (min-width: 768px) {
   .hh {
-    --B: clamp(215px, 24svh, 260px); --g: 10px; --G: clamp(20px, 2vw, 36px);
+    --B: clamp(215px, 24svh, 260px); --g: clamp(14px, 1.4vw, 28px); --G: clamp(20px, 2vw, 36px);
     --F: min(28vw, 560px);
     --W: min(100vw, 1760px);
     --H: max(380px, calc(100svh - 104px - var(--B) - 20px));
