@@ -10,3 +10,4 @@ const page: Page = (PAGES as readonly string[]).includes(p) ? (p as Page) : 'hom
 const el = document.getElementById('root')!;
 const app = <StrictMode><App lang={lang} page={page} /></StrictMode>;
 if (el.dataset.ssr === '1') hydrateRoot(el, app); else createRoot(el).render(app);
+import('./fx').then((m) => m.startFx());

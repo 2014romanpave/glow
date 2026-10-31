@@ -2,158 +2,228 @@ import { useState, type ReactNode } from 'react';
 import { BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 
-const NAV: Page[] = ['coloring', 'haircuts', 'hairstyles', 'keratinbotox', 'makeup', 'brows', 'kursy', 'praca', 'contact'];
+const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'keratinbotox', 'kursy', 'praca'];
 const SVC = ['coloring', 'haircuts', 'hairstyles', 'keratinbotox', 'makeup', 'brows'] as const;
+const tel = C.phone.replace(/\s/g, '');
+const Arrow = () => <span aria-hidden className="ml-3 inline-block transition-transform group-hover:translate-x-1">→</span>;
 
-const Btn = ({ href, children, light }: { href: string; children: ReactNode; light?: boolean }) => (
-  <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener"
-    className={`inline-flex items-center gap-3 rounded-full px-7 py-4 text-sm uppercase tracking-[0.15em] transition ${light ? 'bg-white text-black hover:bg-neutral-200' : 'bg-black text-white hover:bg-neutral-800'}`}>
-    {children} <span aria-hidden>→</span>
-  </a>
+const Pill = ({ href, children, light }: { href: string; children: ReactNode; light?: boolean }) => (
+  <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-magnet
+    className={`group inline-flex items-center rounded-full px-6 py-3.5 text-[13px] tracking-wide transition-colors ${light ? 'bg-white text-black hover:bg-[#e9e9e9]' : 'bg-black text-white hover:bg-[#222]'}`}>{children}<Arrow /></a>
 );
-const H2 = ({ children, light }: { children: ReactNode; light?: boolean }) => (
-  <h2 className={`font-serif text-4xl md:text-6xl leading-[1.05] mb-10 ${light ? 'text-white' : ''}`}>{children}</h2>
-);
-const Sec = ({ children, dark, id }: { children: ReactNode; dark?: boolean; id?: string }) => (
-  <section id={id} className={`${dark ? 'bg-black text-white' : ''} px-5 md:px-12 py-20 md:py-28`}><div className="mx-auto max-w-6xl">{children}</div></section>
-);
-const Stars = () => <span className="tracking-[0.2em]">★★★★★</span>;
+const Stack = ({ a, b }: { a: string; b: string }) => <span className="inline-flex flex-col text-[11px] leading-[1.05] tracking-[0.12em] font-semibold"><span>{a}</span><span>{b}</span></span>;
+const Logo = ({ inv }: { inv?: boolean }) => <img src="/img/logo.svg" alt={C.name} width={48} height={53} className={`h-11 w-auto ${inv ? 'invert' : ''}`} />;
 
 function Header({ lang, page }: { lang: Lang; page: Page }) {
   const t = DICT[lang];
   const [open, setOpen] = useState(false);
   const other: Lang = lang === 'pl' ? 'ua' : 'pl';
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-black/10">
-      <div className="mx-auto max-w-6xl flex items-center justify-between px-5 md:px-12 h-16">
-        <a href={path(lang, 'home')} aria-label={C.name}><img src="/img/logo.svg" alt={C.name} className="h-8 w-auto" /></a>
-        <nav className="hidden xl:flex gap-5 whitespace-nowrap text-[12px] uppercase tracking-[0.12em]">
-          {NAV.map((p) => <a key={p} href={path(lang, p)} className={`hover:opacity-60 ${p === page ? 'underline underline-offset-8' : ''}`}>{t.nav[p as keyof typeof t.nav]}</a>)}
+    <header className="fixed inset-x-0 top-0 z-50 bg-[#F7F7F7]/85 backdrop-blur-md" style={{ viewTransitionName: 'hdr' }}>
+      <div className="mx-auto flex h-[72px] max-w-[1440px] items-center justify-between px-5 md:px-10">
+        <a href={path(lang, 'home')} aria-label={C.name}><Logo /></a>
+        <nav className="hidden xl:flex gap-7 text-[13px]">
+          {MENU.map((p) => <a key={p} href={path(lang, p)} className={`navl ${p === page ? 'is-on' : ''}`}>{t.nav[p as keyof typeof t.nav]}</a>)}
         </nav>
-        <div className="flex items-center gap-4">
-          <a href={path(other, page)} hrefLang={other === 'ua' ? 'uk' : 'pl'} className="text-xs uppercase tracking-widest border border-black/30 rounded-full px-3 py-1">{other === 'ua' ? 'UA' : 'PL'}</a>
-          <a href={BOOKSY} target="_blank" rel="noopener" className="hidden sm:inline-flex rounded-full bg-black text-white text-xs uppercase tracking-widest px-4 py-2">{t.bookShort}</a>
-          <button className="xl:hidden text-xs uppercase tracking-widest" onClick={() => setOpen(!open)} aria-expanded={open}>{open ? t.close : t.menu}</button>
+        <div className="flex items-center gap-5 text-[13px]">
+          <a href={path(other, page)} hrefLang={other === 'ua' ? 'uk' : 'pl'} className="text-[11px] tracking-[0.15em] text-[#8D8787] hover:text-black">{other === 'ua' ? 'UA' : 'PL'}</a>
+          <a href={path(lang, 'contact')} className="hidden xl:inline navl">◦ {t.nav.contact}</a>
+          <button className="xl:hidden" onClick={() => setOpen(true)} aria-label={t.menu}><Stack a="ME" b="NU" /></button>
         </div>
       </div>
-      {open && <nav className="xl:hidden border-t border-black/10 px-5 py-4 flex flex-col gap-3 text-lg font-serif">
-        {NAV.map((p) => <a key={p} href={path(lang, p)}>{t.nav[p as keyof typeof t.nav]}</a>)}
-        <a href={BOOKSY} className="mt-2 font-sans text-sm uppercase tracking-widest">{t.bookShort} →</a>
-      </nav>}
+      <div className={`mmenu xl:hidden fixed inset-0 z-50 bg-white flex flex-col ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+        <div className="flex h-[72px] items-center justify-between px-5"><Logo /><button onClick={() => setOpen(false)} aria-label={t.close}><Stack a="BA" b="CK" /></button></div>
+        <nav className="flex flex-1 flex-col items-center justify-center gap-4 font-serif text-3xl">
+          <a href={path(lang, 'home')}>Home</a>
+          {[...MENU, 'contact' as Page].map((p, i) => <a key={p} href={path(lang, p)} style={{ transitionDelay: `${80 + i * 40}ms` }}>{t.nav[p as keyof typeof t.nav]}</a>)}
+        </nav>
+        <div className="flex justify-between px-5 py-6 text-xs text-[#8D8787]"><a href={`tel:${tel}`}>{C.phone}</a><a href={path(other, page)}>{other.toUpperCase()}</a></div>
+      </div>
     </header>
   );
 }
 
-function Rating({ lang, light }: { lang: Lang; light?: boolean }) {
-  return <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" className={`inline-flex items-center gap-3 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.15em] ${light ? 'border-white/40' : 'border-black/30'}`}><Stars /> {DICT[lang].rating}</a>;
+/* scattered grid slots (x%, y%, size vw) — sparse asymmetric, around the centre feature */
+const SLOTS = [[3, 14, 5.2], [14, 30, 4.2], [6, 46, 4.6], [22, 10, 4.4], [27, 38, 5.6], [17, 56, 3.8], [66, 12, 4.6], [76, 32, 5.4], [88, 14, 4.2], [70, 50, 3.8], [91, 44, 5], [82, 58, 4]];
+
+function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h1: ReactNode; lead: string; scatter?: boolean }) {
+  const t = DICT[lang];
+  const pics = imgs.slice(0, 12);
+  return (
+    <section className="hero relative overflow-hidden" data-hero>
+      <div aria-hidden className="giant pointer-events-none absolute left-1/2 top-[8%] -translate-x-1/2 select-none font-serif leading-none text-[#ececec]" data-parallax="0.25">GLOW</div>
+      {/* scattered grid (desktop) */}
+      {scatter && <div className="absolute inset-0 hidden md:block" data-magnet-area>
+        {pics.map((s, i) => { const [x, y, w] = SLOTS[i % SLOTS.length]; return (
+          <button key={s} className="thumb fly absolute" data-swap={s} data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'} data-depth={(0.4 + (i % 4) * 0.25).toFixed(2)}
+            style={{ left: `${x}%`, top: `calc(72px + ${y * 0.62}%)`, width: `${w}vw`, ['--d' as string]: `${120 + i * 55}ms` }}>
+            <img src={s} alt="" loading={i < 6 ? 'eager' : 'lazy'} className="aspect-square w-full object-cover" />
+          </button>); })}
+      </div>}
+      {/* carousel row (service pages, and mobile on home) */}
+      <div className={`${scatter ? 'md:hidden' : ''} absolute inset-x-0 top-[84px] z-10`}>
+        <div className="drag flex gap-3 overflow-x-auto px-5 md:px-10 no-sb" data-drag data-cursor={lang === 'pl' ? 'Przeciągnij' : 'Тягніть'}>
+          {imgs.map((s, i) => <button key={s} className="thumb fly shrink-0" data-swap={s} style={{ ['--d' as string]: `${100 + Math.min(i, 10) * 50}ms` }}>
+            <img src={s} alt="" draggable={false} loading={i < 8 ? 'eager' : 'lazy'} className="h-16 w-16 md:h-20 md:w-20 object-cover" /></button>)}
+        </div>
+      </div>
+      {/* feature photo bridging the split */}
+      <div className="feature fly absolute left-1/2 z-20 -translate-x-1/2" style={{ ['--d' as string]: '80ms' }} data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
+        <div className="relative h-full w-full overflow-hidden">
+          <img data-feature src={imgs[0]} alt={typeof h1 === 'string' ? h1 : C.name} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" />
+        </div>
+      </div>
+      {/* bottom band, inverted */}
+      <div className="absolute inset-x-0 bottom-0 z-30 text-white">
+        <div className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-8 md:grid-cols-[1.2fr_1fr_auto] md:items-end md:px-10 md:pb-12">
+          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[40px] md:text-[64px] xl:text-[76px]" : "text-[34px] md:text-[44px] xl:text-[54px] md:max-w-[36vw]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
+          <p className="fly max-w-sm text-sm text-white/70 md:mb-3" style={{ ['--d' as string]: '360ms' }}>{lead}</p>
+          <div className="fly flex flex-wrap items-center gap-5 md:mb-2 md:flex-col md:items-end" style={{ ['--d' as string]: '440ms' }}>
+            <Pill href={BOOKSY} light>{t.bookShort}</Pill>
+            <a href={`tel:${tel}`} className="text-sm text-white/80 hover:text-white">{C.phone}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-function Gallery({ imgs, alt }: { imgs: string[]; alt: string }) {
-  return <div className="columns-2 md:columns-3 gap-3 [&>img]:mb-3">
-    {imgs.map((s, i) => <img key={s} src={s} alt={`${alt} — ${i + 1}`} loading="lazy" className="w-full break-inside-avoid grayscale-[15%] hover:grayscale-0 transition" />)}
-  </div>;
-}
+const Eyebrow = ({ children }: { children: ReactNode }) => <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-[#8D8787]">{children}</p>;
+const Sec = ({ children, dark, id, cls = '' }: { children: ReactNode; dark?: boolean; id?: string; cls?: string }) => (
+  <section id={id} className={`${dark ? 'bg-black text-white' : 'bg-[#F7F7F7]'} px-5 py-24 md:px-10 md:py-32 ${cls}`}><div className="mx-auto max-w-[1280px]">{children}</div></section>
+);
+const H2 = ({ children }: { children: ReactNode }) => <h2 className="rv font-serif text-[40px] leading-[1.05] md:text-[64px] mb-12">{children}</h2>;
+const Badge = ({ lang, light }: { lang: Lang; light?: boolean }) => (
+  <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" className={`inline-flex items-center gap-3 rounded-full border px-4 py-2 text-[11px] uppercase tracking-[0.18em] ${light ? 'border-white/30' : 'border-black/20'}`}><span className="tracking-[0.15em]">★★★★★</span>{DICT[lang].rating}</a>
+);
 
 function Reviews({ lang }: { lang: Lang }) {
   const t = DICT[lang].home;
-  return <Sec dark>
-    <div className="flex flex-wrap items-end justify-between gap-6 mb-10"><H2 light>{t.revT}</H2><Rating lang={lang} light /></div>
-    <div className="grid md:grid-cols-3 gap-6">
-      {REVIEWS.map((r) => <figure key={r.a + r.s} className="border border-white/20 p-6 flex flex-col justify-between">
-        <blockquote className="font-serif italic text-xl leading-snug">„{r.t}”</blockquote>
-        <figcaption className="mt-6 text-xs uppercase tracking-[0.15em] text-white/60"><Stars /><br />{r.a} · {r.s}{r.w && ` · ${r.w}`}</figcaption>
-      </figure>)}
+  const row = [...REVIEWS, ...REVIEWS];
+  return <section className="overflow-hidden bg-black py-24 text-white md:py-32">
+    <div className="mx-auto mb-12 flex max-w-[1280px] flex-wrap items-end justify-between gap-6 px-5 md:px-10">
+      <h2 className="rv font-serif text-[40px] leading-none md:text-[64px]">{t.revT}</h2>
+      <div className="rv flex flex-col items-start gap-3 md:items-end"><span className="font-serif text-6xl">5.0<span className="ml-2 text-2xl align-top">★</span></span><Badge lang={lang} light /></div>
     </div>
-    <div className="mt-10 flex flex-wrap gap-6 text-sm uppercase tracking-[0.15em]">
-      <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" className="underline underline-offset-8">{t.revAll} →</a>
-      {/* TODO: Google Business Profile — wstawić link i opinie Google, gdy profil powstanie (C.gbp) */}
-      {C.gbp ? <a href={C.gbp} className="underline underline-offset-8">Google →</a> : <span className="text-white/40">{t.revG}</span>}
+    <div className="marquee" data-cursor={lang === 'pl' ? 'Opinie' : 'Відгуки'}>
+      <div className="marquee-track">
+        {row.map((r, i) => <figure key={i} aria-hidden={i >= REVIEWS.length} className="w-[320px] shrink-0 border border-white/15 p-7 md:w-[400px]">
+          <p className="mb-5 text-xs tracking-[0.2em]">★★★★★</p>
+          <blockquote className="font-serif text-xl italic leading-snug">„{r.t}”</blockquote>
+          <figcaption className="mt-6 text-[11px] uppercase tracking-[0.18em] text-white/50">{r.a} · {r.s}{r.w && ` · ${r.w}`}</figcaption>
+        </figure>)}
+      </div>
     </div>
-  </Sec>;
+    <div className="mx-auto mt-10 flex max-w-[1280px] flex-wrap gap-6 px-5 text-[13px] md:px-10">
+      <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" className="navl">{t.revAll} →</a>
+      {/* TODO: Google Business Profile — link i opinie Google, gdy profil powstanie (C.gbp) */}
+      {C.gbp ? <a href={C.gbp} className="navl">Google →</a> : <span className="text-white/40">{t.revG}</span>}
+    </div>
+  </section>;
 }
+
+const Social = () => <div className="flex gap-3">
+  <a href={C.instagram} target="_blank" rel="noopener" aria-label="Instagram" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" /></svg></a>
+  <a href={BOOKSY_PROFILE} target="_blank" rel="noopener" aria-label="Booksy" className="ico text-[11px] font-bold">B</a>
+  <a href={`tel:${tel}`} aria-label="Telefon" className="ico"><svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z" /></svg></a>
+</div>;
 
 function Contacts({ lang, h1 }: { lang: Lang; h1?: boolean }) {
   const t = DICT[lang].contact;
   const H = h1 ? 'h1' : 'h2';
-  return <Sec id="kontakt">
-    <div className="grid md:grid-cols-2 gap-12">
-      <div>
-        <H className="font-serif text-4xl md:text-6xl mb-8">{t.h1}</H>
-        <address className="not-italic text-lg leading-relaxed">{C.name}<br />{C.street}, {C.zip} {C.city}, {C.district}</address>
-        <p className="mt-4 text-lg"><a href={`tel:${C.phone.replace(/\s/g, '')}`}>{C.phone}</a><br /><a href={`mailto:${C.email}`}>{C.email}</a><br /><a href={C.instagram} target="_blank" rel="noopener">Instagram @glow.poznan</a></p>
-        <div className="mt-8 flex flex-wrap gap-4"><Btn href={BOOKSY}>{DICT[lang].bookShort}</Btn><a href={C.maps} target="_blank" rel="noopener" className="self-center underline underline-offset-8 text-sm uppercase tracking-[0.15em]">{t.route}</a></div>
+  const intro = lang === 'pl' ? 'Cenisz profesjonalizm i najwyższą jakość? W Glow zadbasz o siebie i znajdziesz chwilę relaksu w codziennym biegu.' : 'Цінуєте професіоналізм і найвищу якість? У Glow ви подбаєте про себе і знайдете хвилину відпочинку серед щоденного поспіху.';
+  return <section id="kontakt" className={`bg-white px-5 md:px-10 ${h1 ? 'pt-28 pb-20' : 'py-24 md:py-32'}`}>
+    <div className="mx-auto grid max-w-[1280px] gap-10 md:grid-cols-2 md:gap-16">
+      <div className="rv order-2 md:order-1 flex flex-col">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#1a1b1f] md:aspect-auto md:flex-1 md:min-h-[440px]">
+          <iframe title="Mapa" loading="lazy" className="absolute inset-0 h-full w-full border-0 map-dark" src={`https://maps.google.com/maps?q=${encodeURIComponent(`${C.street}, ${C.zip} ${C.city}`)}&z=16&output=embed`} />
+        </div>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+          <address className="not-italic text-sm">{C.street}, {C.zip} {C.city}, {C.district}</address>
+          <Pill href={C.maps}>{t.route}</Pill>
+        </div>
       </div>
+      <div className="order-1 md:order-2">
+        <H className="rv font-serif text-[44px] leading-none md:text-[64px]">{C.name}</H>
+        <p className="rv mt-5 max-w-md text-sm text-[#8D8787]">{intro}</p>
+        <p className="rv mt-8 font-serif text-3xl"><a href={`tel:${tel}`}>{C.phone}</a></p>
+        <p className="rv mt-1 text-sm"><a href={`mailto:${C.email}`} className="navl">{C.email}</a></p>
+        <dl className="rv mt-8 border-t border-black/10 text-sm">{t.hours.map(([d, h]) => <div key={d} className="flex justify-between border-b border-black/10 py-3"><dt className="flex items-center gap-3"><span className="h-1.5 w-1.5 rounded-full bg-black" />{d}</dt><dd className="text-[#8D8787]">{h}</dd></div>)}</dl>
+        <div className="rv mt-8 flex items-center justify-between gap-4"><Social /><Pill href={BOOKSY}>{DICT[lang].bookShort}</Pill></div>
+      </div>
+    </div>
+  </section>;
+}
+
+function Consult({ lang }: { lang: Lang }) {
+  const t = DICT[lang].home;
+  return <Sec dark>
+    <div className="grid gap-12 md:grid-cols-2 md:items-center">
+      <div><Eyebrow>{lang === 'pl' ? 'Konsultacja' : 'Консультація'}</Eyebrow><H2>{t.whyT}</H2><p className="rv text-lg leading-relaxed text-white/70">{t.why}</p></div>
       <div>
-        <h3 className="text-xs uppercase tracking-[0.2em] mb-4">{t.hoursT}</h3>
-        <dl className="divide-y divide-black/10 border-y border-black/10">{t.hours.map(([d, h]) => <div key={d} className="flex justify-between py-3"><dt>{d}</dt><dd>{h}</dd></div>)}</dl>
-        <iframe title="Mapa" loading="lazy" className="mt-8 w-full h-64 grayscale border-0" src={`https://maps.google.com/maps?q=${encodeURIComponent(`${C.street}, ${C.zip} ${C.city}`)}&z=16&output=embed`} />
+        <ol className="mb-10">{t.whySteps.map((s, i) => <li key={s} className="rv flex items-baseline gap-6 border-b border-white/15 py-5"><span className="font-serif text-4xl italic text-white/40">0{i + 1}</span><span className="text-lg">{s}</span></li>)}</ol>
+        <div className="rv"><Pill href={BOOKSY} light>{DICT[lang].book}</Pill></div>
       </div>
     </div>
   </Sec>;
 }
 
-function CTA({ lang }: { lang: Lang }) {
-  const t = DICT[lang].home;
-  return <Sec dark>
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      <div><H2 light>{t.whyT}</H2><p className="text-lg text-white/80 leading-relaxed">{t.why}</p></div>
-      <div>
-        <ol className="space-y-4 mb-10">{t.whySteps.map((s, i) => <li key={s} className="flex gap-5 items-baseline border-b border-white/20 pb-4"><span className="font-serif italic text-3xl">0{i + 1}</span><span className="text-lg">{s}</span></li>)}</ol>
-        <Btn href={BOOKSY} light>{DICT[lang].book}</Btn>
-      </div>
-    </div>
-  </Sec>;
+function Gallery({ imgs, alt, lang }: { imgs: string[]; alt: string; lang: Lang }) {
+  return <div className="columns-2 gap-3 md:columns-4 [&>figure]:mb-3">
+    {imgs.map((s, i) => <figure key={s} className="rv reveal-img overflow-hidden break-inside-avoid" data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
+      <img src={s} alt={`${alt} — ${i + 1}`} loading="lazy" className="w-full transition duration-700 hover:scale-[1.04]" /></figure>)}
+  </div>;
 }
+
+const Placeholder = ({ ch }: { ch: string }) => (
+  /* TODO Roman: podmienić na zdjęcie (public/img/team/) */
+  <div className="flex aspect-[3/4] items-center justify-center bg-[#ececec]"><span className="font-serif text-7xl italic text-[#8D8787]">{ch}</span></div>
+);
 
 function Home({ lang }: { lang: Lang }) {
   const t = DICT[lang]; const h = t.home;
+  const heroImgs = [GAL.coloring[0], GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11]];
   return <>
-    <section className="relative min-h-[88vh] flex items-end overflow-hidden bg-black text-white">
-      <img src="/img/coloring/airtouch.webp" alt={t.svc.coloring.alt} className="absolute inset-0 h-full w-full object-cover opacity-60" fetchPriority="high" />
-      <div className="relative mx-auto max-w-6xl w-full px-5 md:px-12 pb-16 pt-32">
-        <p className="font-serif italic text-2xl md:text-3xl mb-3">{h.eyebrow}</p>
-        <h1 className="font-serif text-5xl md:text-8xl leading-[0.95]"><em>{h.h1a}</em> {h.h1b}<br />{h.h1c}</h1>
-        <p className="mt-6 max-w-xl text-lg text-white/85">{h.lead}</p>
-        <div className="mt-8 flex flex-wrap items-center gap-5"><Btn href={BOOKSY} light>{t.book}</Btn><Rating lang={lang} light /></div>
-      </div>
-    </section>
+    <Hero lang={lang} scatter imgs={heroImgs} lead={h.lead}
+      h1={<><em className="italic">{h.h1a.split(' ')[0]}</em> {h.h1a.split(' ').slice(1).join(' ')}<br />{h.h1b} <em className="text-[0.55em] italic">{lang === 'pl' ? 'w' : 'у'}</em> {h.h1c}</>} />
     <Sec>
-      <H2><em>{h.topT}</em></H2>
-      <div className="grid md:grid-cols-3 gap-8">
-        {h.top.map((s) => <a key={s.p} href={path(lang, s.p as Page)} className="group">
-          <div className="overflow-hidden aspect-[4/5]"><img src={s.img} alt={s.t} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-105" /></div>
-          <h3 className="font-serif text-3xl mt-5">{s.t}</h3><p className="mt-3 text-neutral-600">{s.d}</p>
-          <span className="mt-4 inline-block text-xs uppercase tracking-[0.2em] underline underline-offset-8">{t.more} →</span>
+      <div className="mb-14 flex flex-wrap items-end justify-between gap-6"><div><Eyebrow>{h.eyebrow}</Eyebrow><H2><em>{h.topT}</em></H2></div><div className="rv"><Badge lang={lang} /></div></div>
+      <div className="grid gap-10 md:grid-cols-3">
+        {h.top.map((s, i) => <a key={s.p} href={path(lang, s.p as Page)} className="rv group" style={{ ['--d' as string]: `${i * 120}ms` }} data-cursor={t.more}>
+          <div className="reveal-img aspect-[4/5] overflow-hidden"><img src={s.img} alt={s.t} loading="lazy" className="h-full w-full object-cover transition duration-[1.2s] ease-out group-hover:scale-105" /></div>
+          <div className="mt-6 flex items-baseline justify-between"><h3 className="font-serif text-3xl">{s.t}</h3><span className="font-serif italic text-[#8D8787]">0{i + 1}</span></div>
+          <p className="mt-3 text-sm leading-relaxed text-[#8D8787]">{s.d}</p>
+          <span className="navl mt-5 inline-block text-[13px]">{t.more} →</span>
         </a>)}
       </div>
     </Sec>
-    <CTA lang={lang} />
+    <Consult lang={lang} />
     <Sec>
-      <H2>{h.teamT}</H2>
-      <div className="grid md:grid-cols-2 gap-10">
-        {h.team.map((m) => <div key={m.n} className="grid grid-cols-[140px_1fr] md:grid-cols-[200px_1fr] gap-6 items-center">
-          {/* TODO Roman: podmienić placeholder na zdjęcie mistrzyni (public/img/team/) */}
-          <div className="aspect-[3/4] bg-neutral-100 border border-black/10 flex items-center justify-center text-center p-3"><span className="font-script text-5xl">{m.n[0]}</span></div>
-          <div><h3 className="font-serif text-4xl">{m.n}</h3><p className="mt-2 text-xs uppercase tracking-[0.15em] text-neutral-500">{m.r}</p><p className="mt-4 text-neutral-700">{m.d}</p></div>
+      <Eyebrow>GLOW Hair Atelier</Eyebrow><H2>{h.teamT}</H2>
+      <div className="grid gap-12 md:grid-cols-2">
+        {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-end gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
+          <Placeholder ch={m.n[0]} />
+          <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p></div>
         </div>)}
       </div>
     </Sec>
     <Reviews lang={lang} />
     <Sec>
-      <H2>{h.galT}</H2>
-      <Gallery imgs={[GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[9], GAL.hairstyles[6]]} alt="GLOW Hair Atelier Poznań" />
-      <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm uppercase tracking-[0.15em]">{SVC.map((p) => <a key={p} href={path(lang, p)} className="underline underline-offset-8">{t.nav[p]}</a>)}</div>
+      <div className="flex flex-wrap items-end justify-between gap-6"><H2>{h.galT}</H2>
+        <div className="rv mb-12 flex flex-wrap gap-x-6 gap-y-2 text-[13px]">{SVC.map((p) => <a key={p} href={path(lang, p)} className="navl">{t.nav[p]}</a>)}</div></div>
+      <Gallery lang={lang} alt="GLOW Hair Atelier Poznań" imgs={[GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8]]} />
     </Sec>
     <Sec dark>
-      <div className="grid md:grid-cols-2 gap-10">
+      <div className="grid gap-16 md:grid-cols-2">
         <div>
-          <p className="font-serif italic text-2xl mb-2">{h.kursSoon}</p><H2 light>{h.kursT}</H2>
-          <ul className="space-y-3">{t.kursy.list.map((k) => <li key={k.t} className="flex justify-between border-b border-white/20 pb-3"><span className="font-serif text-2xl">{k.t}</span><span className="text-xs uppercase tracking-widest text-white/60 self-center">{k.s}</span></li>)}</ul>
-          <div className="mt-8"><Btn href={path(lang, 'kursy')} light>{t.more}</Btn></div>
+          <Eyebrow>{h.kursSoon}</Eyebrow><H2>{h.kursT}</H2>
+          <ul>{t.kursy.list.map((k) => <li key={k.t} className="rv flex items-baseline justify-between gap-4 border-b border-white/15 py-4"><span className="font-serif text-2xl md:text-3xl">{k.t}</span><span className="text-[11px] uppercase tracking-[0.18em] text-white/50">{k.s}</span></li>)}</ul>
+          <div className="rv mt-10"><Pill href={path(lang, 'kursy')} light>{t.more}</Pill></div>
         </div>
-        <div className="border border-white/30 p-8 self-start">
-          <H2 light>{h.vacT}</H2><p className="text-white/80 text-lg">{h.vacD}</p>
-          <div className="mt-8"><Btn href={path(lang, 'praca')} light>{h.vacCta}</Btn></div>
+        <div className="rv self-start border border-white/20 p-8 md:p-12">
+          <Eyebrow>{t.nav.praca}</Eyebrow>
+          <h2 className="font-serif text-4xl leading-tight md:text-5xl">{h.vacT}</h2><p className="mt-5 text-white/70">{h.vacD}</p>
+          <div className="mt-10"><Pill href={path(lang, 'praca')} light>{h.vacCta}</Pill></div>
         </div>
       </div>
     </Sec>
@@ -162,77 +232,92 @@ function Home({ lang }: { lang: Lang }) {
 
 function Service({ lang, p }: { lang: Lang; p: (typeof SVC)[number] }) {
   const s = DICT[lang].svc[p];
+  const imgs = GAL[s.dir];
   return <>
+    <Hero lang={lang} imgs={imgs} h1={s.h1} lead={s.lead} />
     <Sec>
-      <div className="grid md:grid-cols-2 gap-10 items-end">
-        <div><Rating lang={lang} /><h1 className="font-serif text-5xl md:text-7xl mt-6 leading-[1]">{s.h1}</h1></div>
-        <div><p className="text-lg text-neutral-700">{s.lead}</p>
-          <ul className="mt-6 space-y-2">{s.points.map((x) => <li key={x} className="border-b border-black/10 pb-2">— {x}</li>)}</ul>
-          <div className="mt-8"><Btn href={BOOKSY}>{DICT[lang].book}</Btn></div></div>
+      <div className="grid gap-12 md:grid-cols-2">
+        <div><Eyebrow>GLOW Hair Atelier · Poznań</Eyebrow><p className="rv font-serif text-3xl leading-snug md:text-4xl">{s.lead}</p><div className="rv mt-8"><Badge lang={lang} /></div></div>
+        <ul>{s.points.map((x, i) => <li key={x} className="rv flex items-baseline gap-6 border-b border-black/10 py-5" style={{ ['--d' as string]: `${i * 80}ms` }}><span className="font-serif italic text-[#8D8787]">0{i + 1}</span><span className="text-lg">{x}</span></li>)}
+          <li className="rv pt-8"><Pill href={BOOKSY}>{DICT[lang].book}</Pill></li></ul>
       </div>
     </Sec>
-    <section className="px-5 md:px-12 pb-20"><div className="mx-auto max-w-6xl"><Gallery imgs={GAL[s.dir]} alt={s.alt} /></div></section>
-    <CTA lang={lang} />
+    <Sec cls="!pt-0"><Gallery lang={lang} imgs={imgs} alt={s.alt} /></Sec>
+    <Consult lang={lang} />
   </>;
+}
+
+const Apply = ({ light }: { light?: boolean }) => <div className="mt-8 flex flex-wrap items-center gap-4">
+  <Pill href={C.instagram} light={light}>Instagram</Pill>
+  <a href={`tel:${tel}`} className="rounded-full border border-current px-6 py-3.5 text-[13px]">{C.phone}</a>
+  <a href={`mailto:${C.email}`} className="rounded-full border border-current px-6 py-3.5 text-[13px]">{C.email}</a>
+</div>;
+
+function PageHead({ eyebrow, h1, lead }: { eyebrow: string; h1: string; lead: string }) {
+  return <section className="relative overflow-hidden bg-[#F7F7F7] px-5 pt-40 pb-20 md:px-10">
+    <div aria-hidden className="giant pointer-events-none absolute -right-[5vw] top-16 select-none font-serif leading-none text-[#ececec]" data-parallax="0.2">GLOW</div>
+    <div className="relative mx-auto max-w-[1280px]">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h1 className="fly max-w-4xl font-serif text-[44px] leading-[1.02] md:text-[80px]" style={{ ['--d' as string]: '120ms' }}>{h1}</h1>
+      <p className="fly mt-8 max-w-2xl text-lg text-[#8D8787]" style={{ ['--d' as string]: '240ms' }}>{lead}</p>
+    </div>
+  </section>;
 }
 
 function Kursy({ lang }: { lang: Lang }) {
   const k = DICT[lang].kursy;
-  return <Sec>
-    <p className="font-script text-4xl">GLOW Academy</p>
-    <h1 className="font-serif text-5xl md:text-7xl mt-2 leading-[1]">{k.h1}</h1>
-    <p className="mt-6 max-w-2xl text-lg text-neutral-700">{k.lead}</p>
-    <div className="mt-14 grid md:grid-cols-3 gap-6">{k.list.map((c, i) => <div key={c.t} className={`p-8 border ${i === 0 ? 'bg-black text-white border-black' : 'border-black/15'}`}>
-      <p className="text-xs uppercase tracking-[0.2em] opacity-70">{c.s}</p><h2 className="font-serif text-3xl mt-3">{c.t}</h2><p className="mt-4 opacity-80">{c.d}</p></div>)}</div>
-    <div className="mt-16 grid md:grid-cols-[200px_1fr] gap-8 items-center">
-      {/* TODO Roman: zdjęcie Oli */}
-      <div className="aspect-[3/4] bg-neutral-100 border border-black/10 flex items-center justify-center"><span className="font-script text-6xl">O</span></div>
-      <div><h2 className="font-serif text-4xl">{k.bioT}</h2><p className="mt-4 text-neutral-600">{k.bio}</p></div>
-    </div>
-    <div className="mt-16 border-t border-black/10 pt-12"><h2 className="font-serif text-4xl">{k.waitT}</h2><p className="mt-4 max-w-2xl text-neutral-700">{k.wait}</p><Apply /></div>
-  </Sec>;
+  return <>
+    <PageHead eyebrow="GLOW Academy" h1={k.h1} lead={k.lead} />
+    <Sec>
+      <div className="grid gap-4 md:grid-cols-3">{k.list.map((c, i) => <div key={c.t} className={`rv p-8 md:p-10 ${i === 0 ? 'bg-black text-white' : 'border border-black/10 bg-white'}`} style={{ ['--d' as string]: `${i * 120}ms` }}>
+        <p className="text-[11px] uppercase tracking-[0.2em] opacity-60">{c.s}</p><h2 className="mt-4 font-serif text-3xl">{c.t}</h2><p className="mt-4 text-sm leading-relaxed opacity-75">{c.d}</p></div>)}</div>
+      <div className="mt-24 grid items-end gap-10 md:grid-cols-[260px_1fr]">
+        <div className="rv"><Placeholder ch="O" /></div>
+        <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
+      </div>
+    </Sec>
+    <Sec dark><H2>{k.waitT}</H2><p className="rv max-w-2xl text-white/70">{k.wait}</p><div className="rv"><Apply light /></div></Sec>
+  </>;
 }
-
-const Apply = () => <div className="mt-8 flex flex-wrap gap-4">
-  <Btn href={C.instagram}>Instagram</Btn>
-  <a href={`tel:${C.phone.replace(/\s/g, '')}`} className="rounded-full border border-black px-7 py-4 text-sm uppercase tracking-[0.15em]">{C.phone}</a>
-  <a href={`mailto:${C.email}`} className="rounded-full border border-black px-7 py-4 text-sm tracking-[0.05em]">{C.email}</a>
-</div>;
 
 function Praca({ lang }: { lang: Lang }) {
   const v = DICT[lang].praca;
-  return <Sec>
-    <Rating lang={lang} />
-    <h1 className="font-serif text-5xl md:text-7xl mt-6 leading-[1]">{v.h1}</h1>
-    <p className="mt-6 max-w-2xl text-lg text-neutral-700">{v.lead}</p>
-    <div className="mt-14 grid md:grid-cols-2 gap-10">
-      {[[v.offerT, v.offer], [v.needT, v.need]].map(([h, l]) => <div key={h as string}><h2 className="font-serif text-3xl mb-4">{h as string}</h2><ul className="space-y-2">{(l as string[]).map((x) => <li key={x} className="border-b border-black/10 pb-2">— {x}</li>)}</ul></div>)}
-    </div>
-    <div className="mt-14"><h2 className="font-serif text-3xl">{v.applyT}</h2><p className="mt-3 text-neutral-700">{v.apply}</p><Apply /></div>
-  </Sec>;
+  return <>
+    <PageHead eyebrow={DICT[lang].nav.praca} h1={v.h1} lead={v.lead} />
+    <Sec>
+      <div className="grid gap-16 md:grid-cols-2">
+        {([[v.offerT, v.offer], [v.needT, v.need]] as [string, string[]][]).map(([h, l]) => <div key={h}><h2 className="rv mb-6 font-serif text-4xl">{h}</h2>
+          <ul>{l.map((x, i) => <li key={x} className="rv flex gap-5 border-b border-black/10 py-4"><span className="font-serif italic text-[#8D8787]">0{i + 1}</span>{x}</li>)}</ul></div>)}
+      </div>
+    </Sec>
+    <Sec dark><H2>{v.applyT}</H2><p className="rv text-white/70">{v.apply}</p><div className="rv"><Apply light /></div></Sec>
+  </>;
 }
 
 function Footer({ lang }: { lang: Lang }) {
   const t = DICT[lang];
-  return <footer className="bg-black text-white/70 px-5 md:px-12 py-12 text-sm">
-    <div className="mx-auto max-w-6xl flex flex-wrap justify-between gap-6">
-      <div><p className="font-serif text-2xl text-white">{C.name}</p><p className="mt-2">{C.street}, {C.zip} {C.city} · {C.phone}</p></div>
-      <nav className="flex flex-wrap gap-x-5 gap-y-2">{NAV.map((p) => <a key={p} href={path(lang, p)} className="hover:text-white">{t.nav[p as keyof typeof t.nav]}</a>)}</nav>
-    </div>
-    <div className="mx-auto max-w-6xl mt-10 flex flex-wrap justify-between gap-4 text-xs">
-      <span>© {new Date().getFullYear()} {C.name}. {t.footer.rights}</span>
-      <a href="https://pavelroman.com" target="_blank" rel="noopener" className="hover:text-white">{t.footer.design}</a>
+  return <footer className="bg-black px-5 pt-20 pb-8 text-white/60 md:px-10">
+    <div className="mx-auto max-w-[1280px]">
+      <div aria-hidden className="mb-14 select-none font-serif text-[22vw] leading-[0.8] text-white/[0.06] md:text-[16vw]" data-parallax="-0.08">GLOW</div>
+      <div className="flex flex-wrap justify-between gap-10 text-sm">
+        <div><Logo inv /><p className="mt-4">{C.street}, {C.zip} {C.city}</p><p><a href={`tel:${tel}`} className="hover:text-white">{C.phone}</a></p></div>
+        <nav className="grid grid-cols-2 gap-x-10 gap-y-2">{[...MENU, 'contact' as Page].map((p) => <a key={p} href={path(lang, p)} className="hover:text-white">{t.nav[p as keyof typeof t.nav]}</a>)}</nav>
+      </div>
+      <div className="mt-14 flex flex-wrap justify-between gap-4 border-t border-white/10 pt-6 text-xs">
+        <span>© 2026 {C.name}. {t.footer.rights}</span>
+        <a href="https://pavelroman.com" target="_blank" rel="noopener" className="hover:text-white">{t.footer.design}</a>
+      </div>
     </div>
   </footer>;
 }
 
 export default function App({ lang, page }: { lang: Lang; page: Page }) {
-  const body = page === 'home' ? <Home lang={lang} /> : page === 'kursy' ? <Kursy lang={lang} /> : page === 'praca' ? <Praca lang={lang} />
-    : page === 'contact' ? null : <Service lang={lang} p={page} />;
+  const body = page === 'home' ? <Home lang={lang} /> : page === 'kursy' ? <Kursy lang={lang} /> : page === 'praca' ? <Praca lang={lang} /> : page === 'contact' ? null : <Service lang={lang} p={page} />;
   return <>
     <Header lang={lang} page={page} />
-    <main>{body}{page !== 'contact' && page !== 'home' ? null : null}<Contacts lang={lang} h1={page === 'contact'} /></main>
+    <main style={{ viewTransitionName: 'main' }}>{body}<Contacts lang={lang} h1={page === 'contact'} /></main>
     <Footer lang={lang} />
+    <div className="cursor" aria-hidden><span /></div>
   </>;
 }
 export { PAGES };
