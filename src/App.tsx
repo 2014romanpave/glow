@@ -36,7 +36,7 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
     </header>
     <div className={`mshade xl:hidden ${open ? 'is-open' : ''}`} onClick={close} aria-hidden />
     <aside className={`mpanel xl:hidden ${open ? 'is-open' : ''}`} aria-hidden={!open} aria-label={t.menu}>
-      <div className="flex h-[72px] items-center justify-between px-6 border-b border-black/10"><Logo /><button onClick={close} aria-label={t.close}><Stack a="BA" b="CK" /></button></div>
+      <div className="flex h-[72px] items-center justify-between px-6 border-b border-black/10"><a href={path(lang, 'home')} onClick={close} aria-label={C.name}><Logo /></a><button onClick={close} aria-label={t.close}><Stack a="BA" b="CK" /></button></div>
       <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-6 py-8 font-serif text-[28px] leading-tight">
         <a href={path(lang, 'home')} onClick={close} className={page === 'home' ? 'italic' : ''}>Home</a>
         {[...MENU, 'contact' as Page].map((p, i) => <a key={p} href={path(lang, p)} onClick={close} className={`py-1 ${p === page ? 'italic' : ''}`} style={{ transitionDelay: `${60 + i * 35}ms` }}>{t.nav[p as keyof typeof t.nav]}</a>)}
@@ -50,7 +50,7 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
 }
 
 /* scattered grid slots (x%, y%, size vw) — sparse asymmetric, around the centre feature */
-const SLOTS = [[3, 14, 5.2], [14, 30, 4.2], [6, 46, 4.6], [22, 10, 4.4], [27, 38, 5.6], [17, 56, 3.8], [66, 12, 4.6], [76, 32, 5.4], [88, 14, 4.2], [70, 50, 3.8], [91, 44, 5], [82, 58, 4]];
+const SLOTS = [[3, 14, 5.2], [13, 30, 4.2], [5, 46, 4.6], [20, 8, 4.4], [24, 36, 5.2], [15, 56, 3.8], [71, 10, 4.6], [79, 30, 5.2], [89, 12, 4.2], [72, 50, 3.8], [91, 44, 5], [83, 58, 4]];
 
 function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h1: ReactNode; lead: string; scatter?: boolean }) {
   const t = DICT[lang];
@@ -81,8 +81,8 @@ function Hero({ lang, imgs, h1, lead, scatter }: { lang: Lang; imgs: string[]; h
       </div>
       {/* bottom band, inverted */}
       <div className="absolute inset-x-0 bottom-0 z-30 text-white">
-        <div className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-8 md:grid-cols-[1.2fr_1fr_auto] md:items-end md:px-10 md:pb-12">
-          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[40px] md:text-[64px] xl:text-[76px]" : "text-[34px] md:text-[44px] xl:text-[54px] md:max-w-[36vw]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
+        <div className="mx-auto grid max-w-[1440px] gap-6 px-5 pb-8 band md:items-end md:px-10 md:pb-12">
+          <h1 className={`fly font-serif leading-[1.02] ${scatter ? "text-[40px] md:text-[3.8vw]" : "text-[34px] md:text-[3vw]"}`} style={{ ['--d' as string]: '260ms' }}>{h1}</h1>
           <p className="fly max-w-sm text-sm text-white/70 md:mb-3" style={{ ['--d' as string]: '360ms' }}>{lead}</p>
           <div className="fly flex flex-wrap items-center gap-5 md:mb-2 md:flex-col md:items-end" style={{ ['--d' as string]: '440ms' }}>
             <Pill href={BOOKSY} light>{t.bookShort}</Pill>
@@ -348,7 +348,7 @@ function Footer({ lang }: { lang: Lang }) {
     <div className="mx-auto max-w-[1280px]">
       <div aria-hidden className="mb-14 select-none font-serif text-[22vw] leading-[0.8] text-white/[0.06] md:text-[16vw]" data-parallax="-0.08">GLOW</div>
       <div className="flex flex-wrap justify-between gap-10 text-sm">
-        <div><Logo inv /><p className="mt-4">{C.street}, {C.zip} {C.city}</p><p><a href={`tel:${tel}`} className="hover:text-white">{C.phone}</a></p></div>
+        <div><a href={path(lang, 'home')} aria-label={C.name} className="inline-block"><Logo inv /></a><p className="mt-4">{C.street}, {C.zip} {C.city}</p><p><a href={`tel:${tel}`} className="hover:text-white">{C.phone}</a></p></div>
         <nav className="grid grid-cols-2 gap-x-10 gap-y-2">{[...MENU, 'contact' as Page].map((p) => <a key={p} href={path(lang, p)} className="hover:text-white">{t.nav[p as keyof typeof t.nav]}</a>)}</nav>
       </div>
       <div className="mt-14 flex flex-wrap justify-between gap-4 border-t border-white/10 pt-6 text-xs">

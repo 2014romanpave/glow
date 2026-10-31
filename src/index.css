@@ -26,8 +26,13 @@ em { font-style: italic; }
 .feature { top: 176px; width: 62vw; aspect-ratio: 3/4; }
 @media (min-width: 768px) {
   .hero { min-height: 720px; background: linear-gradient(#F7F7F7 0 60%, #000 60%); }
-  .feature { width: min(25vw, 380px); top: 168px; }
-  .hero:has([data-magnet-area]) .feature { top: calc(72px + 5vh); }
+  .hero { --fw: clamp(380px, 34vw, 600px); }
+  .feature { width: var(--fw); top: 160px; }
+  .band { grid-template-columns: 1fr var(--fw) 1fr; column-gap: 40px; }
+  .band > h1 { grid-column: 1; grid-row: 1 / span 2; align-self: end; }
+  .band > p { grid-column: 3; grid-row: 1; }
+  .band > div { grid-column: 3; grid-row: 2; align-items: flex-start; flex-direction: row; }
+  .hero:has([data-magnet-area]) .feature { top: calc(72px + 4vh); }
   .giant { font-size: 21vw; }
 }
 .thumb { cursor: pointer; transition: transform .6s var(--ez), opacity .4s; }
