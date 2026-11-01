@@ -282,6 +282,7 @@ function Home({ lang }: { lang: Lang }) {
     </Sec>
     <Courses lang={lang} />
     <WaitForm lang={lang} />
+    <HomeBlog lang={lang} />
   </>;
 }
 
@@ -478,7 +479,7 @@ function Footer({ lang }: { lang: Lang }) {
 function Md({ src }: { src: string }) {
   const blocks = src.trim().split(/\n\s*\n/);
   return <>{blocks.map((b, i) => {
-    if (b.startsWith('## ')) return <h2 key={i} className="mt-14 mb-5 font-serif text-[28px] leading-[1.15] md:text-[36px]">{b.slice(3)}</h2>;
+    if (b.startsWith('## ')) return <h2 key={i} className="mt-14 mb-5 font-serif text-[clamp(24px,6vw,28px)] leading-[1.18] [text-wrap:balance] md:text-[36px]">{b.slice(3)}</h2>;
     const lines = b.split('\n');
     if (lines.every((l) => l.startsWith('- '))) return <ul key={i} className="my-6 border-t border-black/10">{lines.map((l) => <li key={l} className="flex gap-4 border-b border-black/10 py-3.5 leading-relaxed"><span aria-hidden className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-black" /><span>{l.slice(2)}</span></li>)}</ul>;
     return <p key={i} className="my-5 text-[17px] leading-[1.75] text-[#333]">{b}</p>;
@@ -490,10 +491,27 @@ function PostCard({ p, lang, big }: { p: Post; lang: Lang; big?: boolean }) {
   return <a href={postPath(lang, p.slug)} className="group rv block" data-cursor={b.more}>
     <div className={`overflow-hidden bg-[#eee] ${big ? 'aspect-[4/3] md:aspect-[21/9]' : 'aspect-[4/5]'}`}><img src={p.cover} alt={p.coverAlt[lang]} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></div>
     <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{a.name[lang]} · {fmtDate(p.date, lang)} · {readMin(t)} {b.read}</p>
-    <h2 className={`mt-3 font-serif leading-[1.12] ${big ? 'text-[30px] md:text-[44px]' : 'text-[26px] md:text-[30px]'}`}>{t.title.split(' | ')[0]}</h2>
+    <h2 className={`mt-3 font-serif leading-[1.15] [text-wrap:balance] ${big ? 'text-[clamp(24px,6.4vw,30px)] md:text-[clamp(32px,3vw,44px)]' : 'text-[clamp(22px,5.8vw,26px)] md:text-[26px] lg:text-[28px]'}`}>{t.title.split(' | ')[0]}</h2>
     {big && <p className="mt-4 max-w-2xl text-[#8D8787]">{t.lead}</p>}
     <span className="navl mt-5 inline-block text-[13px]">{b.more} →</span>
   </a>;
+}
+
+function HomeBlog({ lang }: { lang: Lang }) {
+  const b = BLOG[lang]; const ua = lang === 'ua';
+  return <section className="bg-white px-5 py-24 md:px-10 md:py-32"><div className="mx-auto max-w-[1360px]">
+    <div className="mb-14 flex flex-wrap items-end justify-between gap-6">
+      <div><Eyebrow>{b.eyebrow}</Eyebrow><H2>{b.h1}</H2><p className="rv -mt-4 max-w-xl text-[#8D8787]">{b.lead}</p></div>
+      <a href={path(lang, 'blog')} className="rv navl text-[13px]">{ua ? 'Усі статті' : 'Wszystkie artykuły'} →</a>
+    </div>
+    <div className="grid gap-x-10 gap-y-16 md:grid-cols-3">{POSTS.slice(0, 3).map((p) => { const t = p[lang]; return <article key={p.slug} className="rv group">
+      <a href={postPath(lang, p.slug)} tabIndex={-1} aria-hidden className="block overflow-hidden bg-[#eee] aspect-[4/5]"><img src={p.cover} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></a>
+      <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{AUTHORS[p.author].name[lang]} · {readMin(t)} {b.read}</p>
+      <h3 className="mt-3 font-serif text-[clamp(22px,5.8vw,26px)] leading-[1.18] [text-wrap:balance] lg:text-[28px]"><a href={postPath(lang, p.slug)} className="hover:underline decoration-1 underline-offset-4">{t.title.split(' | ')[0]}</a></h3>
+      <p className="mt-3 line-clamp-3 text-[15px] leading-relaxed text-[#555]">{t.lead}</p>
+      <a href={postPath(lang, p.slug)} className="navl mt-5 inline-block text-[13px]">{ua ? 'Читати повністю' : 'Czytaj całość'} →</a>
+    </article>; })}</div>
+  </div></section>;
 }
 
 function BlogIndex({ lang }: { lang: Lang }) {
@@ -507,10 +525,25 @@ function BlogIndex({ lang }: { lang: Lang }) {
   </>;
 }
 
-function Share({ lang, url: url0, title }: { lang: Lang; url: string; title: string }) {
+function Share({ lang, url: url0, title, cover }: { lang: Lang; url: string; title: string; cover: string }) {
   const b = BLOG[lang]; const [copied, setCopied] = useState(false); const [native, setNative] = useState(false);
   const [url, setUrl] = useState(url0);
   useEffect(() => { setUrl(location.origin + location.pathname); setNative(typeof navigator !== 'undefined' && 'share' in navigator && matchMedia('(pointer: coarse)').matches); }, []);
+  const [igHint, setIgHint] = useState(false);
+  const shareIg = async () => {
+    const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
+    if (native && nav.share) {
+      try {
+        const blob = await fetch(cover).then((r) => r.blob());
+        const file = new File([blob], 'glow.' + (blob.type.split('/')[1] || 'jpg'), { type: blob.type });
+        const data: ShareData = nav.canShare?.({ files: [file] }) ? { files: [file], title, text: title + ' ' + url } : { title, url };
+        await nav.share(data); return;
+      } catch (e) { if ((e as Error).name === 'AbortError') return; }
+    }
+    try { await navigator.clipboard?.writeText(url); } catch {}
+    setIgHint(true); setTimeout(() => setIgHint(false), 6000);
+    window.open('https://www.instagram.com/', '_blank', 'noopener');
+  };
   const u = encodeURIComponent(url), tt = encodeURIComponent(title);
   const links: [string, string][] = [['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`], ['Telegram', `https://t.me/share/url?url=${u}&text=${tt}`], ['WhatsApp', `https://wa.me/?text=${tt}%20${u}`], ['X', `https://twitter.com/intent/tweet?url=${u}&text=${tt}`]];
   const btn = 'rounded-full border border-black/20 px-4 py-2 text-[12px] transition-colors hover:border-black';
@@ -518,8 +551,10 @@ function Share({ lang, url: url0, title }: { lang: Lang; url: string; title: str
     <div className="flex flex-wrap gap-2">
       {native && <button type="button" className={btn + ' bg-black text-white'} onClick={() => navigator.share({ title, url }).catch(() => {})}>{b.share}…</button>}
       {links.map(([n, h]) => <a key={n} href={h} target="_blank" rel="noopener noreferrer" className={btn}>{n}</a>)}
+      <button type="button" className={btn + ' inline-flex items-center gap-1.5'} onClick={shareIg} aria-label="Instagram"><svg aria-hidden viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg>Instagram</button>
       <button type="button" className={btn} onClick={() => navigator.clipboard?.writeText(url).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); })} aria-live="polite">{copied ? b.copied : b.copy}</button>
-    </div></div>;
+    </div>
+    <p className="mt-2 min-h-[1.25em] text-[12px] text-[#8D8787]" aria-live="polite">{igHint ? b.igHint : ''}</p></div>;
 }
 
 function Rating({ lang, slug }: { lang: Lang; slug: string }) {
@@ -553,7 +588,7 @@ function Article({ lang, slug }: { lang: Lang; slug: string }) {
       <header className="bg-[#F7F7F7] px-5 pt-32 pb-12 md:px-10 md:pt-40">
         <div className="mx-auto max-w-[1360px]">
           <a href={path(lang, 'blog')} className="navl text-[13px]">← {b.back}</a>
-          <h1 className="fly mt-8 max-w-5xl font-serif text-[38px] leading-[1.06] md:text-[64px]">{t.title.split(' | ')[0]}</h1>
+          <h1 className="fly mt-8 max-w-5xl font-serif text-[clamp(26px,6.8vw,40px)] leading-[1.12] [text-wrap:balance] md:text-[clamp(40px,4.4vw,64px)] md:leading-[1.06]">{t.title.split(' | ')[0]}</h1>
           <p className="fly mt-6 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]" style={{ ['--d' as string]: '120ms' }}>{b.by}: {a.name[lang]} · <time dateTime={p.date}>{fmtDate(p.date, lang)}</time> · {readMin(t)} {b.read}</p>
         </div>
       </header>
@@ -563,7 +598,7 @@ function Article({ lang, slug }: { lang: Lang; slug: string }) {
           <div className="max-w-[760px]">
             <p className="font-serif text-[22px] leading-[1.5] md:text-[26px]">{t.lead}</p>
             <Md src={t.body} />
-            <div className="mt-14 grid gap-10 border-t border-black/10 pt-10 sm:grid-cols-2"><Rating lang={lang} slug={slug} /><Share lang={lang} url={url} title={t.title.split(' | ')[0]} /></div>
+            <div className="mt-14 grid gap-10 border-t border-black/10 pt-10 sm:grid-cols-2"><Rating lang={lang} slug={slug} /><Share lang={lang} url={url} title={t.title.split(' | ')[0]} cover={p.cover} /></div>
           </div>
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="border border-black/10 bg-white p-8">
@@ -576,9 +611,9 @@ function Article({ lang, slug }: { lang: Lang; slug: string }) {
         </div>
       </div>
     </article>
-    <section className="bg-black px-5 py-20 text-white md:px-10 md:py-24"><div className="mx-auto grid max-w-[1360px] gap-8 md:grid-cols-[1fr_auto] md:items-end">
-      <div><h2 className="font-serif text-[34px] leading-[1.08] md:text-[52px]">{b.ctaT}</h2><p className="mt-5 max-w-xl text-white/70">{b.ctaD}</p></div>
-      <div><Pill href={BOOKSY} light>{DICT[lang].book}</Pill></div>
+    <section className="bg-black px-5 py-20 text-white md:px-10 md:py-24"><div className="mx-auto max-w-[1360px]">
+      <div><h2 className="font-serif text-[clamp(28px,7vw,34px)] leading-[1.1] [text-wrap:balance] md:text-[52px]">{b.ctaT}</h2><p className="mt-5 max-w-xl text-white/70">{b.ctaD}</p></div>
+      <div className="mt-8"><Pill href={BOOKSY} light>{DICT[lang].book}</Pill></div>
     </div></section>
     <section className="bg-[#F7F7F7] px-5 py-20 md:px-10 md:py-28"><div className="mx-auto max-w-[1360px]">
       <H2>{b.relatedT}</H2>
