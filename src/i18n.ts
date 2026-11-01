@@ -1,3 +1,4 @@
+import { BLOG } from './blog';
 export const LANGS = ['pl', 'ua'] as const;
 export type Lang = (typeof LANGS)[number];
 export const HTML_LANG: Record<Lang, string> = { pl: 'pl', ua: 'uk' };
@@ -21,7 +22,7 @@ export const C = {
   gbp: '', // TODO: link do profilu Google Business, gdy powstanie
   geo: { lat: 52.4130122, lng: 16.9073264 },
 };
-export const PAGES = ['home', 'coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca', 'contact'] as const;
+export const PAGES = ['home', 'coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca', 'contact', 'blog'] as const;
 export type Page = (typeof PAGES)[number];
 export const path = (lang: Lang, p: Page) => `${lang === 'ua' ? '/ua' : ''}/${p === 'home' ? '' : p}`.replace(/\/$/, '') || '/';
 
@@ -37,7 +38,7 @@ export const REVIEWS = [
 ];
 
 const pl = {
-  nav: { coloring: 'Koloryzacja', haircuts: 'Strzyżenie', hairstyles: 'Fryzury', makeup: 'Makijaż', brows: 'Brwi', kursy: 'Kursy', praca: 'Praca', contact: 'Kontakty' },
+  nav: { coloring: 'Koloryzacja', haircuts: 'Strzyżenie', hairstyles: 'Fryzury', makeup: 'Makijaż', brows: 'Brwi', kursy: 'Kursy', praca: 'Praca', blog: 'Blog', contact: 'Kontakty' },
   book: 'Umów bezpłatną konsultację', bookShort: 'Zarezerwuj wizytę', more: 'Zobacz więcej', menu: 'Menu', close: 'Zamknij',
   rating: `${RATING.value} ★ · ${RATING.count}+ opinii na Booksy`,
   home: {
@@ -98,7 +99,7 @@ const pl = {
 
 type D = typeof pl;
 const ua: D = {
-  nav: { coloring: 'Фарбування', haircuts: 'Стрижки', hairstyles: 'Зачіски', makeup: 'Макіяж', brows: 'Брови й вії', kursy: 'Курси', praca: 'Вакансія', contact: 'Контакти' },
+  nav: { coloring: 'Фарбування', haircuts: 'Стрижки', hairstyles: 'Зачіски', makeup: 'Макіяж', brows: 'Брови й вії', kursy: 'Курси', praca: 'Вакансія', blog: 'Блог', contact: 'Контакти' },
   book: 'Записатися на безкоштовну консультацію', bookShort: 'Записатися', more: 'Детальніше', menu: 'Меню', close: 'Закрити',
   rating: `${RATING.value} ★ · ${RATING.count}+ відгуків на Booksy`,
   home: {
@@ -161,6 +162,7 @@ export const DICT: Record<Lang, D> = { pl, ua };
 export function meta(lang: Lang, p: Page) {
   const t = DICT[lang];
   if (p === 'home') return { title: t.home.title, desc: t.home.meta };
+  if (p === 'blog') return { title: BLOG[lang].title, desc: BLOG[lang].desc };
   if (p === 'kursy' || p === 'praca' || p === 'contact') return { title: t[p].title, desc: t[p].meta };
   return { title: t.svc[p].title, desc: t.svc[p].meta };
 }

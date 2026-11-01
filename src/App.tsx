@@ -1,8 +1,9 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
-import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, path, type Lang, type Page } from './i18n';
+import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, SITE_URL, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
+import { AUTHORS, BLOG, POSTS, fmtDate, getPost, postPath, readMin, related, type Post } from './blog';
 
-const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca'];
+const MENU: Page[] = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows', 'kursy', 'praca', 'blog'];
 const SVC = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows'] as const;
 const tel = C.phone.replace(/\s/g, '');
 const Arrow = () => <span aria-hidden className="ml-3 inline-block transition-transform group-hover:translate-x-1">→</span>;
@@ -14,10 +15,11 @@ const Pill = ({ href, children, light }: { href: string; children: ReactNode; li
 const Stack = ({ a, b }: { a: string; b: string }) => <span className="inline-flex flex-col text-[11px] leading-[1.05] tracking-[0.12em] font-semibold"><span>{a}</span><span>{b}</span></span>;
 const Logo = ({ inv }: { inv?: boolean }) => <img src="/img/logo.svg" alt={C.name} width={48} height={53} className={`h-11 w-auto ${inv ? 'invert' : ''}`} />;
 
-function Header({ lang, page }: { lang: Lang; page: Page }) {
+function Header({ lang, page, post }: { lang: Lang; page: Page; post?: string }) {
   const t = DICT[lang];
   const [open, setOpen] = useState(false);
   const other: Lang = lang === 'pl' ? 'ua' : 'pl';
+  const alt = post ? postPath(other, post) : path(other, page);
   const close = () => setOpen(false);
   useEffect(() => { document.documentElement.style.overflow = open ? 'hidden' : ''; const k = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false); addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, [open]);
   return (<>
@@ -28,7 +30,7 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
           {MENU.map((p) => <a key={p} href={path(lang, p)} className={`navl ${p === page ? 'is-on' : ''}`}>{t.nav[p as keyof typeof t.nav]}</a>)}
         </nav>
         <div className="flex items-center gap-5 text-[13px]">
-          <a href={path(other, page)} hrefLang={other === 'ua' ? 'uk' : 'pl'} className="text-[11px] tracking-[0.15em] text-[#8D8787] hover:text-black">{other === 'ua' ? 'UA' : 'PL'}</a>
+          <a href={alt} hrefLang={other === 'ua' ? 'uk' : 'pl'} className="text-[11px] tracking-[0.15em] text-[#8D8787] hover:text-black">{other === 'ua' ? 'UA' : 'PL'}</a>
           <a href={path(lang, 'contact')} className="hidden xl:inline navl">◦ {t.nav.contact}</a>
           <button className="xl:hidden" onClick={() => setOpen(true)} aria-label={t.menu}><Stack a="ME" b="NU" /></button>
         </div>
@@ -43,7 +45,7 @@ function Header({ lang, page }: { lang: Lang; page: Page }) {
       </nav>
       <div className="border-t border-black/10 px-6 py-6 text-sm">
         <a href={BOOKSY} target="_blank" rel="noopener" className="mb-4 flex justify-center rounded-full bg-black px-6 py-3.5 text-white">{t.bookShort} →</a>
-        <div className="flex justify-between text-[#8D8787]"><a href={`tel:${tel}`}>{C.phone}</a><a href={path(other, page)} onClick={close}>{other.toUpperCase()}</a></div>
+        <div className="flex justify-between text-[#8D8787]"><a href={`tel:${tel}`}>{C.phone}</a><a href={alt} onClick={close}>{other.toUpperCase()}</a></div>
       </div>
     </aside>
   </>);
@@ -473,6 +475,118 @@ function Footer({ lang }: { lang: Lang }) {
   </footer>;
 }
 
+function Md({ src }: { src: string }) {
+  const blocks = src.trim().split(/\n\s*\n/);
+  return <>{blocks.map((b, i) => {
+    if (b.startsWith('## ')) return <h2 key={i} className="mt-14 mb-5 font-serif text-[28px] leading-[1.15] md:text-[36px]">{b.slice(3)}</h2>;
+    const lines = b.split('\n');
+    if (lines.every((l) => l.startsWith('- '))) return <ul key={i} className="my-6 border-t border-black/10">{lines.map((l) => <li key={l} className="flex gap-4 border-b border-black/10 py-3.5 leading-relaxed"><span aria-hidden className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-black" /><span>{l.slice(2)}</span></li>)}</ul>;
+    return <p key={i} className="my-5 text-[17px] leading-[1.75] text-[#333]">{b}</p>;
+  })}</>;
+}
+
+function PostCard({ p, lang, big }: { p: Post; lang: Lang; big?: boolean }) {
+  const t = p[lang], a = AUTHORS[p.author], b = BLOG[lang];
+  return <a href={postPath(lang, p.slug)} className="group rv block" data-cursor={b.more}>
+    <div className={`overflow-hidden bg-[#eee] ${big ? 'aspect-[4/3] md:aspect-[21/9]' : 'aspect-[4/5]'}`}><img src={p.cover} alt={p.coverAlt[lang]} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></div>
+    <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{a.name[lang]} · {fmtDate(p.date, lang)} · {readMin(t)} {b.read}</p>
+    <h2 className={`mt-3 font-serif leading-[1.12] ${big ? 'text-[30px] md:text-[44px]' : 'text-[26px] md:text-[30px]'}`}>{t.title.split(' | ')[0]}</h2>
+    {big && <p className="mt-4 max-w-2xl text-[#8D8787]">{t.lead}</p>}
+    <span className="navl mt-5 inline-block text-[13px]">{b.more} →</span>
+  </a>;
+}
+
+function BlogIndex({ lang }: { lang: Lang }) {
+  const b = BLOG[lang]; const [first, ...rest] = POSTS;
+  return <>
+    <PageHead eyebrow={b.eyebrow} h1={b.h1} lead={b.lead} />
+    <section className="bg-[#F7F7F7] px-5 pb-24 md:px-10 md:pb-32"><div className="mx-auto max-w-[1360px]">
+      {first && <PostCard p={first} lang={lang} big />}
+      <div className="mt-20 grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">{rest.map((p) => <PostCard key={p.slug} p={p} lang={lang} />)}</div>
+    </div></section>
+  </>;
+}
+
+function Share({ lang, url: url0, title }: { lang: Lang; url: string; title: string }) {
+  const b = BLOG[lang]; const [copied, setCopied] = useState(false); const [native, setNative] = useState(false);
+  const [url, setUrl] = useState(url0);
+  useEffect(() => { setUrl(location.origin + location.pathname); setNative(typeof navigator !== 'undefined' && 'share' in navigator && matchMedia('(pointer: coarse)').matches); }, []);
+  const u = encodeURIComponent(url), tt = encodeURIComponent(title);
+  const links: [string, string][] = [['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`], ['Telegram', `https://t.me/share/url?url=${u}&text=${tt}`], ['WhatsApp', `https://wa.me/?text=${tt}%20${u}`], ['X', `https://twitter.com/intent/tweet?url=${u}&text=${tt}`]];
+  const btn = 'rounded-full border border-black/20 px-4 py-2 text-[12px] transition-colors hover:border-black';
+  return <div><p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{b.share}</p>
+    <div className="flex flex-wrap gap-2">
+      {native && <button type="button" className={btn + ' bg-black text-white'} onClick={() => navigator.share({ title, url }).catch(() => {})}>{b.share}…</button>}
+      {links.map(([n, h]) => <a key={n} href={h} target="_blank" rel="noopener noreferrer" className={btn}>{n}</a>)}
+      <button type="button" className={btn} onClick={() => navigator.clipboard?.writeText(url).then(() => { setCopied(true); setTimeout(() => setCopied(false), 2000); })} aria-live="polite">{copied ? b.copied : b.copy}</button>
+    </div></div>;
+}
+
+function Rating({ lang, slug }: { lang: Lang; slug: string }) {
+  const b = BLOG[lang]; const key = 'glow-rate-' + slug;
+  const [val, setVal] = useState(0); const [hov, setHov] = useState(0); const [st, setSt] = useState<'idle' | 'sending' | 'done' | 'err'>('idle');
+  useEffect(() => { const v = Number(localStorage.getItem(key) || 0); if (v) { setVal(v); setSt('done'); } }, [key]);
+  const send = async (v: number) => {
+    if (st === 'done' || st === 'sending') return;
+    setVal(v); setSt('sending');
+    try {
+      const r = await fetch('/api/rate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug, lang, value: v, website: '' }) });
+      const j = await r.json().catch(() => ({}));
+      if (j.ok) { localStorage.setItem(key, String(v)); setSt('done'); (window as any).dataLayer?.push({ event: 'article_rate', slug, value: v }); } else setSt('err');
+    } catch { setSt('err'); }
+  };
+  const shown = hov || val;
+  return <div><p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{b.rateT}</p>
+    <div role="radiogroup" aria-label={b.rateT} className="flex gap-1" onMouseLeave={() => setHov(0)}>
+      {[1, 2, 3, 4, 5].map((n) => <button key={n} type="button" role="radio" aria-checked={val === n} aria-label={`${n} / 5`} disabled={st === 'done' || st === 'sending'}
+        onMouseEnter={() => st !== 'done' && setHov(n)} onClick={() => send(n)}
+        className={`text-[28px] leading-none transition-colors disabled:cursor-default ${n <= shown ? 'text-black' : 'text-black/20'}`}>★</button>)}
+    </div>
+    <p className="mt-2 min-h-[1.5em] text-[13px] text-[#8D8787]" aria-live="polite">{st === 'done' ? b.rateThanks : st === 'err' ? b.rateErr : ''}</p></div>;
+}
+
+function Article({ lang, slug }: { lang: Lang; slug: string }) {
+  const p = getPost(slug)!; const t = p[lang], a = AUTHORS[p.author], b = BLOG[lang];
+  const url = SITE_URL + postPath(lang, slug);
+  return <>
+    <article>
+      <header className="bg-[#F7F7F7] px-5 pt-32 pb-12 md:px-10 md:pt-40">
+        <div className="mx-auto max-w-[1360px]">
+          <a href={path(lang, 'blog')} className="navl text-[13px]">← {b.back}</a>
+          <h1 className="fly mt-8 max-w-5xl font-serif text-[38px] leading-[1.06] md:text-[64px]">{t.title.split(' | ')[0]}</h1>
+          <p className="fly mt-6 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]" style={{ ['--d' as string]: '120ms' }}>{b.by}: {a.name[lang]} · <time dateTime={p.date}>{fmtDate(p.date, lang)}</time> · {readMin(t)} {b.read}</p>
+        </div>
+      </header>
+      <div className="bg-[#F7F7F7] px-5 md:px-10"><div className="mx-auto max-w-[1360px]"><div className="fly aspect-[16/10] overflow-hidden bg-[#eee] md:aspect-[21/9]"><img src={p.cover} alt={p.coverAlt[lang]} fetchPriority="high" className="h-full w-full object-cover" /></div></div></div>
+      <div className="bg-[#F7F7F7] px-5 py-16 md:px-10 md:py-24">
+        <div className="mx-auto grid max-w-[1360px] gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-24">
+          <div className="max-w-[760px]">
+            <p className="font-serif text-[22px] leading-[1.5] md:text-[26px]">{t.lead}</p>
+            <Md src={t.body} />
+            <div className="mt-14 grid gap-10 border-t border-black/10 pt-10 sm:grid-cols-2"><Rating lang={lang} slug={slug} /><Share lang={lang} url={url} title={t.title.split(' | ')[0]} /></div>
+          </div>
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="border border-black/10 bg-white p-8">
+              <div className="flex items-center gap-5"><div className="grid h-20 w-20 shrink-0 place-items-center bg-[#eee] font-serif text-3xl italic text-[#8D8787]" aria-hidden>{a.name[lang][0]}</div>
+                <div><p className="text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{b.by}</p><p className="font-serif text-[28px] leading-tight">{a.name[lang]}</p></div></div>
+              <p className="mt-4 text-sm text-[#555]">{a.role[lang]}</p>
+              <div className="mt-6"><Pill href={a.booksy}>{a.cta[lang]}</Pill></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </article>
+    <section className="bg-black px-5 py-20 text-white md:px-10 md:py-24"><div className="mx-auto grid max-w-[1360px] gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div><h2 className="font-serif text-[34px] leading-[1.08] md:text-[52px]">{b.ctaT}</h2><p className="mt-5 max-w-xl text-white/70">{b.ctaD}</p></div>
+      <div><Pill href={BOOKSY} light>{DICT[lang].book}</Pill></div>
+    </div></section>
+    <section className="bg-[#F7F7F7] px-5 py-20 md:px-10 md:py-28"><div className="mx-auto max-w-[1360px]">
+      <H2>{b.relatedT}</H2>
+      <div className="grid gap-x-10 gap-y-16 sm:grid-cols-2">{related(p).map((r) => <PostCard key={r.slug} p={r} lang={lang} />)}</div>
+    </div></section>
+  </>;
+}
+
 function NotFound({ lang }: { lang: Lang }) {
   const ua = lang === 'ua';
   return <section className="relative flex min-h-[78svh] items-center overflow-hidden bg-white px-5 pt-32 pb-20 md:px-10">
@@ -488,10 +602,16 @@ function NotFound({ lang }: { lang: Lang }) {
     </div>
   </section>;
 }
-export default function App({ lang, page, nf }: { lang: Lang; page: Page; nf?: boolean }) {
+export default function App({ lang, page, nf, post }: { lang: Lang; page: Page; nf?: boolean; post?: string }) {
   if (nf) return <>
     <Header lang={lang} page={page} />
     <main style={{ viewTransitionName: 'main' }}><NotFound lang={lang} /></main>
+    <Footer lang={lang} />
+    <div className="cursor" aria-hidden><span /></div>
+  </>;
+  if (page === 'blog') return <>
+    <Header lang={lang} page={page} post={post} />
+    <main style={{ viewTransitionName: 'main' }}>{post ? <Article lang={lang} slug={post} /> : <BlogIndex lang={lang} />}<Vacancy lang={lang} /></main>
     <Footer lang={lang} />
     <div className="cursor" aria-hidden><span /></div>
   </>;
