@@ -3,7 +3,7 @@ const L = (c: string, n: number) => Array.from({ length: n }, (_, i) => `/img/wo
 const LT = '/img/works/latest/';
 export const WORKS: Record<string, string[]> = {
   coloring: [LT + 'balayage', LT + 'caramel', LT + 'platinum', LT + 'waves', ...L('coloring', 12)], haircut: [11, 1, 2, 12, 3, 4, 5, 6, 13, 9, 10].map((n) => `/img/works/haircut/haircut-${String(n).padStart(2, '0')}`), hairstyles: [LT + 'waves', LT + 'caramel', ...L('hairstyles', 12)], makeup: [LT + 'catrina', LT + 'medusa', LT + 'pampas', LT + 'leopard', '/img/works/makeup/makeup-red', ...L('makeup', 12)],
-  brows: [...L('brows', 10).slice(0, 6), ...L('lashes', 8).slice(0, 4), ...L('brows', 10).slice(6), ...L('lashes', 8).slice(4)],
+  brows: [...L('brows', 10).slice(0, 6), ...L('lashes', 8).slice(1, 5), ...L('brows', 10).slice(6), ...L('lashes', 8).slice(5)],
 };
 export const WALT: Record<string, Record<string, string>> = {
   coloring: { pl: 'Koloryzacja AirTouch i blond', ua: 'Фарбування AirTouch та блонд' },
