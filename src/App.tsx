@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, SITE_URL, path, type Lang, type Page } from './i18n';
 import { GAL } from './gallery';
 import { AUTHORS, BLOG, POSTS, fmtDate, getPost, postPath, readMin, related, type Post } from './blog';
@@ -530,19 +530,34 @@ function Share({ lang, url: url0, title, cover }: { lang: Lang; url: string; tit
   const [url, setUrl] = useState(url0);
   useEffect(() => { setUrl(location.origin + location.pathname); setNative(typeof navigator !== 'undefined' && 'share' in navigator && matchMedia('(pointer: coarse)').matches); }, []);
   const [igHint, setIgHint] = useState(false);
-  const shareIg = async () => {
+  const fileRef = useRef<File | null>(null);
+  useEffect(() => {
+    if (typeof navigator === 'undefined' || !('share' in navigator)) return;
+    let off = false;
+    fetch(cover).then((r) => r.blob()).then((blob) => { if (!off) fileRef.current = new File([blob], 'glow-' + cover.split('/').pop()!.replace(/\.\w+$/, '') + '.' + ((blob.type.split('/')[1] || 'jpg').replace('jpeg', 'jpg')), { type: blob.type || 'image/jpeg' }); }).catch(() => {});
+    return () => { off = true; };
+  }, [cover]);
+  const copyText = (txt: string) => {
+    try { navigator.clipboard?.writeText(txt).catch(() => {}); } catch {}
+    try { const ta = document.createElement('textarea'); ta.value = txt; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); } catch {}
+  };
+  const showHint = () => { setIgHint(true); setTimeout(() => setIgHint(false), 7000); };
+  const shareIg = () => {
     const nav = navigator as Navigator & { canShare?: (d: ShareData) => boolean };
-    if (native && nav.share) {
-      try {
-        const blob = await fetch(cover).then((r) => r.blob());
-        const file = new File([blob], 'glow.' + (blob.type.split('/')[1] || 'jpg'), { type: blob.type });
-        const data: ShareData = nav.canShare?.({ files: [file] }) ? { files: [file], title, text: title + ' ' + url } : { title, url };
-        await nav.share(data); return;
-      } catch (e) { if ((e as Error).name === 'AbortError') return; }
-    }
-    try { await navigator.clipboard?.writeText(url); } catch {}
-    setIgHint(true); setTimeout(() => setIgHint(false), 6000);
-    window.open('https://www.instagram.com/', '_blank', 'noopener');
+    const inApp = /Instagram|FBAN|FBAV|FB_IAB/i.test(navigator.userAgent);
+    const fallback = (openIg: boolean) => { copyText(url); showHint(); if (openIg && !inApp) window.open('https://www.instagram.com/', '_blank', 'noopener'); };
+    if (typeof nav.share !== 'function' || inApp) { fallback(!inApp); return; }
+    const base: ShareData = { title, text: title, url };
+    const f = fileRef.current;
+    let data = base;
+    try { if (f && nav.canShare?.({ files: [f] })) data = { ...base, files: [f] }; } catch {}
+    let p: Promise<void>;
+    try { p = nav.share(data); } catch { fallback(false); return; }
+    p.catch((e: Error) => {
+      if (e?.name === 'AbortError') return;
+      if (data.files) { try { nav.share(base).catch((e2: Error) => { if (e2?.name !== 'AbortError') fallback(false); }); return; } catch {} }
+      fallback(false);
+    });
   };
   const u = encodeURIComponent(url), tt = encodeURIComponent(title);
   const links: [string, string][] = [['Facebook', `https://www.facebook.com/sharer/sharer.php?u=${u}`], ['Telegram', `https://t.me/share/url?url=${u}&text=${tt}`], ['WhatsApp', `https://wa.me/?text=${tt}%20${u}`], ['X', `https://twitter.com/intent/tweet?url=${u}&text=${tt}`]];
