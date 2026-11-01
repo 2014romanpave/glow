@@ -229,7 +229,7 @@ function HomeGallery({ lang }: { lang: Lang }) {
   const [cat, setCat] = useState<string>('all');
   const [anim, setAnim] = useState(0);
   const pick = (dir: string) => [...WORKS[dir].slice(0, 8), ...GAL[dir].slice(0, 4)];
-  const all = [WORKS.coloring[0], WORKS.makeup[0], WORKS.haircut[0], WORKS.hairstyles[0], WORKS.brows[0], WORKS.coloring[1], WORKS.makeup[1], WORKS.hairstyles[1], WORKS.haircut[1], WORKS.brows[6], WORKS.coloring[2], WORKS.makeup[2], GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8], GAL.haircut[9], GAL.hairstyles[7], GAL.brows[4], GAL.makeup[5]];
+  const all = [WORKS.makeup[0], WORKS.coloring[0], WORKS.makeup[1], WORKS.haircut[0], WORKS.hairstyles[0], WORKS.brows[0], WORKS.coloring[1], WORKS.makeup[1], WORKS.hairstyles[1], WORKS.haircut[1], WORKS.brows[6], WORKS.coloring[2], WORKS.makeup[2], GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8], GAL.haircut[9], GAL.hairstyles[7], GAL.brows[4], GAL.makeup[5]];
   const imgs = cat === 'all' ? all : pick(GCATS.find((c) => c[0] === cat)![1]);
   const label = (k: string) => k === 'all' ? (lang === 'pl' ? 'Wszystkie' : 'Усі') : k === 'brows' ? (lang === 'pl' ? 'Brwi i rzęsy' : 'Брови й вії') : t.nav[k as keyof typeof t.nav];
   return <>
@@ -259,7 +259,7 @@ const Placeholder = ({ ch }: { ch: string }) => (
 
 function Home({ lang }: { lang: Lang }) {
   const t = DICT[lang]; const h = t.home;
-  const heroImgs = [GAL.coloring[0], GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11], GAL.haircut[11], GAL.makeup[6], GAL.hairstyles[9]];
+  const heroImgs = [GAL.coloring[0], '/img/works/makeup/makeup-red-1200.webp', GAL.coloring[3], GAL.makeup[1], GAL.brows[2], GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], GAL.brows[5], GAL.coloring[11], GAL.haircut[11], GAL.makeup[6], GAL.hairstyles[9]];
   return <>
     <HomeHero lang={lang} imgs={heroImgs} />
     <Sec>

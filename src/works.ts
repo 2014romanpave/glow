@@ -1,7 +1,7 @@
 // Selected works from GLOW Hair Atelier Booksy portfolio (base paths; -600/-1200 .webp/.avif)
 const L = (c: string, n: number) => Array.from({ length: n }, (_, i) => `/img/works/${c}/${c}-${String(i + 1).padStart(2, '0')}`);
 export const WORKS: Record<string, string[]> = {
-  coloring: L('coloring', 12), haircut: L('haircut', 10), hairstyles: L('hairstyles', 12), makeup: L('makeup', 12),
+  coloring: L('coloring', 12), haircut: L('haircut', 10), hairstyles: L('hairstyles', 12), makeup: ['/img/works/makeup/makeup-red', ...L('makeup', 12)],
   brows: [...L('brows', 10).slice(0, 6), ...L('lashes', 8).slice(0, 4), ...L('brows', 10).slice(6), ...L('lashes', 8).slice(4)],
 };
 export const WALT: Record<string, Record<string, string>> = {
@@ -13,4 +13,5 @@ export const WALT: Record<string, Record<string, string>> = {
   brows: { pl: 'Stylizacja i laminacja brwi', ua: 'Стилізація та ламінування брів' },
 };
 export const isWork = (s: string) => s.startsWith('/img/works/');
-export const wAlt = (s: string, lang: string) => WALT[s.split('/')[3]]?.[lang] ?? '';
+const RED: Record<string, string> = { pl: 'Czerwony makijaż wieczorowy — czerwone usta i oko', ua: 'Червоний вечірній макіяж — червоні губи та очі' };
+export const wAlt = (s: string, lang: string) => s.endsWith('makeup-red') ? RED[lang] : WALT[s.split('/')[3]]?.[lang] ?? '';

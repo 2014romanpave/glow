@@ -5,7 +5,7 @@ export const HTML_LANG: Record<Lang, string> = { pl: 'pl', ua: 'uk' };
 export const SITE_URL = 'https://glowpoznan.com';
 export const BOOKSY = 'https://glowhairatelier.booksy.com/a/';
 export const BOOKSY_PROFILE = 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan';
-export const RATING = { value: '5.0', count: 461 };
+export const RATING = { value: '5.0', count: 503 };
 export const C = {
   name: 'GLOW Hair Atelier',
   phone: '+48 789 822 636',
