@@ -1,6 +1,7 @@
 import { flushSync } from 'react-dom';
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, SITE_URL, path, type Lang, type Page } from './i18n';
+import { WORKS, isWork, wAlt } from './works';
 import { GAL } from './gallery';
 import { AUTHORS, BLOG, POSTS, fmtDate, getPost, postPath, readMin, related, type Post } from './blog';
 
@@ -217,12 +218,18 @@ function Consult({ lang, k = 'home' }: { lang: Lang; k?: string }) {
 }
 
 const GCATS = [['coloring', 'coloring'], ['haircuts', 'haircut'], ['hairstyles', 'hairstyles'], ['makeup', 'makeup'], ['brows', 'brows']] as const;
+function Pic({ s, alt, cls }: { s: string; alt: string; cls: string }) {
+  if (!isWork(s)) return <img src={s} alt={alt} loading="lazy" decoding="async" data-lb className={cls} />;
+  const ss = (x: string) => `${s}-600.${x} 600w, ${s}-1200.${x} 1200w`, sz = '(min-width: 768px) 25vw, 50vw';
+  return <picture><source type="image/avif" srcSet={ss('avif')} sizes={sz} /><img src={`${s}-1200.webp`} srcSet={ss('webp')} sizes={sz} alt={alt} loading="lazy" decoding="async" data-lb className={cls} /></picture>;
+}
+
 function HomeGallery({ lang }: { lang: Lang }) {
   const t = DICT[lang];
   const [cat, setCat] = useState<string>('all');
   const [anim, setAnim] = useState(0);
-  const pick = (dir: string) => GAL[dir].slice(0, 8);
-  const all = [GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8], GAL.haircut[9], GAL.hairstyles[7], GAL.brows[4], GAL.makeup[5]];
+  const pick = (dir: string) => [...WORKS[dir].slice(0, 8), ...GAL[dir].slice(0, 4)];
+  const all = [WORKS.coloring[0], WORKS.makeup[0], WORKS.haircut[0], WORKS.hairstyles[0], WORKS.brows[0], WORKS.coloring[1], WORKS.makeup[1], WORKS.hairstyles[1], WORKS.haircut[1], WORKS.brows[6], WORKS.coloring[2], WORKS.makeup[2], GAL.coloring[1], GAL.makeup[0], GAL.brows[1], GAL.hairstyles[2], GAL.coloring[5], GAL.haircut[2], GAL.makeup[3], GAL.coloring[8], GAL.haircut[9], GAL.hairstyles[7], GAL.brows[4], GAL.makeup[5]];
   const imgs = cat === 'all' ? all : pick(GCATS.find((c) => c[0] === cat)![1]);
   const label = (k: string) => k === 'all' ? (lang === 'pl' ? 'Wszystkie' : 'Усі') : k === 'brows' ? (lang === 'pl' ? 'Brwi i rzęsy' : 'Брови й вії') : t.nav[k as keyof typeof t.nav];
   return <>
@@ -232,7 +239,7 @@ function HomeGallery({ lang }: { lang: Lang }) {
     </div>
     <div key={anim} className="gal-swap columns-2 gap-3 md:columns-4 [&>figure]:mb-3">
       {imgs.map((s, i) => <figure key={s} className="overflow-hidden break-inside-avoid" style={{ ['--i' as string]: i }} data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
-        <img src={s} alt={`GLOW Hair Atelier Poznań — ${label(cat)} ${i + 1}`} loading="lazy" data-lb className="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
+        <Pic s={s} alt={`${isWork(s) ? wAlt(s, lang) : label(cat)} — GLOW Hair Atelier Poznań ${i + 1}`} cls="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
     </div>
     {cat !== 'all' && <div className="mt-8"><a href={path(lang, cat as Page)} className="navl text-[13px]">{lang === 'pl' ? 'Zobacz więcej' : 'Дивитись більше'} →</a></div>}
   </>;
@@ -241,7 +248,7 @@ function HomeGallery({ lang }: { lang: Lang }) {
 function Gallery({ imgs, alt, lang }: { imgs: string[]; alt: string; lang: Lang }) {
   return <div className="columns-2 gap-3 md:columns-4 [&>figure]:mb-3">
     {imgs.map((s, i) => <figure key={s} className="rv reveal-img overflow-hidden break-inside-avoid" data-cursor={lang === 'pl' ? 'Zobacz' : 'Дивитись'}>
-      <img src={s} alt={`${alt} — ${i + 1}`} loading="lazy" data-lb className="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
+      <Pic s={s} alt={`${isWork(s) ? wAlt(s, lang) + ' — GLOW Hair Atelier Poznań' : alt} ${i + 1}`} cls="w-full cursor-zoom-in transition duration-700 hover:scale-[1.04]" /></figure>)}
   </div>;
 }
 
@@ -409,7 +416,7 @@ function Service({ lang, p }: { lang: Lang; p: (typeof SVC)[number] }) {
           <li className="rv pt-8"><Pill href={BOOKSY}>{DICT[lang].book}</Pill></li></ul>
       </div>
     </Sec>
-    <Sec cls="!pt-0"><Gallery lang={lang} imgs={imgs} alt={s.alt} /></Sec>
+    <Sec cls="!pt-0"><Gallery lang={lang} imgs={[...WORKS[s.dir], ...imgs]} alt={s.alt} /></Sec>
     <Consult lang={lang} k={p} />
   </>;
 }
