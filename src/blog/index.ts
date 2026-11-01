@@ -5,9 +5,9 @@ export type PostLang = { title: string; desc: string; lead: string; body: string
 export type Post = { slug: string; date: string; author: AuthorId; cover: string; coverAlt: Record<Lang, string>; related?: string[] } & Record<Lang, PostLang>;
 
 const STAFF = 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/';
-export const AUTHORS: Record<AuthorId, { name: Record<Lang, string>; role: Record<Lang, string>; booksy: string; cta: Record<Lang, string> }> = {
+export const AUTHORS: Record<AuthorId, { name: Record<Lang, string>; role: Record<Lang, string>; booksy: string; img?: string; cta: Record<Lang, string> }> = {
   ola: { name: { pl: 'Ola', ua: 'Оля' }, role: { pl: 'Fryzjerka · strzyżenie i koloryzacja', ua: 'Перукар · стрижки та фарбування' }, booksy: STAFF + '397957#ba_s=dl_1', cta: { pl: 'Umów się do Oli', ua: 'Записатися до Олі' } },
-  wiktoria: { name: { pl: 'Wiktoria', ua: 'Вікторія' }, role: { pl: 'Brwi, rzęsy, upięcia i makijaż', ua: 'Брови, вії, зачіски та макіяж' }, booksy: STAFF + '396048#ba_s=dl_1', cta: { pl: 'Umów się do Wiktorii', ua: 'Записатися до Вікторії' } },
+  wiktoria: { name: { pl: 'Wiktoria', ua: 'Вікторія' }, role: { pl: 'Brwi, rzęsy, upięcia i makijaż', ua: 'Брови, вії, зачіски та макіяж' }, booksy: STAFF + '396048#ba_s=dl_1', img: '/img/team/wiktoria', cta: { pl: 'Umów się do Wiktorii', ua: 'Записатися до Вікторії' } },
 };
 
 const mods = import.meta.glob<{ default: Post }>('./posts/*.ts', { eager: true });

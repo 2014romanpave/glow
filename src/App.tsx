@@ -257,6 +257,9 @@ const Placeholder = ({ ch }: { ch: string }) => (
   <div className="flex aspect-[3/4] items-center justify-center bg-[#ececec]"><span className="font-serif text-7xl italic text-[#8D8787]">{ch}</span></div>
 );
 
+const TEAM_IMG: Record<string, string> = { Wiktoria: '/img/team/wiktoria', 'Вікторія': '/img/team/wiktoria' };
+const TeamPic = ({ name, alt }: { name: string; alt: string }) => <picture className="block aspect-[3/4] overflow-hidden bg-[#ececec]"><source type="image/avif" srcSet={`${TEAM_IMG[name]}-300.avif 300w, ${TEAM_IMG[name]}-600.avif 600w`} sizes="(min-width: 768px) 220px, 130px" /><img src={`${TEAM_IMG[name]}-600.webp`} srcSet={`${TEAM_IMG[name]}-300.webp 300w, ${TEAM_IMG[name]}-600.webp 600w`} sizes="(min-width: 768px) 220px, 130px" alt={alt} loading="lazy" decoding="async" width={600} height={800} className="h-full w-full object-cover" /></picture>;
+
 function Home({ lang }: { lang: Lang }) {
   const t = DICT[lang]; const h = t.home;
   const heroImgs = [GAL.coloring[0], '/img/works/latest/catrina-1200.webp', '/img/works/latest/balayage-1200.webp', GAL.coloring[3], GAL.makeup[1], GAL.brows[2], '/img/works/latest/caramel-1200.webp', GAL.hairstyles[1], GAL.haircut[3], GAL.coloring[6], GAL.makeup[4], GAL.coloring[9], GAL.hairstyles[5], GAL.haircut[7], '/img/works/latest/platinum-1200.webp', GAL.brows[5], GAL.coloring[11], GAL.haircut[11], GAL.makeup[6], GAL.hairstyles[9]];
@@ -278,7 +281,7 @@ function Home({ lang }: { lang: Lang }) {
       <Eyebrow>GLOW Hair Atelier</Eyebrow><H2>{h.teamT}</H2>
       <div className="grid gap-12 lg:grid-cols-2">
         {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
-          <Placeholder ch={m.n[0]} />
+          {TEAM_IMG[m.n] ? <TeamPic name={m.n} alt={lang === 'pl' ? `${m.n} — stylistka brwi, rzęs i makijażu, GLOW Hair Atelier Poznań` : `${m.n} — майстриня брів, вій і макіяжу, GLOW Hair Atelier Познань`} /> : <Placeholder ch={m.n[0]} />}
           <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b}>{m.c}</Pill></div></div>
         </div>)}
       </div>
@@ -608,7 +611,7 @@ function Article({ lang, slug }: { lang: Lang; slug: string }) {
           </div>
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="border border-black/10 bg-white p-8">
-              <div className="flex items-center gap-5"><div className="grid h-20 w-20 shrink-0 place-items-center bg-[#eee] font-serif text-3xl italic text-[#8D8787]" aria-hidden>{a.name[lang][0]}</div>
+              <div className="flex items-center gap-5">{a.img ? <picture className="h-20 w-20 shrink-0 overflow-hidden bg-[#eee]"><source type="image/avif" srcSet={`${a.img}-avatar.avif`} /><img src={`${a.img}-avatar.webp`} alt={`${a.name[lang]} — ${a.role[lang]}, GLOW Hair Atelier`} width={80} height={80} loading="lazy" className="h-full w-full object-cover" /></picture> : <div className="grid h-20 w-20 shrink-0 place-items-center bg-[#eee] font-serif text-3xl italic text-[#8D8787]" aria-hidden>{a.name[lang][0]}</div>}
                 <div><p className="text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{b.by}</p><p className="font-serif text-[28px] leading-tight">{a.name[lang]}</p></div></div>
               <p className="mt-4 text-sm text-[#555]">{a.role[lang]}</p>
               <div className="mt-6"><Pill href={a.booksy}>{a.cta[lang]}</Pill></div>
