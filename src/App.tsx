@@ -500,7 +500,7 @@ function Md({ src }: { src: string }) {
 function PostCard({ p, lang, big }: { p: Post; lang: Lang; big?: boolean }) {
   const t = p[lang], a = AUTHORS[p.author], b = BLOG[lang];
   return <a href={postPath(lang, p.slug)} className="group rv block" data-cursor={b.more}>
-    <div className={`overflow-hidden bg-[#eee] ${big ? 'aspect-[4/3] md:aspect-[21/9]' : 'aspect-[4/5]'}`}><img src={p.cover} alt={p.coverAlt[lang]} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></div>
+    <div className={`overflow-hidden bg-[#eee] ${big ? 'aspect-[4/3] md:aspect-[21/9]' : 'aspect-[4/5]'}`}><img src={p.coverWide || p.cover} style={p.coverPos && !p.coverWide ? { objectPosition: p.coverPos } : undefined} alt={p.coverAlt[lang]} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></div>
     <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{a.name[lang]} · {fmtDate(p.date, lang)} · {readMin(t)} {b.read}</p>
     <h2 className={`mt-3 font-serif leading-[1.15] [text-wrap:balance] ${big ? 'text-[clamp(24px,6.4vw,30px)] md:text-[clamp(32px,3vw,44px)]' : 'text-[clamp(22px,5.8vw,26px)] md:text-[26px] lg:text-[28px]'}`}>{t.title.split(' | ')[0]}</h2>
     {big && <p className="mt-4 max-w-2xl text-[#8D8787]">{t.lead}</p>}
@@ -516,7 +516,7 @@ function HomeBlog({ lang }: { lang: Lang }) {
       <a href={path(lang, 'blog')} className="rv navl text-[13px]">{ua ? 'Усі статті' : 'Wszystkie artykuły'} →</a>
     </div>
     <div className="grid gap-x-10 gap-y-16 md:grid-cols-3">{POSTS.slice(0, 3).map((p) => { const t = p[lang]; return <article key={p.slug} className="rv group">
-      <a href={postPath(lang, p.slug)} tabIndex={-1} aria-hidden className="block overflow-hidden bg-[#eee] aspect-[4/5]"><img src={p.cover} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></a>
+      <a href={postPath(lang, p.slug)} tabIndex={-1} aria-hidden className="block overflow-hidden bg-[#eee] aspect-[4/5]"><img src={p.cover} style={p.coverPos ? { objectPosition: p.coverPos } : undefined} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" /></a>
       <p className="mt-5 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]">{AUTHORS[p.author].name[lang]} · {readMin(t)} {b.read}</p>
       <h3 className="mt-3 font-serif text-[clamp(22px,5.8vw,26px)] leading-[1.18] [text-wrap:balance] lg:text-[28px]"><a href={postPath(lang, p.slug)} className="hover:underline decoration-1 underline-offset-4">{t.title.split(' | ')[0]}</a></h3>
       <p className="mt-3 line-clamp-3 text-[15px] leading-relaxed text-[#555]">{t.lead}</p>
@@ -601,7 +601,7 @@ function Article({ lang, slug }: { lang: Lang; slug: string }) {
           <p className="fly mt-6 text-[11px] uppercase tracking-[0.2em] text-[#8D8787]" style={{ ['--d' as string]: '120ms' }}>{b.by}: {a.name[lang]} · <time dateTime={p.date}>{fmtDate(p.date, lang)}</time> · {readMin(t)} {b.read}</p>
         </div>
       </header>
-      <div className="bg-[#F7F7F7] px-5 md:px-10"><div className="mx-auto max-w-[1360px]"><div className="fly aspect-[16/10] overflow-hidden bg-[#eee] md:aspect-[21/9]"><img src={p.cover} alt={p.coverAlt[lang]} fetchPriority="high" className="h-full w-full object-cover" /></div></div></div>
+      <div className="bg-[#F7F7F7] px-5 md:px-10"><div className="mx-auto max-w-[1360px]"><div className="fly aspect-[16/10] overflow-hidden bg-[#eee] md:aspect-[21/9]"><img src={p.coverWide || p.cover} style={p.coverPos && !p.coverWide ? { objectPosition: p.coverPos } : undefined} alt={p.coverAlt[lang]} fetchPriority="high" className="h-full w-full object-cover" /></div></div></div>
       <div className="bg-[#F7F7F7] px-5 py-16 md:px-10 md:py-24">
         <div className="mx-auto grid max-w-[1360px] gap-14 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-24">
           <div className="max-w-[760px]">

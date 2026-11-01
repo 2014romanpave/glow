@@ -4,8 +4,11 @@ const post: Post = {
   slug: 'laminacja-brwi-rzes-po-zabiegu',
   date: '2026-11-01',
   author: 'wiktoria',
-  cover: '/img/brows/brows3_1x.webp',
-  coverAlt: { pl: 'Laminacja brwi w GLOW Hair Atelier w Poznaniu', ua: 'Ламінування брів у GLOW Hair Atelier у Познані' },
+  cover: '/img/blog/laminacja-1600.webp',
+  coverPos: '50% 28%',
+  coverWide: '/img/blog/laminacja-wide.webp',
+  ogImage: '/img/blog/laminacja-og.jpg',
+  coverAlt: { pl: 'Efekt laminacji brwi — naturalne, uniesione brwi, GLOW Hair Atelier Poznań', ua: 'Результат ламінування брів — природні підняті брови, GLOW Hair Atelier Познань' },
   pl: {
     title: 'Laminacja brwi i rzęs: jak przygotować się i co robić po zabiegu | Blog GLOW',
     desc: 'Laminacja brwi i rzęs w Poznaniu: jak przygotować się do wizyty, czego unikać przez pierwsze 24–48 godzin i jak przedłużyć efekt. Porady Wiktorii z GLOW Hair Atelier.',

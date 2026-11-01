@@ -56,7 +56,7 @@ for (const l of LANGS) for (const pg of PAGES) {
 // blog posts
 const postUrl = (l, slug) => SITE_URL + postPath(l, slug);
 for (const post of POSTS) for (const l of LANGS) {
-  const t = post[l], a = AUTHORS[post.author], u = postUrl(l, post.slug), img = SITE_URL + post.cover;
+  const t = post[l], a = AUTHORS[post.author], u = postUrl(l, post.slug), img = SITE_URL + (post.ogImage || post.cover);
   const ldj = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: t.title.split(' | ')[0], description: t.desc, image: img, datePublished: post.date, dateModified: post.date, inLanguage: HTML_LANG[l],
     mainEntityOfPage: u, url: u, author: { '@type': 'Person', name: a.name[l] + ' — ' + C.name, jobTitle: a.role[l], worksFor: { '@id': `${SITE_URL}/#salon` }, url: a.booksy, ...(a.img ? { image: SITE_URL + a.img + '.jpg' } : {}) },
     publisher: { '@type': 'Organization', name: C.name, logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/logo.webp` } } };

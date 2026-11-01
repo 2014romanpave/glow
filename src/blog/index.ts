@@ -2,7 +2,7 @@ import type { Lang } from '../i18n';
 
 export type AuthorId = 'ola' | 'wiktoria';
 export type PostLang = { title: string; desc: string; lead: string; body: string };
-export type Post = { slug: string; date: string; author: AuthorId; cover: string; coverAlt: Record<Lang, string>; related?: string[] } & Record<Lang, PostLang>;
+export type Post = { slug: string; date: string; author: AuthorId; cover: string; coverPos?: string; coverWide?: string; ogImage?: string; coverAlt: Record<Lang, string>; related?: string[] } & Record<Lang, PostLang>;
 
 const STAFF = 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/';
 export const AUTHORS: Record<AuthorId, { name: Record<Lang, string>; role: Record<Lang, string>; booksy: string; img?: string; cta: Record<Lang, string> }> = {
