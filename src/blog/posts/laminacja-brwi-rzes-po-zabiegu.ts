@@ -4,9 +4,8 @@ const post: Post = {
   slug: 'laminacja-brwi-rzes-po-zabiegu',
   date: '2026-11-01',
   author: 'wiktoria',
-  cover: '/img/blog/laminacja-1600.webp',
-  coverPos: '50% 28%',
-  coverWide: '/img/blog/laminacja-wide.webp',
+  cover: '/img/blog/laminacja-card.webp',
+  coverBase: '/img/blog/laminacja',
   ogImage: '/img/blog/laminacja-og.jpg',
   coverAlt: { pl: 'Efekt laminacji brwi — naturalne, uniesione brwi, GLOW Hair Atelier Poznań', ua: 'Результат ламінування брів — природні підняті брови, GLOW Hair Atelier Познань' },
   pl: {

@@ -4,7 +4,9 @@ const post: Post = {
   slug: 'kare-bob-ksztalt-twarzy',
   date: '2026-11-01',
   author: 'ola',
-  cover: '/img/haircut/haircut2_1x.webp',
+  cover: '/img/blog/kare-card.webp',
+  coverBase: '/img/blog/kare',
+  ogImage: '/img/blog/kare-og.jpg',
   coverAlt: { pl: 'Strzyżenie bob-karé wykonane w GLOW Hair Atelier w Poznaniu', ua: 'Стрижка боб-каре у GLOW Hair Atelier у Познані' },
   related: ['airtouch-poznan'],
   pl: {

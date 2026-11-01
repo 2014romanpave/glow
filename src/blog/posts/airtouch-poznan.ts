@@ -4,9 +4,9 @@ const post: Post = {
   slug: 'airtouch-poznan',
   date: '2026-11-01',
   author: 'ola',
-  cover: '/img/coloring/airtouch.webp',
-  coverPos: '50% 15%',
-  coverWide: '/img/blog/airtouch-wide.webp',
+  cover: '/img/blog/airtouch-card.webp',
+  coverBase: '/img/blog/airtouch',
+  ogImage: '/img/blog/airtouch-og.jpg',
   coverAlt: { pl: 'Koloryzacja AirTouch — efekt w GLOW Hair Atelier w Poznaniu', ua: 'Фарбування AirTouch — результат у GLOW Hair Atelier у Познані' },
   related: ['kare-bob-ksztalt-twarzy'],
   pl: {
