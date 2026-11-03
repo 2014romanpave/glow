@@ -257,7 +257,7 @@ const Placeholder = ({ ch }: { ch: string }) => (
   <div className="flex aspect-[3/4] items-center justify-center bg-[#ececec]"><span className="font-serif text-7xl italic text-[#8D8787]">{ch}</span></div>
 );
 
-const TEAM_IMG: Record<string, string> = { Wiktoria: '/img/team/wiktoria', 'Вікторія': '/img/team/wiktoria' };
+const TEAM_IMG: Record<string, string> = { Ola: '/img/team/ola', 'Оля': '/img/team/ola', Wiktoria: '/img/team/wiktoria', 'Вікторія': '/img/team/wiktoria' };
 const TeamPic = ({ name, alt }: { name: string; alt: string }) => <picture className="block aspect-[3/4] overflow-hidden bg-[#ececec]"><source type="image/avif" srcSet={`${TEAM_IMG[name]}-300.avif 300w, ${TEAM_IMG[name]}-600.avif 600w`} sizes="(min-width: 768px) 220px, 130px" /><img src={`${TEAM_IMG[name]}-600.webp`} srcSet={`${TEAM_IMG[name]}-300.webp 300w, ${TEAM_IMG[name]}-600.webp 600w`} sizes="(min-width: 768px) 220px, 130px" alt={alt} loading="lazy" decoding="async" width={600} height={800} className="h-full w-full object-cover" /></picture>;
 
 function Home({ lang }: { lang: Lang }) {
@@ -281,7 +281,7 @@ function Home({ lang }: { lang: Lang }) {
       <Eyebrow>GLOW Hair Atelier</Eyebrow><H2>{h.teamT}</H2>
       <div className="grid gap-12 lg:grid-cols-2">
         {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
-          {TEAM_IMG[m.n] ? <TeamPic name={m.n} alt={lang === 'pl' ? `${m.n} — stylistka brwi, rzęs i makijażu, GLOW Hair Atelier Poznań` : `${m.n} — майстриня брів, вій і макіяжу, GLOW Hair Atelier Познань`} /> : <Placeholder ch={m.n[0]} />}
+          {TEAM_IMG[m.n] ? <TeamPic name={m.n} alt={`${m.n} — ${m.r}, GLOW Hair Atelier ${lang === 'pl' ? 'Poznań' : 'Познань'}`} /> : <Placeholder ch={m.n[0]} />}
           <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b}>{m.c}</Pill></div></div>
         </div>)}
       </div>
@@ -448,7 +448,7 @@ function Kursy({ lang }: { lang: Lang }) {
     <Courses lang={lang} full />
     <Sec>
       <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
-        <div className="rv"><Placeholder ch="O" /></div>
+        <div className="rv"><TeamPic name="Ola" alt={lang === 'pl' ? 'Ola — fryzjerka i trenerka, GLOW Hair Atelier Poznań' : 'Оля — перукар і тренерка, GLOW Hair Atelier Познань'} /></div>
         <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
       </div>
     </Sec>
