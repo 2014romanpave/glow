@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   const token = process.env.GLOW_TG_BOT_TOKEN, chat = process.env.GLOW_TG_CHAT_ID;
   if (!token || !chat) return res.status(503).json({ ok: false, error: 'not_configured' });
   const when = new Intl.DateTimeFormat('uk-UA', { timeZone: 'Europe/Warsaw', dateStyle: 'medium', timeStyle: 'short' }).format(new Date());
-  const url = `https://glow-hair-atelier.vercel.app${lang === 'ua' ? '/ua' : ''}/blog/${slug}`;
+  const url = `https://glowpoznan.com${lang === 'ua' ? '/ua' : ''}/blog/${slug}`;
   const text = [`⭐ <b>Оцінка статті: ${'★'.repeat(value)}${'☆'.repeat(5 - value)} (${value}/5)</b>`, '', `📝 <a href="${esc(url)}">${esc(slug)}</a>`, `🌐 Мова: ${lang === 'ua' ? 'українська' : 'польська'}`, `🕒 ${esc(when)} (Варшава)`].join('\n');
   try {
     const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: chat, text, parse_mode: 'HTML', disable_web_page_preview: true }) });
