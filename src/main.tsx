@@ -14,3 +14,5 @@ if (nf && lang === 'ua') { document.documentElement.lang = 'uk'; document.title 
 const app = <StrictMode><App lang={lang} page={page} nf={nf} post={post} /></StrictMode>;
 if (el.dataset.ssr === '1' && !(nf && lang === 'ua')) hydrateRoot(el, app); else createRoot(el).render(app);
 import('./fx').then((m) => m.startFx());
+import('@vercel/analytics').then((m) => m.inject());
+import('@vercel/speed-insights').then((m) => m.injectSpeedInsights());

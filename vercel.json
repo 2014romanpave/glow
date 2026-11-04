@@ -6,6 +6,8 @@
     { "source": "/keratinbotox", "destination": "/", "permanent": true },
     { "source": "/keratinbotox.html", "destination": "/", "permanent": true },
     { "source": "/ua/keratinbotox", "destination": "/ua", "permanent": true },
+    { "source": "/menu.html", "destination": "/", "permanent": true },
+    { "source": "/menu", "destination": "/", "permanent": true },
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/404.html", "destination": "/", "permanent": true },
     { "source": "/:page(coloring|haircuts|hairstyles|makeup|brows|contact).html", "destination": "/:page", "permanent": true },

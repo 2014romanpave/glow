@@ -18,7 +18,7 @@ export const C = {
   zip: '60-854',
   city: 'Poznań',
   district: 'Jeżyce',
-  maps: 'https://maps.app.goo.gl/UaWPZjVQbtzsgh7y8', mapEmbed: 'https://maps.google.com/maps?cid=5580633792286186044&output=embed', hasMap: 'https://maps.google.com/?cid=5580633792286186044',
+  maps: 'https://maps.app.goo.gl/UaWPZjVQbtzsgh7y8', mapEmbed: 'https://maps.google.com/maps?cid=5580633792286186044&output=embed', hasMap: 'https://maps.app.goo.gl/UaWPZjVQbtzsgh7y8',
   gbp: '', // TODO: link do profilu Google Business, gdy powstanie
   geo: { lat: 52.4130122, lng: 16.9073264 },
 };

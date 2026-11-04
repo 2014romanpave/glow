@@ -68,7 +68,7 @@ for (const post of POSTS) for (const l of LANGS) {
     <link rel="alternate" hreflang="x-default" href="${postUrl('pl', post.slug)}" />
     <meta property="og:type" content="article" /><meta property="og:site_name" content="${C.name}" />
     <meta property="og:url" content="${u}" /><meta property="og:title" content="${esc(t.title)}" />
-    <meta property="og:description" content="${esc(t.desc)}" /><meta property="og:image" content="${img}" />
+    <meta property="og:description" content="${esc(t.desc)}" /><meta property="og:image" content="${img}" /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
     <meta property="og:locale" content="${OG[l]}" /><meta property="article:published_time" content="${post.date}" /><meta property="article:author" content="${esc(a.name[l])}" />
     <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${esc(t.title)}" /><meta name="twitter:description" content="${esc(t.desc)}" /><meta name="twitter:image" content="${img}" />
     <script type="application/ld+json">${JSON.stringify(ldj)}</script>
