@@ -291,7 +291,8 @@ function Home({ lang }: { lang: Lang }) {
       <H2>{h.galT}</H2>
       <HomeGallery lang={lang} />
     </Sec>
-    <HomeCourses lang={lang} />
+    <Courses lang={lang} />
+    <HomeVika lang={lang} />
     <HomeBlog lang={lang} />
   </>;
 }
@@ -386,27 +387,49 @@ function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang
   </section>;
 }
 
-function HomeCourses({ lang }: { lang: Lang }) {
-  const t = DICT[lang], k = t.kursy, h = t.home;
-  const city = lang === 'pl' ? 'Poznań' : 'Познань';
-  const cards = [
-    { name: h.team[0].n, dir: k.dirHair, text: k.homeOla, href: `${path(lang, 'kursy')}#ola` },
-    { name: h.team[1].n, dir: k.dirMakeup, text: k.homeVika, href: `${path(lang, 'kursy')}#vika` },
+function CourseSlides({ lang }: { lang: Lang }) {
+  const pl = lang === 'pl';
+  const name = DICT[lang].home.team[1].n;
+  const base = TEAM_IMG[name];
+  const slides = [
+    { src: `${base}-600.webp`, alt: pl ? 'Wiktoria — GLOW Hair Atelier Poznań' : 'Вікторія — GLOW Hair Atelier Познань' },
+    { src: '/img/works/makeup/makeup-red-1200.webp', alt: pl ? 'Czerwony makijaż wieczorowy — GLOW Hair Atelier' : 'Червоний вечірній макіяж — GLOW Hair Atelier' },
+    { src: '/img/works/latest/pampas-1200.webp', alt: pl ? 'Makijaż wieczorowy glam — GLOW Hair Atelier' : 'Вечірній glam-макіяж — GLOW Hair Atelier' },
+    { src: '/img/works/latest/catrina-1200.webp', alt: pl ? 'Makijaż kreatywny — GLOW Hair Atelier' : 'Креативний макіяж — GLOW Hair Atelier' },
   ];
-  return <section id="kursy" className="bg-black px-5 py-24 text-white md:px-10 md:py-32">
+  const [i, setI] = useState(0);
+  const hover = useRef(false);
+  useEffect(() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const t = window.setInterval(() => { if (!hover.current) setI((n) => (n + 1) % slides.length); }, 4000);
+    return () => clearInterval(t);
+  }, [slides.length]);
+  return <div className="rv relative aspect-[4/5] w-full overflow-hidden bg-[#111]" onMouseEnter={() => { hover.current = true; }} onMouseLeave={() => { hover.current = false; }} onTouchStart={() => { hover.current = true; }} onTouchEnd={() => { hover.current = false; }}>
+    {slides.map((s, n) => <img key={s.src} src={s.src} alt={n === i ? s.alt : ''} aria-hidden={n !== i} className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-1000 ease-out ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
+    <span className="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1 text-[11px] tracking-[0.18em] text-white" aria-hidden>{String(i + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
+  </div>;
+}
+
+function HomeVika({ lang }: { lang: Lang }) {
+  const k = DICT[lang].kursy, v = k.vika;
+  return <section id="home-vika" className="scroll-mt-24 border-t border-white/15 bg-black px-5 py-24 text-white md:px-10 md:py-32">
     <div className="mx-auto max-w-[1360px]">
-      <Eyebrow>GLOW Academy</Eyebrow>
-      <H2>{t.nav.kursy}</H2>
-      <div id="home-dirs" className="grid gap-14 lg:grid-cols-2 lg:gap-20">
-        {cards.map((c, i) => <article key={c.dir} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
-          <TeamPic name={c.name} alt={`${c.name} — ${c.dir}, GLOW Hair Atelier ${city}`} />
-          <div>
-            <h3 className="font-serif text-5xl leading-none">{c.name}</h3>
-            <p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{c.dir}</p>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">{c.text}</p>
-            <div className="mt-6"><Pill href={c.href} light>{k.see}</Pill></div>
-          </div>
-        </article>)}
+      <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
+        <div>
+          <Eyebrow>{v.name} · {k.dirMakeup}</Eyebrow>
+          <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[64px]">{v.hook}</h2>
+          <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
+          <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
+            <ul>{v.offers.map((o) => <li key={o.id} className="border-b border-white/15 py-5">
+              <a href={`${path(lang, 'kursy')}?kurs=${o.id}#vika`} className="flex flex-wrap items-baseline justify-between gap-3">
+                <span className="font-serif text-3xl leading-tight md:text-4xl">{o.t}</span>
+                <span className="rounded-full border border-white/30 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-white/60">{o.time}</span>
+              </a>
+            </li>)}</ul></div>
+          <div className="rv mt-10"><Waitlist lang={lang} label={k.see} href={`${path(lang, 'kursy')}#vika`} /></div>
+        </div>
+        <CourseSlides lang={lang} />
       </div>
     </div>
   </section>;
@@ -423,7 +446,7 @@ function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{k.lead}</p>
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.forT}</p>
             <ul>{k.forList.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
-          <div className="rv mt-10"><Waitlist lang={lang} /></div>
+          <div className="rv mt-10"><Waitlist lang={lang} href={full ? '#zapis' : `${path(lang, 'kursy')}#zapis`} /></div>
         </div>
         <CourseVideo lang={lang} />
       </div>
