@@ -422,12 +422,13 @@ function HomeVika({ lang }: { lang: Lang }) {
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
             <ul>{v.offers.map((o) => <li key={o.id} className="border-b border-white/15 py-5">
-              <a href={`${path(lang, 'kursy')}?kurs=${o.id}#vika`} className="flex flex-wrap items-baseline justify-between gap-3">
+              <a href={`${path(lang, 'kursy')}?kurs=${o.id}#vika`} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                 <span className="font-serif text-3xl leading-tight md:text-4xl">{o.t}</span>
-                <span className="rounded-full border border-white/30 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-white/60">{o.time}</span>
+                <span className="text-[14px] leading-snug text-white/80">{o.time}</span>
+                <span className="w-full text-sm leading-relaxed text-white/80">{o.home}</span>
               </a>
             </li>)}</ul></div>
-          <div className="rv mt-10"><Waitlist lang={lang} label={k.see} href={`${path(lang, 'kursy')}#vika`} /></div>
+          <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href={`${path(lang, 'kursy')}#vika`} /></div>
         </div>
         <CourseSlides lang={lang} />
       </div>
@@ -520,10 +521,6 @@ function readCoursePick(ids: string[]) {
   return { makeup, id };
 }
 
-function offerCopy(o: { time: string; points: string[]; notes: string[] }) {
-  const bits = [o.time, ...o.points, ...o.notes.map((n) => n.replace(/\.$/, ''))];
-  return bits.join('. ') + '.';
-}
 
 function CoursePortrait({ name, alt }: { name: string; alt: string }) {
   const base = TEAM_IMG[name];
@@ -533,7 +530,7 @@ function CoursePortrait({ name, alt }: { name: string; alt: string }) {
   </div>;
 }
 
-function VikaCourses({ lang, onPick, onSignup }: { lang: Lang; onPick: (id: string) => void; onSignup: () => void }) {
+function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => void }) {
   const k = DICT[lang].kursy, v = k.vika;
   const name = DICT[lang].home.team[1].n;
   const alt = lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань';
@@ -547,16 +544,17 @@ function VikaCourses({ lang, onPick, onSignup }: { lang: Lang; onPick: (id: stri
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{v.sharedT}</p>
             <ul>{v.shared.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
-          <div className="rv mt-10"><Waitlist lang={lang} label={v.cta} onClick={(e) => { e.preventDefault(); onSignup(); document.getElementById('zapis')?.scrollIntoView({ behavior: 'smooth' }); }} /></div>
+          <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href="#vika-offers" /></div>
         </div>
         <CoursePortrait name={name} alt={alt} />
       </div>
-      <div className="mt-24"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
+      <div id="vika-offers" className="mt-24 scroll-mt-36"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
         <div className="grid gap-px bg-white/15 sm:grid-cols-2">{v.offers.map((o, i) => <div key={o.id} className="rv bg-black p-8" style={{ ['--d' as string]: `${(i % 2) * 100}ms` }}>
           <span className="font-serif text-4xl italic text-white/30">0{i + 1}</span>
           <h3 className="mt-5 font-serif text-2xl leading-tight">{o.t}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-white/60">{offerCopy(o)}</p>
-          <a href={`?kurs=${o.id}#zapis`} className="navl mt-5 inline-block text-[13px]" onClick={(e) => { e.preventDefault(); pick(o.id); }}>{v.cta} →</a>
+          <p className="mt-2 text-[13px] text-white/50">{o.time}</p>
+          <p className="mt-3 text-sm leading-relaxed text-white/70">{o.sell}</p>
+          <a href={`?kurs=${o.id}#zapis`} className="navl mt-5 inline-block text-[13px]" onClick={(e) => { e.preventDefault(); pick(o.id); }}>{v.thisCta} →</a>
         </div>)}</div></div>
     </div>
   </section>;
@@ -595,7 +593,7 @@ function Kursy({ lang }: { lang: Lang }) {
         <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
       </div>
     </Sec>
-    <VikaCourses lang={lang} onPick={choose} onSignup={() => setMode('makeup')} />
+    <VikaCourses lang={lang} onPick={choose} />
     <Sec>
       <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
         <div className="rv"><TeamPic name={k.vika.name} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} /></div>
