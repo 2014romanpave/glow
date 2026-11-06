@@ -1,5 +1,5 @@
 import { flushSync } from 'react-dom';
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type MouseEvent, type ReactNode } from 'react';
 import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, SITE_URL, path, type Lang, type Page } from './i18n';
 import { WORKS, isWork, wAlt } from './works';
 import { GAL } from './gallery';
@@ -10,8 +10,8 @@ const SVC = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows'] as const;
 const tel = C.phone.replace(/\s/g, '');
 const Arrow = () => <span aria-hidden className="ml-3 inline-block transition-transform group-hover:translate-x-1">→</span>;
 
-const Pill = ({ href, children, light }: { href: string; children: ReactNode; light?: boolean }) => (
-  <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-magnet
+const Pill = ({ href, children, light, onClick }: { href: string; children: ReactNode; light?: boolean; onClick?: (e: MouseEvent<HTMLAnchorElement>) => void }) => (
+  <a href={href} onClick={onClick} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-magnet
     className={`group inline-flex items-center rounded-full px-6 py-3.5 text-[13px] tracking-wide transition-colors ${light ? 'bg-white text-black hover:bg-[#e9e9e9]' : 'bg-black text-white hover:bg-[#222]'}`}>{children}<Arrow /></a>
 );
 const Stack = ({ a, b }: { a: string; b: string }) => <span className="inline-flex flex-col text-[11px] leading-[1.05] tracking-[0.12em] font-semibold"><span>{a}</span><span>{b}</span></span>;
@@ -291,8 +291,7 @@ function Home({ lang }: { lang: Lang }) {
       <H2>{h.galT}</H2>
       <HomeGallery lang={lang} />
     </Sec>
-    <Courses lang={lang} />
-    <WaitForm lang={lang} />
+    <HomeCourses lang={lang} />
     <HomeBlog lang={lang} />
   </>;
 }
@@ -306,19 +305,21 @@ function CourseVideo({ lang }: { lang: Lang }) {
   </div>;
 }
 
-const Waitlist = ({ lang }: { lang: Lang }) => <div className="flex flex-wrap items-center gap-3">
-  <Pill href="#zapis" light>{DICT[lang].kursy.cta}</Pill>
+const Waitlist = ({ lang, href = '#zapis', label, onClick }: { lang: Lang; href?: string; label?: string; onClick?: (e: MouseEvent<HTMLAnchorElement>) => void }) => <div className="flex flex-wrap items-center gap-3">
+  <Pill href={href} light onClick={onClick}>{label ?? DICT[lang].kursy.cta}</Pill>
   <a href={`tel:${tel}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">{C.phone}</a>
   <a href={`mailto:${C.email}`} className="rounded-full border border-white/40 px-5 py-3.5 text-[13px] hover:bg-white hover:text-black transition-colors">E-mail</a>
 </div>;
 
 const WF = {
-  pl: { eyebrow: 'Kurs karé / bob-karé', name: 'Imię', phone: 'Telefon', ig: 'Instagram (opcjonalnie)', level: 'Doświadczenie (opcjonalnie)', levels: { beginner: 'Początkująca / początkujący', working: 'Pracuję jako fryzjer(ka)', experienced: 'Doświadczona / doświadczony' }, choose: 'Wybierz…', comment: 'Komentarz (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych przez GLOW Hair Atelier wyłącznie w celu kontaktu w sprawie kursu.', send: 'Zapisz mnie', lead: 'Zostaw kontakt — damy znać jako pierwsi o terminie i szczegółach kursu.', sending: 'Wysyłanie…', ok: 'Dziękujemy! Ola skontaktuje się z Tobą wkrótce.', err: 'Nie udało się wysłać formularza.', fb: 'Napisz do nas na Instagramie lub zadzwoń:', req: 'Uzupełnij wymagane pola: imię, telefon i zgodę.', rate: 'Zbyt wiele prób — spróbuj za kilka minut.' },
-  ua: { eyebrow: 'Курс каре / боб-каре', name: 'Імʼя', phone: 'Телефон', ig: 'Instagram (необовʼязково)', level: 'Досвід (необовʼязково)', levels: { beginner: 'Початківець', working: 'Працюю перукарем', experienced: 'Досвідчений майстер' }, choose: 'Оберіть…', comment: 'Коментар (необовʼязково)', consent: 'Погоджуюсь на обробку моїх даних GLOW Hair Atelier виключно для звʼязку щодо курсу.', send: 'Записатися', lead: 'Залиште контакт — ми першими повідомимо про дату й деталі курсу.', sending: 'Надсилаємо…', ok: 'Дякуємо! Оля звʼяжеться з вами найближчим часом.', err: 'Не вдалося надіслати форму.', fb: 'Напишіть нам в Instagram або зателефонуйте:', req: 'Заповніть обовʼязкові поля: імʼя, телефон і згоду.', rate: 'Забагато спроб — спробуйте за кілька хвилин.' },
+  pl: { eyebrow: 'Kurs karé / bob-karé', name: 'Imię', phone: 'Telefon', ig: 'Instagram (opcjonalnie)', level: 'Doświadczenie (opcjonalnie)', levels: { beginner: 'Początkująca / początkujący', working: 'Pracuję jako fryzjer(ka)', experienced: 'Doświadczona / doświadczony' }, choose: 'Wybierz…', comment: 'Komentarz (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych przez GLOW Hair Atelier wyłącznie w celu kontaktu w sprawie kursu.', send: 'Zapisz mnie', lead: 'Zostaw kontakt — damy znać jako pierwsi o terminie i szczegółach kursu.', sending: 'Wysyłanie…', ok: 'Dziękujemy! Ola skontaktuje się z Tobą wkrótce.', err: 'Nie udało się wysłać formularza.', fb: 'Napisz do nas na Instagramie lub zadzwoń:', req: 'Uzupełnij wymagane pola: imię, telefon i zgodę.', rate: 'Zbyt wiele prób — spróbuj za kilka minut.', preview: 'To jest lokalny podgląd. Zgłoszenie nie zostało wysłane.' },
+  ua: { eyebrow: 'Курс каре / боб-каре', name: 'Імʼя', phone: 'Телефон', ig: 'Instagram (необовʼязково)', level: 'Досвід (необовʼязково)', levels: { beginner: 'Початківець', working: 'Працюю перукарем', experienced: 'Досвідчений майстер' }, choose: 'Оберіть…', comment: 'Коментар (необовʼязково)', consent: 'Погоджуюсь на обробку моїх даних GLOW Hair Atelier виключно для звʼязку щодо курсу.', send: 'Записатися', lead: 'Залиште контакт — ми першими повідомимо про дату й деталі курсу.', sending: 'Надсилаємо…', ok: 'Дякуємо! Оля звʼяжеться з вами найближчим часом.', err: 'Не вдалося надіслати форму.', fb: 'Напишіть нам в Instagram або зателефонуйте:', req: 'Заповніть обовʼязкові поля: імʼя, телефон і згоду.', rate: 'Забагато спроб — спробуйте за кілька хвилин.', preview: 'Це локальний перегляд. Заявку не надіслано.' },
 };
-function WaitForm({ lang }: { lang: Lang }) {
-  const f = WF[lang], k = DICT[lang].kursy;
-  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err' | 'invalid' | 'rate'>('idle');
+function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang: Lang; mode?: 'hair' | 'makeup'; vikaId?: string | null; onMode?: (m: 'hair' | 'makeup') => void; onVika?: (id: string) => void }) {
+  const f = WF[lang], k = DICT[lang].kursy, v = k.vika;
+  const makeup = mode === 'makeup';
+  const picked = v.offers.find((o) => o.id === vikaId) ?? null;
+  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err' | 'invalid' | 'rate' | 'preview' | 'need'>('idle');
   const [bad, setBad] = useState<string[]>([]);
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -326,8 +327,13 @@ function WaitForm({ lang }: { lang: Lang }) {
     const body = { ...Object.fromEntries(fd), consent: fd.get('consent') === 'on', lang, page: location.pathname };
     const miss = (['name', 'phone'] as const).filter((n) => !String(fd.get(n) || '').trim()) as string[];
     if (!body.consent) miss.push('consent');
+    if (makeup && !picked) { setBad(miss); setSt('need'); return; }
     if (miss.length) { setBad(miss); setSt('invalid'); return; }
-    setSt('sending'); setBad([]);
+    setBad([]);
+    // Local preview only — do not POST /api/waitlist and do not send Telegram.
+    const LOCAL_PREVIEW = true;
+    if (LOCAL_PREVIEW) { setSt('preview'); return; }
+    setSt('sending');
     try {
       const r = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const j = await r.json().catch(() => ({}));
@@ -339,16 +345,28 @@ function WaitForm({ lang }: { lang: Lang }) {
   const inp = 'w-full border-0 border-b border-black/25 bg-transparent px-0 py-3 text-[16px] outline-none transition-colors focus:border-black placeholder:text-black/30';
   const lab = 'block text-[11px] uppercase tracking-[0.2em] text-[#8D8787]';
   const field = (n: string, label: string, el: ReactNode) => <label className="block"><span className={lab}>{label}{bad.includes(n) && <span className="text-[#b3261e]"> *</span>}</span>{el}</label>;
-  return <section id="zapis" className="scroll-mt-24 bg-white px-5 py-24 md:px-10 md:py-32">
+  const tab = 'rounded-full border px-4 py-2 text-[13px] transition-colors';
+  return <section id="zapis" className="scroll-mt-36 bg-white px-5 py-24 md:px-10 md:py-32">
     <div className="mx-auto grid max-w-[1360px] gap-12 md:grid-cols-[1fr_1.2fr] md:gap-20">
-      <div><Eyebrow>{f.eyebrow}</Eyebrow><H2>{k.waitT}</H2><p className="rv max-w-md text-[#8D8787]">{f.lead}</p></div>
+      <div>
+        <Eyebrow>{makeup ? v.eyebrow : f.eyebrow}</Eyebrow>
+        <H2>{makeup ? v.cta : k.waitT}</H2>
+        <p className="rv max-w-md text-[#8D8787]">{makeup ? v.formLead : f.lead}</p>
+        {makeup && picked && <p className="rv mt-8 font-serif text-3xl leading-tight">{picked.t}</p>}
+      </div>
       {st === 'ok' ? <div role="status" aria-live="polite" className="self-center"><p className="font-serif text-[32px] leading-tight md:text-[44px]">{f.ok}</p></div> :
       <form onSubmit={onSubmit} noValidate className="grid gap-7" aria-describedby="wf-msg">
+        {onMode && <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={k.dirT}>
+          <button type="button" role="radio" aria-checked={!makeup} className={`${tab} ${makeup ? 'border-black/20 hover:border-black' : 'border-black bg-black text-white'}`} onClick={() => onMode('hair')}>{k.dirHair}</button>
+          <button type="button" role="radio" aria-checked={makeup} className={`${tab} ${makeup ? 'border-black bg-black text-white' : 'border-black/20 hover:border-black'}`} onClick={() => onMode('makeup')}>{k.dirMakeup}</button>
+        </div>}
         <div className="grid gap-7 sm:grid-cols-2">
           {field('name', f.name + ' *', <input name="name" required maxLength={80} autoComplete="name" aria-invalid={bad.includes('name')} className={inp} />)}
           {field('phone', f.phone + ' *', <input name="phone" type="tel" required maxLength={32} autoComplete="tel" inputMode="tel" placeholder="+48 …" aria-invalid={bad.includes('phone')} className={inp} />)}
           {field('instagram', f.ig, <input name="instagram" maxLength={31} placeholder="@" autoCapitalize="none" aria-invalid={bad.includes('instagram')} className={inp} />)}
-          {field('level', f.level, <select name="level" defaultValue="" className={inp + ' cursor-pointer appearance-none rounded-none'}><option value="">{f.choose}</option>{Object.entries(f.levels).map(([v, t]) => <option key={v} value={v}>{t}</option>)}</select>)}
+          {makeup
+            ? field('course', v.choose, <select value={vikaId ?? ''} onChange={(e) => onVika?.(e.target.value)} className={inp + ' cursor-pointer appearance-none rounded-none'}><option value="">{f.choose}</option>{v.offers.map((o) => <option key={o.id} value={o.id}>{o.t}</option>)}</select>)
+            : field('level', f.level, <select name="level" defaultValue="" className={inp + ' cursor-pointer appearance-none rounded-none'}><option value="">{f.choose}</option>{Object.entries(f.levels).map(([val, t]) => <option key={val} value={val}>{t}</option>)}</select>)}
         </div>
         {field('comment', f.comment, <textarea name="comment" rows={2} maxLength={1000} className={inp + ' resize-y'} />)}
         <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" />
@@ -357,7 +375,9 @@ function WaitForm({ lang }: { lang: Lang }) {
           <button type="submit" disabled={st === 'sending'} className="inline-flex items-center rounded-full bg-black px-7 py-3.5 text-[13px] tracking-wide text-white transition-colors hover:bg-[#222] disabled:opacity-60">{st === 'sending' ? f.sending : f.send}<Arrow /></button>
         </div>
         <div id="wf-msg" role="alert" aria-live="assertive" className="text-[14px]">
+          {st === 'need' && <p className="text-[#b3261e]">{v.formNeed}</p>}
           {st === 'invalid' && <p className="text-[#b3261e]">{f.req}</p>}
+          {st === 'preview' && <p role="status">{f.preview}</p>}
           {st === 'rate' && <p className="text-[#b3261e]">{f.rate}</p>}
           {st === 'err' && <p>{f.err} {f.fb} <a className="underline" href={C.instagram} target="_blank" rel="noopener">Instagram</a> · <a className="underline" href={`tel:${tel}`}>{C.phone}</a></p>}
         </div>
@@ -366,9 +386,35 @@ function WaitForm({ lang }: { lang: Lang }) {
   </section>;
 }
 
+function HomeCourses({ lang }: { lang: Lang }) {
+  const t = DICT[lang], k = t.kursy, h = t.home;
+  const city = lang === 'pl' ? 'Poznań' : 'Познань';
+  const cards = [
+    { name: h.team[0].n, dir: k.dirHair, text: k.homeOla, href: `${path(lang, 'kursy')}#ola` },
+    { name: h.team[1].n, dir: k.dirMakeup, text: k.homeVika, href: `${path(lang, 'kursy')}#vika` },
+  ];
+  return <section id="kursy" className="bg-black px-5 py-24 text-white md:px-10 md:py-32">
+    <div className="mx-auto max-w-[1360px]">
+      <Eyebrow>GLOW Academy</Eyebrow>
+      <H2>{t.nav.kursy}</H2>
+      <div id="home-dirs" className="grid gap-14 lg:grid-cols-2 lg:gap-20">
+        {cards.map((c, i) => <article key={c.dir} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
+          <TeamPic name={c.name} alt={`${c.name} — ${c.dir}, GLOW Hair Atelier ${city}`} />
+          <div>
+            <h3 className="font-serif text-5xl leading-none">{c.name}</h3>
+            <p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{c.dir}</p>
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">{c.text}</p>
+            <div className="mt-6"><Pill href={c.href} light>{k.see}</Pill></div>
+          </div>
+        </article>)}
+      </div>
+    </div>
+  </section>;
+}
+
 function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
   const k = DICT[lang].kursy;
-  return <section className="bg-black px-5 py-24 text-white md:px-10 md:py-32" id="kursy">
+  return <section className="scroll-mt-36 bg-black px-5 py-24 text-white md:px-10 md:py-32" id={full ? 'ola' : 'kursy'}>
     <div className="mx-auto max-w-[1360px]">
       <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
         <div>
@@ -441,10 +487,84 @@ function PageHead({ eyebrow, h1, lead }: { eyebrow: string; h1: string; lead: st
   </section>;
 }
 
+function readCoursePick(ids: string[]) {
+  const q = new URLSearchParams(location.search).get('kurs') || '';
+  const h = decodeURIComponent(location.hash.replace(/^#/, ''));
+  if (h === 'ola') return { makeup: false, id: '' };
+  const fromHash = h.startsWith('vika-') ? h.slice(5) : '';
+  const id = ids.includes(fromHash) ? fromHash : ids.includes(q) ? q : '';
+  const makeup = h === 'vika' || h.startsWith('vika-') || !!id;
+  return { makeup, id };
+}
+
+function offerCopy(o: { time: string; points: string[]; notes: string[] }) {
+  const bits = [o.time, ...o.points, ...o.notes.map((n) => n.replace(/\.$/, ''))];
+  return bits.join('. ') + '.';
+}
+
+function CoursePortrait({ name, alt }: { name: string; alt: string }) {
+  const base = TEAM_IMG[name];
+  return <div className="rv relative aspect-[3/4] w-full overflow-hidden bg-[#111]">
+    <img src={`${base}-600.webp`} srcSet={`${base}-300.webp 300w, ${base}-600.webp 600w`} sizes="(min-width: 768px) 46vw, 100vw" alt={alt} className="absolute inset-0 h-full w-full object-cover object-center" />
+    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
+  </div>;
+}
+
+function VikaCourses({ lang, onPick, onSignup }: { lang: Lang; onPick: (id: string) => void; onSignup: () => void }) {
+  const k = DICT[lang].kursy, v = k.vika;
+  const name = DICT[lang].home.team[1].n;
+  const alt = lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань';
+  const pick = (id: string) => { onPick(id); history.pushState(null, '', `${location.pathname}?kurs=${id}#zapis`); document.getElementById('zapis')?.scrollIntoView({ behavior: 'smooth' }); };
+  return <section id="vika" className="scroll-mt-36 bg-black px-5 py-24 text-white md:px-10 md:py-32">
+    <div className="mx-auto max-w-[1360px]">
+      <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
+        <div>
+          <Eyebrow>{v.eyebrow}</Eyebrow>
+          <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[68px]">{v.hook}</h2>
+          <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
+          <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{v.sharedT}</p>
+            <ul>{v.shared.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
+          <div className="rv mt-10"><Waitlist lang={lang} label={v.cta} onClick={(e) => { e.preventDefault(); onSignup(); document.getElementById('zapis')?.scrollIntoView({ behavior: 'smooth' }); }} /></div>
+        </div>
+        <CoursePortrait name={name} alt={alt} />
+      </div>
+      <div className="mt-24"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
+        <div className="grid gap-px bg-white/15 sm:grid-cols-2">{v.offers.map((o, i) => <div key={o.id} className="rv bg-black p-8" style={{ ['--d' as string]: `${(i % 2) * 100}ms` }}>
+          <span className="font-serif text-4xl italic text-white/30">0{i + 1}</span>
+          <h3 className="mt-5 font-serif text-2xl leading-tight">{o.t}</h3>
+          <p className="mt-3 text-sm leading-relaxed text-white/60">{offerCopy(o)}</p>
+          <a href={`?kurs=${o.id}#zapis`} className="navl mt-5 inline-block text-[13px]" onClick={(e) => { e.preventDefault(); pick(o.id); }}>{v.cta} →</a>
+        </div>)}</div></div>
+    </div>
+  </section>;
+}
+
 function Kursy({ lang }: { lang: Lang }) {
   const k = DICT[lang].kursy;
+  const ids = k.vika.offers.map((o) => o.id);
+  const [mode, setMode] = useState<'hair' | 'makeup'>('hair');
+  const [vikaId, setVikaId] = useState<string | null>(null);
+  useEffect(() => {
+    const apply = () => {
+      const pick = readCoursePick(ids);
+      if (pick.makeup) { setMode('makeup'); setVikaId(pick.id || null); }
+      else if (location.hash === '#ola') { setMode('hair'); setVikaId(null); }
+    };
+    apply();
+    addEventListener('hashchange', apply);
+    return () => removeEventListener('hashchange', apply);
+  }, [ids.join('|')]);
+  const choose = (id: string) => { setMode('makeup'); setVikaId(id); };
+  const tab = 'rounded-full border px-5 py-2.5 text-[13px] transition-colors';
   return <>
     <div className="h-[72px] bg-black" />
+    <div className="sticky top-[72px] z-40 border-b border-black/10 bg-[#F7F7F7]/95 backdrop-blur-md">
+      <div className="mx-auto flex max-w-[1360px] flex-wrap items-center gap-3 px-5 py-4 md:px-10">
+        <span className="text-[11px] uppercase tracking-[0.25em] text-[#8D8787]">{k.dirT}</span>
+        <a href="#ola" className={`${tab} ${mode === 'hair' ? 'border-black bg-black text-white' : 'border-black/20 bg-white hover:border-black'}`} onClick={() => { setMode('hair'); setVikaId(null); }}>{k.dirHair}</a>
+        <a href="#vika" className={`${tab} ${mode === 'makeup' ? 'border-black bg-black text-white' : 'border-black/20 bg-white hover:border-black'}`} onClick={() => setMode('makeup')}>{k.dirMakeup}</a>
+      </div>
+    </div>
     <Courses lang={lang} full />
     <Sec>
       <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
@@ -452,7 +572,14 @@ function Kursy({ lang }: { lang: Lang }) {
         <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
       </div>
     </Sec>
-    <WaitForm lang={lang} />
+    <VikaCourses lang={lang} onPick={choose} onSignup={() => setMode('makeup')} />
+    <Sec>
+      <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
+        <div className="rv"><TeamPic name={k.vika.name} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} /></div>
+        <div><Eyebrow>{DICT[lang].home.team[1].r}</Eyebrow><h2 className="rv font-serif text-5xl">{k.vika.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.vika.bio}</p></div>
+      </div>
+    </Sec>
+    <WaitForm lang={lang} mode={mode} vikaId={vikaId} onMode={(m) => { setMode(m); if (m === 'hair') setVikaId(null); }} onVika={choose} />
   </>;
 }
 
