@@ -43,15 +43,15 @@ Na 1–2 tygodnie przed ślubem warto unikać eksperymentów z nowymi kosmetykam
 
 Brwi i rzęsy warto uporządkować wcześniej — regulacja, farbowanie albo laminacja dają spokojną bazę pod makijaż i ładnie wyglądają też „bez nic”. O pielęgnacji po laminacji pisałam osobno; jeśli rozważasz ten zabieg, zaplanuj go z zapasem przed dniem ślubu, nie w ostatnią chwilę.
 
-## Jak wygląda wizyta w salonie i co zabrać
+## Jak wygląda wizyta w salonie
 
-W dniu ślubu umawiamy się z odpowiednim wyprzedzeniem względem harmonogramu. Przyjdź z umytą, nawilżoną twarzą, bez makijażu. Przydatne będą: szpilki lub wsuwki do włosów (jeśli fryzura jest już gotowa), chusteczka do matowienia w ciągu dnia oraz pomadka do poprawek — tę samą, której użyłam, albo zbliżoną.
+W dniu ślubu umawiamy się z odpowiednim wyprzedzeniem względem harmonogramu. Przyjdź z umytą, nawilżoną twarzą, bez makijażu. Chusteczki matujące, kilka wsuwek i pomadkę do poprawek w ciągu dnia dostaniesz ode mnie.
 
 Jeśli makijaż łączymy z upięciem, ustalmy kolejność: najpierw baza makijażu, potem fryzura, na końcu usta i detale — tak najwygodniej chronić i makijaż, i fryzurę.
 
 ## Trwałość i poprawki w ciągu dnia
 
-Trwały makijaż to baza, puder w strategicznych miejscach i utrwalacz, ale też Twoje nawyki: nie pocieraj oczu, matuj strefę T czystą chusteczką, a usta odświeżaj po jedzeniu. Do torby „awaryjnej” warto włożyć chusteczki matujące, pomadkę i ewentualnie korektor w odcieniu skóry.
+Trwały makijaż to baza, puder w strategicznych miejscach i utrwalacz, ale też Twoje nawyki: nie pocieraj oczu, matuj strefę T chusteczką, którą ode mnie dostaniesz, a usta odświeżaj po jedzeniu pomadką — też ode mnie.
 
 Chcesz omówić makijaż ślubny albo umówić makijaż próbny? Napisz do nas — w GLOW Hair Atelier na Jeżycach doradzę bez zobowiązań i pomożemy zaplanować dzień spokojnie.`,
   },
@@ -89,15 +89,15 @@ Chcesz omówić makijaż ślubny albo umówić makijaż próbny? Napisz do nas �
 
 Брови й вії варто впорядкувати заздалегідь — корекція, фарбування або ламінування дають спокійну базу під макіяж і гарно виглядають також «без нічого». Про догляд після ламінування я писала окремо; якщо розглядаєте цю процедуру, заплануйте її із запасом до дня весілля, а не в останню мить.
 
-## Як проходить візит у салоні і що взяти з собою
+## Як проходить візит у салоні
 
-У день весілля записуємося з потрібним запасом часу відносно розкладу. Приходьте з чистим, зволоженим обличчям, без макіяжу. Корисними будуть: шпильки або невидимки (якщо зачіска вже готова), серветки для матування впродовж дня та помада для правок — та сама, якою я працювала, або близька за відтінком.
+У день весілля записуємося з потрібним запасом часу відносно розкладу. Приходьте з чистим, зволоженим обличчям, без макіяжу. Матуючі серветки, кілька шпильок і помаду для правок упродовж дня ви отримаєте від мене.
 
 Якщо макіяж поєднуємо з укладкою, узгоджуємо порядок: спочатку база макіяжу, потім зачіска, наостанок губи й деталі — так зручніше берегти і макіяж, і зачіску.
 
 ## Стійкість і правки впродовж дня
 
-Стійкий макіяж — це база, пудра в стратегічних місцях і фіксатор, але також ваші звички: не тріть очі, матуйте T-зону чистою серветкою, а губи освіжайте після їжі. До «аварійної» сумки варто покласти матуючі серветки, помаду й за потреби консилер у тон шкіри.
+Стійкий макіяж — це база, пудра в стратегічних місцях і фіксатор, але також ваші звички: не тріть очі, матуйте T-зону серветкою, яку отримаєте від мене, а губи освіжайте після їжі помадою — теж від мене.
 
 Хочете обговорити весільний макіяж або записатися на пробний? Напишіть нам — у GLOW Hair Atelier на Єжицях я порадитиму без зобовʼязань і допоможемо спокійно спланувати день.`,
   },
