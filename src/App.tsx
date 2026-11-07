@@ -524,12 +524,12 @@ function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => voi
         <MakeupMontage lang={lang} />
       </div>
       <div id="vika-offers" className="mt-24 scroll-mt-36"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
-        <div className="grid gap-px bg-white/15 sm:grid-cols-2">{v.offers.map((o, i) => <div key={o.id} className="rv bg-black p-8" style={{ ['--d' as string]: `${(i % 2) * 100}ms` }}>
+        <div className="grid gap-px bg-white/15 sm:grid-cols-2">{v.offers.map((o, i) => <div key={o.id} className="rv flex h-full flex-col bg-black p-8" style={{ ['--d' as string]: `${(i % 2) * 100}ms` }}>
           <span className="font-serif text-4xl italic text-white/30">0{i + 1}</span>
           <h3 className="mt-5 font-serif text-2xl leading-tight">{o.t}</h3>
           <p className="mt-2 text-[13px] text-white/50">{o.time}</p>
           <p className="mt-3 text-sm leading-relaxed text-white/70">{o.sell}</p>
-          <a href={`?kurs=${o.id}#zapis`} className="navl mt-5 inline-block text-[13px]" onClick={(e) => { e.preventDefault(); pick(o.id); }}>{v.thisCta} →</a>
+          <a href={`?kurs=${o.id}#zapis`} className="navl mt-auto self-start pt-5 text-[13px]" onClick={(e) => { e.preventDefault(); pick(o.id); }}>{v.thisCta} →</a>
         </div>)}</div></div>
     </div>
   </section>;
