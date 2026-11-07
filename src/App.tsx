@@ -421,8 +421,16 @@ function HomeVika({ lang }: { lang: Lang }) {
   </section>;
 }
 
-function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
+function CourseTeacher({ name, title, bio, alt }: { name: string; title: string; bio: string; alt: string }) {
+  return <div className="rv mt-8 flex items-start gap-4">
+    <img src={`${TEAM_IMG[name]}-300.webp`} alt={alt} width={72} height={72} className="h-[72px] w-[72px] shrink-0 rounded-full object-cover" />
+    <div><p className="text-[11px] uppercase tracking-[0.2em] text-white/55">{title}</p><p className="mt-2 text-sm leading-relaxed text-white/75">{bio}</p></div>
+  </div>;
+}
+
+function Courses({ lang, full, onEnroll }: { lang: Lang; full?: boolean; onEnroll?: () => void }) {
   const k = DICT[lang].kursy;
+  const openForm = (e: MouseEvent<HTMLAnchorElement>) => { e.preventDefault(); onEnroll?.(); document.getElementById('zapis')?.scrollIntoView({ behavior: 'smooth' }); };
   return <section className="scroll-mt-36 bg-black px-5 py-24 text-white md:px-10 md:py-32" id={full ? 'ola' : 'kursy'}>
     <div className="mx-auto max-w-[1360px]">
       <div className="grid gap-12 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-20">
@@ -430,6 +438,7 @@ function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
           <Eyebrow>{k.eyebrow}</Eyebrow>
           {full ? <h1 className="fly font-serif text-[40px] leading-[1.04] md:text-[68px]">{k.hook}</h1> : <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[64px]">{k.hook}</h2>}
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{k.lead}</p>
+          {full && <CourseTeacher name={lang === 'pl' ? 'Ola' : 'Оля'} title={k.bioT} bio={k.bio} alt={lang === 'pl' ? 'Ola — fryzjerka i trenerka, GLOW Hair Atelier Poznań' : 'Оля — перукар і тренерка, GLOW Hair Atelier Познань'} />}
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.forT}</p>
             <ul>{k.forList.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
           <div className="rv mt-10"><Waitlist lang={lang} href={full ? '#zapis' : `${path(lang, 'kursy')}#zapis`} /></div>
@@ -441,10 +450,14 @@ function Courses({ lang, full }: { lang: Lang; full?: boolean }) {
           <span className="font-serif text-4xl italic text-white/30">0{i + 1}</span><h3 className="mt-5 font-serif text-2xl">{t}</h3><p className="mt-3 text-sm leading-relaxed text-white/60">{d}</p></div>)}</div></div>
       <div className="mt-24 grid gap-10 md:grid-cols-[1fr_2fr]">
         <p className="rv text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
-        <ul>{k.list.map((c, i) => <li key={c.t} className="rv flex flex-wrap items-baseline justify-between gap-3 border-b border-white/15 py-5">
-          <span className="font-serif text-3xl md:text-4xl">{c.t}</span>
-          <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] ${i === 0 ? 'bg-white text-black' : 'border border-white/30 text-white/60'}`}>{i === 0 ? k.first : k.soon}</span>
-          <span className="w-full text-sm text-white/55">{c.d}</span></li>)}
+        <ul>{k.list.map((c, i) => <li key={c.t} className="rv border-b border-white/15 py-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <span className="font-serif text-3xl md:text-4xl">{c.t}</span>
+            <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] ${i === 0 ? 'bg-white text-black' : 'border border-white/30 text-white/60'}`}>{i === 0 ? k.first : k.soon}</span>
+          </div>
+          <p className="mt-2 text-sm text-white/55">{c.d}</p>
+          {full && i === 0 && <a href="#zapis" className="navl mt-5 inline-block text-[13px]" onClick={openForm}>{k.enroll} →</a>}
+        </li>)}
           <li className="rv pt-5 text-sm text-white/45">{k.detailsSoon}</li></ul>
       </div>
       {!full && <div className="rv mt-14"><a href={path(lang, 'kursy')} className="navl text-[13px]">GLOW Academy →</a></div>}
@@ -517,6 +530,7 @@ function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => voi
           <Eyebrow>{v.eyebrow}</Eyebrow>
           <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[68px]">{v.hook}</h2>
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
+          <CourseTeacher name={lang === 'pl' ? 'Wiktoria' : 'Вікторія'} title={v.bioT} bio={v.bio} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} />
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{v.sharedT}</p>
             <ul>{v.shared.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
           <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href="#vika-offers" /></div>
@@ -561,20 +575,8 @@ function Kursy({ lang }: { lang: Lang }) {
         <a href="#vika" className={`${tab} ${mode === 'makeup' ? 'border-black bg-black text-white' : 'border-black/20 bg-white hover:border-black'}`} onClick={() => setMode('makeup')}>{k.dirMakeup}</a>
       </div>
     </div>
-    <Courses lang={lang} full />
-    <Sec>
-      <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
-        <div className="rv"><TeamPic name="Ola" alt={lang === 'pl' ? 'Ola — fryzjerka i trenerka, GLOW Hair Atelier Poznań' : 'Оля — перукар і тренерка, GLOW Hair Atelier Познань'} /></div>
-        <div><Eyebrow>15+ {lang === 'pl' ? 'lat doświadczenia' : 'років досвіду'}</Eyebrow><h2 className="rv font-serif text-5xl">{k.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.bio}</p></div>
-      </div>
-    </Sec>
+    <Courses lang={lang} full onEnroll={() => { setMode('hair'); setVikaId(null); }} />
     <VikaCourses lang={lang} onPick={choose} />
-    <Sec>
-      <div className="grid items-end gap-10 md:grid-cols-[260px_1fr]">
-        <div className="rv"><TeamPic name={k.vika.name} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} /></div>
-        <div><Eyebrow>{DICT[lang].home.team[1].r}</Eyebrow><h2 className="rv font-serif text-5xl">{k.vika.bioT}</h2><p className="rv mt-6 max-w-2xl text-lg leading-relaxed">{k.vika.bio}</p></div>
-      </div>
-    </Sec>
     <WaitForm lang={lang} mode={mode} vikaId={vikaId} onMode={(m) => { setMode(m); if (m === 'hair') setVikaId(null); }} onVika={choose} />
   </>;
 }
@@ -797,7 +799,7 @@ export default function App({ lang, page, nf, post }: { lang: Lang; page: Page; 
   const body = page === 'home' ? <Home lang={lang} /> : page === 'kursy' ? <Kursy lang={lang} /> : page === 'praca' ? <Praca lang={lang} /> : page === 'contact' ? null : <Service lang={lang} p={page} />;
   return <>
     <Header lang={lang} page={page} />
-    <main style={{ viewTransitionName: 'main' }}>{body}<Contacts lang={lang} h1={page === 'contact'} />{page !== 'praca' && <Vacancy lang={lang} />}</main>
+    <main style={{ viewTransitionName: 'main' }}>{body}{page !== 'kursy' && <Contacts lang={lang} h1={page === 'contact'} />}{page !== 'praca' && page !== 'kursy' && <Vacancy lang={lang} />}</main>
     <Footer lang={lang} />
     <div className="cursor" aria-hidden><span /></div>
   </>;
