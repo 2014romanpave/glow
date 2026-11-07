@@ -1,5 +1,5 @@
 import { flushSync } from 'react-dom';
-import { useEffect, useRef, useState, type FormEvent, type MouseEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type MouseEvent, type ReactNode } from 'react';
 import { WHY, BOOKSY, BOOKSY_PROFILE, C, DICT, PAGES, REVIEWS, SITE_URL, path, type Lang, type Page } from './i18n';
 import { WORKS, isWork, wAlt } from './works';
 import { GAL } from './gallery';
@@ -387,27 +387,13 @@ function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang
   </section>;
 }
 
-function CourseSlides({ lang }: { lang: Lang }) {
-  const pl = lang === 'pl';
-  const name = DICT[lang].home.team[1].n;
-  const base = TEAM_IMG[name];
-  const slides = [
-    { src: `${base}-600.webp`, alt: pl ? 'Wiktoria — GLOW Hair Atelier Poznań' : 'Вікторія — GLOW Hair Atelier Познань' },
-    { src: '/img/works/makeup/makeup-red-1200.webp', alt: pl ? 'Czerwony makijaż wieczorowy — GLOW Hair Atelier' : 'Червоний вечірній макіяж — GLOW Hair Atelier' },
-    { src: '/img/works/latest/pampas-1200.webp', alt: pl ? 'Makijaż wieczorowy glam — GLOW Hair Atelier' : 'Вечірній glam-макіяж — GLOW Hair Atelier' },
-    { src: '/img/works/latest/catrina-1200.webp', alt: pl ? 'Makijaż kreatywny — GLOW Hair Atelier' : 'Креативний макіяж — GLOW Hair Atelier' },
-  ];
-  const [i, setI] = useState(0);
-  const hover = useRef(false);
-  useEffect(() => {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const t = window.setInterval(() => { if (!hover.current) setI((n) => (n + 1) % slides.length); }, 4000);
-    return () => clearInterval(t);
-  }, [slides.length]);
-  return <div className="rv relative aspect-[4/5] w-full overflow-hidden bg-[#111]" onMouseEnter={() => { hover.current = true; }} onMouseLeave={() => { hover.current = false; }} onTouchStart={() => { hover.current = true; }} onTouchEnd={() => { hover.current = false; }}>
-    {slides.map((s, n) => <img key={s.src} src={s.src} alt={n === i ? s.alt : ''} aria-hidden={n !== i} className={`absolute inset-0 h-full w-full object-contain object-center transition-opacity duration-1000 ease-out ${n === i ? 'opacity-100' : 'opacity-0'}`} />)}
+function MakeupMontage({ lang }: { lang: Lang }) {
+  const label = lang === 'pl' ? 'Montaż zdjęć makijażu salonu — GLOW Hair Atelier' : 'Монтаж фото макіяжу салону — GLOW Hair Atelier';
+  return <div className="rv relative aspect-[4/5] w-full overflow-hidden bg-[#111]" data-cursor={lang === 'pl' ? 'Prace' : 'Роботи'}>
+    <video className="lazy-video absolute inset-0 h-full w-full object-cover" muted loop playsInline autoPlay preload="none" poster="/video/makeup-montage-poster.jpg" aria-label={label}>
+      <source data-src="/video/makeup-montage.webm" type="video/webm" /><source data-src="/video/makeup-montage.mp4" type="video/mp4" />
+    </video>
     <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
-    <span className="absolute bottom-4 left-4 rounded-full bg-black/55 px-3 py-1 text-[11px] tracking-[0.18em] text-white" aria-hidden>{String(i + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span>
   </div>;
 }
 
@@ -430,7 +416,7 @@ function HomeVika({ lang }: { lang: Lang }) {
             </li>)}</ul></div>
           <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href={`${path(lang, 'kursy')}#vika`} /></div>
         </div>
-        <CourseSlides lang={lang} />
+        <MakeupMontage lang={lang} />
       </div>
     </div>
   </section>;
