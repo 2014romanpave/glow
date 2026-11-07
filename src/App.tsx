@@ -507,18 +507,8 @@ function readCoursePick(ids: string[]) {
 }
 
 
-function CoursePortrait({ name, alt }: { name: string; alt: string }) {
-  const base = TEAM_IMG[name];
-  return <div className="rv relative aspect-[3/4] w-full overflow-hidden bg-[#111]">
-    <img src={`${base}-600.webp`} srcSet={`${base}-300.webp 300w, ${base}-600.webp 600w`} sizes="(min-width: 768px) 46vw, 100vw" alt={alt} className="absolute inset-0 h-full w-full object-cover object-center" />
-    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
-  </div>;
-}
-
 function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => void }) {
   const k = DICT[lang].kursy, v = k.vika;
-  const name = DICT[lang].home.team[1].n;
-  const alt = lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань';
   const pick = (id: string) => { onPick(id); history.pushState(null, '', `${location.pathname}?kurs=${id}#zapis`); document.getElementById('zapis')?.scrollIntoView({ behavior: 'smooth' }); };
   return <section id="vika" className="scroll-mt-36 bg-black px-5 py-24 text-white md:px-10 md:py-32">
     <div className="mx-auto max-w-[1360px]">
@@ -531,7 +521,7 @@ function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => voi
             <ul>{v.shared.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
           <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href="#vika-offers" /></div>
         </div>
-        <CoursePortrait name={name} alt={alt} />
+        <MakeupMontage lang={lang} />
       </div>
       <div id="vika-offers" className="mt-24 scroll-mt-36"><p className="rv mb-8 text-[11px] uppercase tracking-[0.25em] text-white/50">{k.progT}</p>
         <div className="grid gap-px bg-white/15 sm:grid-cols-2">{v.offers.map((o, i) => <div key={o.id} className="rv bg-black p-8" style={{ ['--d' as string]: `${(i % 2) * 100}ms` }}>
