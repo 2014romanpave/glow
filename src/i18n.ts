@@ -58,8 +58,8 @@ const pl = {
     whySteps: ['Bezpłatna konsultacja (20 min)', 'Pasmo testowe i plan zabiegu', 'Dokładna wycena przed rozpoczęciem'],
     teamT: 'Nasze mistrzynie',
     team: [
-      { n: 'Ola', r: 'Fryzjerka uniwersalna · strzyżenie, koloryzacja, AirTouch', d: 'Założycielka GLOW. Od strzyżenia po złożone koloryzacje — zawsze z dbałością o kondycję włosów.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/397957#ba_s=dl_1', c: 'Umów się do Oli' },
-      { n: 'Wiktoria', r: 'Brwi · rzęsy · upięcia · makijaż', d: 'Laminacje, przedłużanie rzęs 1:1, upięcia wieczorowe i makijaż okolicznościowy.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/396048#ba_s=dl_1', c: 'Umów się do Wiktorii' },
+      { n: 'Ola', r: 'Fryzjerka uniwersalna · strzyżenie, koloryzacja, AirTouch', d: 'Założycielka GLOW. Od strzyżenia po złożone koloryzacje — zawsze z dbałością o kondycję włosów.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/397957#ba_s=dl_1', c: 'Umów się do Oli', teach: 'Uczy strzyżenia karé i bob-karé', course: 'Kursy Oli' },
+      { n: 'Wiktoria', r: 'Brwi · rzęsy · upięcia · makijaż', d: 'Laminacje, przedłużanie rzęs 1:1, upięcia wieczorowe i makijaż okolicznościowy.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/396048#ba_s=dl_1', c: 'Umów się do Wiktorii', teach: 'Indywidualna nauka makijażu — dla siebie i dla makijażystek', course: 'Kursy Wiktorii' },
     ],
     photoTodo: 'Zdjęcie wkrótce',
     revT: 'Co mówią klientki', revAll: 'Wszystkie opinie na Booksy', revG: 'Opinie Google — wkrótce',
@@ -143,8 +143,8 @@ const ua: D = {
     whySteps: ['Безкоштовна консультація (20 хв)', 'Тестове пасмо і план процедури', 'Точна вартість до початку роботи'],
     teamT: 'Наші майстрині',
     team: [
-      { n: 'Оля', r: 'Майстер-універсал · стрижки, фарбування, AirTouch', d: 'Засновниця GLOW. Від стрижки до складних фарбувань — завжди з турботою про якість волосся.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/397957#ba_s=dl_1', c: 'Записатися до Олі' },
-      { n: 'Вікторія', r: 'Брови · вії · зачіски · макіяж', d: 'Ламінування, нарощування вій 1:1, вечірні зачіски та святковий макіяж.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/396048#ba_s=dl_1', c: 'Записатися до Вікторії' },
+      { n: 'Оля', r: 'Майстер-універсал · стрижки, фарбування, AirTouch', d: 'Засновниця GLOW. Від стрижки до складних фарбувань — завжди з турботою про якість волосся.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/397957#ba_s=dl_1', c: 'Записатися до Олі', teach: 'Навчає стрижкам каре та боб-каре', course: 'Курси Олі' },
+      { n: 'Вікторія', r: 'Брови · вії · зачіски · макіяж', d: 'Ламінування, нарощування вій 1:1, вечірні зачіски та святковий макіяж.', b: 'https://booksy.com/pl-pl/190507_glow-hair-atelier_fryzjer_15608_poznan/staffer/396048#ba_s=dl_1', c: 'Записатися до Вікторії', teach: 'Індивідуальне навчання макіяжу — для себе та майстрів', course: 'Курси Вікторії' },
     ],
     photoTodo: 'Фото незабаром',
     revT: 'Що кажуть клієнтки', revAll: 'Усі відгуки на Booksy', revG: 'Відгуки Google — незабаром',

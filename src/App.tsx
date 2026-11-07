@@ -10,9 +10,9 @@ const SVC = ['coloring', 'haircuts', 'hairstyles', 'makeup', 'brows'] as const;
 const tel = C.phone.replace(/\s/g, '');
 const Arrow = () => <span aria-hidden className="ml-3 inline-block transition-transform group-hover:translate-x-1">→</span>;
 
-const Pill = ({ href, children, light, onClick }: { href: string; children: ReactNode; light?: boolean; onClick?: (e: MouseEvent<HTMLAnchorElement>) => void }) => (
+const Pill = ({ href, children, light, onClick, fit }: { href: string; children: ReactNode; light?: boolean; onClick?: (e: MouseEvent<HTMLAnchorElement>) => void; fit?: boolean }) => (
   <a href={href} onClick={onClick} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener" data-magnet
-    className={`group inline-flex items-center rounded-full px-6 py-3.5 text-[13px] tracking-wide transition-colors ${light ? 'bg-white text-black hover:bg-[#e9e9e9]' : 'bg-black text-white hover:bg-[#222]'}`}>{children}<Arrow /></a>
+    className={`group inline-flex items-center rounded-full text-[13px] transition-colors ${fit ? 'max-w-full gap-1 whitespace-nowrap px-2.5 py-3.5 tracking-normal min-[430px]:gap-3 min-[430px]:px-6 min-[430px]:tracking-wide' : 'px-6 py-3.5 tracking-wide'} ${light ? 'bg-white text-black hover:bg-[#e9e9e9]' : 'bg-black text-white hover:bg-[#222]'}`}>{children}{fit ? <span aria-hidden className="inline-block shrink-0 transition-transform group-hover:translate-x-1">→</span> : <Arrow />}</a>
 );
 const Stack = ({ a, b }: { a: string; b: string }) => <span className="inline-flex flex-col text-[11px] leading-[1.05] tracking-[0.12em] font-semibold"><span>{a}</span><span>{b}</span></span>;
 const Logo = ({ inv }: { inv?: boolean }) => <img src="/img/logo.svg" alt={C.name} width={48} height={53} className={`h-11 w-auto ${inv ? 'invert' : ''}`} />;
@@ -282,7 +282,7 @@ function Home({ lang }: { lang: Lang }) {
       <div className="grid gap-12 lg:grid-cols-2">
         {h.team.map((m, i) => <div key={m.n} className="rv grid grid-cols-[130px_1fr] items-start gap-6 md:grid-cols-[220px_1fr]" style={{ ['--d' as string]: `${i * 140}ms` }}>
           {TEAM_IMG[m.n] ? <TeamPic name={m.n} alt={`${m.n} — ${m.r}, GLOW Hair Atelier ${lang === 'pl' ? 'Poznań' : 'Познань'}`} /> : <Placeholder ch={m.n[0]} />}
-          <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b}>{m.c}</Pill></div></div>
+          <div><h3 className="font-serif text-5xl">{m.n}</h3><p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-[#8D8787]">{m.r}</p><p className="mt-4 text-sm leading-relaxed">{m.d}</p><div className="mt-6"><Pill href={m.b} fit>{m.c}</Pill></div><p className="mt-5 text-sm leading-relaxed text-[#8D8787]">{m.teach}</p><a href={`${path(lang, 'kursy')}${i === 0 ? '#ola' : '#vika'}`} className="navl mt-2 inline-block text-[13px]">{m.course}</a></div>
         </div>)}
       </div>
     </Sec>
