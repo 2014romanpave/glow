@@ -313,27 +313,27 @@ const Waitlist = ({ lang, href = '#zapis', label, onClick }: { lang: Lang; href?
 </div>;
 
 const WF = {
-  pl: { eyebrow: 'Kurs karé / bob-karé', name: 'Imię', phone: 'Telefon', ig: 'Instagram (opcjonalnie)', level: 'Doświadczenie (opcjonalnie)', levels: { beginner: 'Początkująca / początkujący', working: 'Pracuję jako fryzjer(ka)', experienced: 'Doświadczona / doświadczony' }, choose: 'Wybierz…', comment: 'Komentarz (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych przez GLOW Hair Atelier wyłącznie w celu kontaktu w sprawie kursu.', send: 'Zapisz mnie', lead: 'Zostaw kontakt — damy znać jako pierwsi o terminie i szczegółach kursu.', sending: 'Wysyłanie…', ok: 'Dziękujemy! Ola skontaktuje się z Tobą wkrótce.', err: 'Nie udało się wysłać formularza.', fb: 'Napisz do nas na Instagramie lub zadzwoń:', req: 'Uzupełnij wymagane pola: imię, telefon i zgodę.', rate: 'Zbyt wiele prób — spróbuj za kilka minut.', preview: 'To jest lokalny podgląd. Zgłoszenie nie zostało wysłane.' },
-  ua: { eyebrow: 'Курс каре / боб-каре', name: 'Імʼя', phone: 'Телефон', ig: 'Instagram (необовʼязково)', level: 'Досвід (необовʼязково)', levels: { beginner: 'Початківець', working: 'Працюю перукарем', experienced: 'Досвідчений майстер' }, choose: 'Оберіть…', comment: 'Коментар (необовʼязково)', consent: 'Погоджуюсь на обробку моїх даних GLOW Hair Atelier виключно для звʼязку щодо курсу.', send: 'Записатися', lead: 'Залиште контакт — ми першими повідомимо про дату й деталі курсу.', sending: 'Надсилаємо…', ok: 'Дякуємо! Оля звʼяжеться з вами найближчим часом.', err: 'Не вдалося надіслати форму.', fb: 'Напишіть нам в Instagram або зателефонуйте:', req: 'Заповніть обовʼязкові поля: імʼя, телефон і згоду.', rate: 'Забагато спроб — спробуйте за кілька хвилин.', preview: 'Це локальний перегляд. Заявку не надіслано.' },
+  pl: { eyebrow: 'Kurs karé / bob-karé', name: 'Imię', phone: 'Telefon', ig: 'Instagram (opcjonalnie)', level: 'Doświadczenie (opcjonalnie)', levels: { beginner: 'Początkująca / początkujący', working: 'Pracuję jako fryzjer(ka)', experienced: 'Doświadczona / doświadczony' }, choose: 'Wybierz…', comment: 'Komentarz (opcjonalnie)', consent: 'Wyrażam zgodę na przetwarzanie moich danych przez GLOW Hair Atelier wyłącznie w celu kontaktu w sprawie kursu.', send: 'Zapisz mnie', lead: 'Zostaw kontakt — damy znać jako pierwsi o terminie i szczegółach kursu.', sending: 'Wysyłanie…', ok: 'Dziękujemy! Ola skontaktuje się z Tobą wkrótce.', okVika: 'Dziękujemy! Wiktoria skontaktuje się z Tobą wkrótce.', err: 'Nie udało się wysłać formularza.', fb: 'Napisz do nas na Instagramie lub zadzwoń:', req: 'Uzupełnij wymagane pola: imię, telefon i zgodę.', rate: 'Zbyt wiele prób — spróbuj za kilka minut.' },
+  ua: { eyebrow: 'Курс каре / боб-каре', name: 'Імʼя', phone: 'Телефон', ig: 'Instagram (необовʼязково)', level: 'Досвід (необовʼязково)', levels: { beginner: 'Початківець', working: 'Працюю перукарем', experienced: 'Досвідчений майстер' }, choose: 'Оберіть…', comment: 'Коментар (необовʼязково)', consent: 'Погоджуюсь на обробку моїх даних GLOW Hair Atelier виключно для звʼязку щодо курсу.', send: 'Записатися', lead: 'Залиште контакт — ми першими повідомимо про дату й деталі курсу.', sending: 'Надсилаємо…', ok: 'Дякуємо! Оля звʼяжеться з вами найближчим часом.', okVika: 'Дякуємо! Вікторія звʼяжеться з вами найближчим часом.', err: 'Не вдалося надіслати форму.', fb: 'Напишіть нам в Instagram або зателефонуйте:', req: 'Заповніть обовʼязкові поля: імʼя, телефон і згоду.', rate: 'Забагато спроб — спробуйте за кілька хвилин.' },
 };
 function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang: Lang; mode?: 'hair' | 'makeup'; vikaId?: string | null; onMode?: (m: 'hair' | 'makeup') => void; onVika?: (id: string) => void }) {
   const f = WF[lang], k = DICT[lang].kursy, v = k.vika;
   const makeup = mode === 'makeup';
   const picked = v.offers.find((o) => o.id === vikaId) ?? null;
-  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err' | 'invalid' | 'rate' | 'preview' | 'need'>('idle');
+  const [st, setSt] = useState<'idle' | 'sending' | 'ok' | 'err' | 'invalid' | 'rate' | 'need'>('idle');
+  const [sentTo, setSentTo] = useState<'ola' | 'vika'>('ola');
   const [bad, setBad] = useState<string[]>([]);
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const body = { ...Object.fromEntries(fd), consent: fd.get('consent') === 'on', lang, page: location.pathname };
+    const body: Record<string, unknown> = { ...Object.fromEntries(fd), consent: fd.get('consent') === 'on', lang, page: location.pathname };
     const miss = (['name', 'phone'] as const).filter((n) => !String(fd.get(n) || '').trim()) as string[];
     if (!body.consent) miss.push('consent');
     if (makeup && !picked) { setBad(miss); setSt('need'); return; }
     if (miss.length) { setBad(miss); setSt('invalid'); return; }
+    if (makeup && picked) { body.teacher = 'vika'; body.course = picked.id; delete body.level; }
     setBad([]);
-    // Local preview only — do not POST /api/waitlist and do not send Telegram.
-    const LOCAL_PREVIEW = true;
-    if (LOCAL_PREVIEW) { setSt('preview'); return; }
+    setSentTo(makeup ? 'vika' : 'ola');
     setSt('sending');
     try {
       const r = await fetch('/api/waitlist', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -355,7 +355,7 @@ function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang
         <p className="rv max-w-md text-[#8D8787]">{makeup ? v.formLead : f.lead}</p>
         {makeup && picked && <p className="rv mt-8 font-serif text-3xl leading-tight">{picked.t}</p>}
       </div>
-      {st === 'ok' ? <div role="status" aria-live="polite" className="self-center"><p className="font-serif text-[32px] leading-tight md:text-[44px]">{f.ok}</p></div> :
+      {st === 'ok' ? <div role="status" aria-live="polite" className="self-center"><p className="font-serif text-[32px] leading-tight md:text-[44px]">{sentTo === 'vika' ? f.okVika : f.ok}</p></div> :
       <form onSubmit={onSubmit} noValidate className="grid gap-7" aria-describedby="wf-msg">
         {onMode && <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={k.dirT}>
           <button type="button" role="radio" aria-checked={!makeup} className={`${tab} ${makeup ? 'border-black/20 hover:border-black' : 'border-black bg-black text-white'}`} onClick={() => onMode('hair')}>{k.dirHair}</button>
@@ -378,7 +378,6 @@ function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang
         <div id="wf-msg" role="alert" aria-live="assertive" className="text-[14px]">
           {st === 'need' && <p className="text-[#b3261e]">{v.formNeed}</p>}
           {st === 'invalid' && <p className="text-[#b3261e]">{f.req}</p>}
-          {st === 'preview' && <p role="status">{f.preview}</p>}
           {st === 'rate' && <p className="text-[#b3261e]">{f.rate}</p>}
           {st === 'err' && <p>{f.err} {f.fb} <a className="underline" href={C.instagram} target="_blank" rel="noopener">Instagram</a> · <a className="underline" href={`tel:${tel}`}>{C.phone}</a></p>}
         </div>
