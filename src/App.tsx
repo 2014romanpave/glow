@@ -421,9 +421,9 @@ function HomeVika({ lang }: { lang: Lang }) {
   </section>;
 }
 
-function CourseTeacher({ name, title, bio, alt }: { name: string; title: string; bio: string; alt: string }) {
+function CourseTeacher({ name, title, bio, alt, src }: { name: string; title: string; bio: string; alt: string; src?: string }) {
   return <div className="rv mt-8 flex items-start gap-4">
-    <img src={`${TEAM_IMG[name]}-300.webp`} alt={alt} width={72} height={72} className="h-[72px] w-[72px] shrink-0 rounded-full object-cover" />
+    <img src={src ?? `${TEAM_IMG[name]}-300.webp`} alt={alt} width={72} height={72} className="h-[72px] w-[72px] shrink-0 rounded-full object-cover" />
     <div><p className="text-[11px] uppercase tracking-[0.2em] text-white/55">{title}</p><p className="mt-2 text-sm leading-relaxed text-white/75">{bio}</p></div>
   </div>;
 }
@@ -530,7 +530,7 @@ function VikaCourses({ lang, onPick }: { lang: Lang; onPick: (id: string) => voi
           <Eyebrow>{v.eyebrow}</Eyebrow>
           <h2 className="rv font-serif text-[40px] leading-[1.04] md:text-[68px]">{v.hook}</h2>
           <p className="rv mt-6 max-w-xl text-lg text-white/70">{v.lead}</p>
-          <CourseTeacher name={lang === 'pl' ? 'Wiktoria' : 'Вікторія'} title={v.bioT} bio={v.bio} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} />
+          <CourseTeacher name={lang === 'pl' ? 'Wiktoria' : 'Вікторія'} title={v.bioT} bio={v.bio} alt={lang === 'pl' ? 'Wiktoria — makijaż, GLOW Hair Atelier Poznań' : 'Вікторія — макіяж, GLOW Hair Atelier Познань'} src="/img/team/wiktoria-avatar.webp" />
           <div className="rv mt-10"><p className="mb-4 text-[11px] uppercase tracking-[0.25em] text-white/50">{v.sharedT}</p>
             <ul>{v.shared.map((x, i) => <li key={x} className="flex gap-5 border-b border-white/15 py-3.5"><span className="font-serif italic text-white/40">0{i + 1}</span>{x}</li>)}</ul></div>
           <div className="rv mt-10"><Waitlist lang={lang} label={v.pick} href="#vika-offers" /></div>
