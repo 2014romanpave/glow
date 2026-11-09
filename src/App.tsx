@@ -389,8 +389,8 @@ function WaitForm({ lang, mode = 'hair', vikaId = null, onMode, onVika }: { lang
 function MakeupMontage({ lang }: { lang: Lang }) {
   const label = lang === 'pl' ? 'Montaż zdjęć makijażu salonu — GLOW Hair Atelier' : 'Монтаж фото макіяжу салону — GLOW Hair Atelier';
   return <div className="rv relative aspect-[4/5] w-full overflow-hidden bg-[#111]" data-cursor={lang === 'pl' ? 'Prace' : 'Роботи'}>
-    <video className="lazy-video absolute inset-0 h-full w-full object-cover" muted loop playsInline autoPlay preload="none" poster="/video/makeup-montage-poster.jpg" aria-label={label}>
-      <source data-src="/video/makeup-montage.webm" type="video/webm" /><source data-src="/video/makeup-montage.mp4" type="video/mp4" />
+    <video className="lazy-video absolute inset-0 h-full w-full object-cover" muted loop playsInline autoPlay preload="none" poster="/video/makeup-montage-v2-poster.jpg" aria-label={label}>
+      <source data-src="/video/makeup-montage-v2.webm" type="video/webm" /><source data-src="/video/makeup-montage-v2.mp4" type="video/mp4" />
     </video>
     <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black">GLOW Academy</span>
   </div>;
