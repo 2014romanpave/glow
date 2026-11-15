@@ -53,7 +53,7 @@ Cienkie końce szybciej tracą kształt i zaczynają wyglądać na przerzedzone.
 
 ## Kolor też może pomóc
 
-Delikatna gra odcieni, na przykład, miękka koloryzacja z jaśniejszymi pasmami, optycznie dodaje włosom głębi i objętości. Dobieram ją zawsze ostrożnie, uwzględniając kondycję cienkich włosów.
+Delikatna gra odcieni, na przykład miękka koloryzacja z jaśniejszymi pasmami, optycznie dodaje włosom głębi i objętości. Dobieram ją zawsze ostrożnie, uwzględniając kondycję cienkich włosów.
 
 Jeśli chcesz, żeby Twoje cienkie włosy wyglądały na gęstsze, umów się na wizytę w GLOW Hair Atelier na Jeżycach — razem dobierzemy strzyżenie, które będzie pasować do Twoich włosów i stylu życia.`,
   },
