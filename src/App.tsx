@@ -612,13 +612,29 @@ function Footer({ lang }: { lang: Lang }) {
   </footer>;
 }
 
+function inline(text: string): ReactNode {
+  const re = /\[([^\]\n]+)\]\((\/(?!\/)[^)\s"<>]*)\)/g;
+  const nodes: ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let k = 0;
+  while ((m = re.exec(text))) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    nodes.push(<a key={k++} href={m[2]} className="underline decoration-1 underline-offset-4 hover:text-black">{m[1]}</a>);
+    last = m.index + m[0].length;
+  }
+  if (!nodes.length) return text;
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+
 function Md({ src }: { src: string }) {
   const blocks = src.trim().split(/\n\s*\n/);
   return <>{blocks.map((b, i) => {
     if (b.startsWith('## ')) return <h2 key={i} className="mt-14 mb-5 font-serif text-[clamp(24px,6vw,28px)] leading-[1.18] [text-wrap:balance] md:text-[36px]">{b.slice(3)}</h2>;
     const lines = b.split('\n');
-    if (lines.every((l) => l.startsWith('- '))) return <ul key={i} className="my-6 border-t border-black/10">{lines.map((l) => <li key={l} className="flex gap-4 border-b border-black/10 py-3.5 leading-relaxed"><span aria-hidden className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-black" /><span>{l.slice(2)}</span></li>)}</ul>;
-    return <p key={i} className="my-5 text-[17px] leading-[1.75] text-[#333]">{b}</p>;
+    if (lines.every((l) => l.startsWith('- '))) return <ul key={i} className="my-6 border-t border-black/10">{lines.map((l) => <li key={l} className="flex gap-4 border-b border-black/10 py-3.5 leading-relaxed"><span aria-hidden className="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-black" /><span>{inline(l.slice(2))}</span></li>)}</ul>;
+    return <p key={i} className="my-5 text-[17px] leading-[1.75] text-[#333]">{inline(b)}</p>;
   })}</>;
 }
 
