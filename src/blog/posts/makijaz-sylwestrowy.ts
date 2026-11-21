@@ -17,13 +17,13 @@ const post: Post = {
 
 W dzień światło jest chłodniejsze i bardziej równomierne, więc wystarcza lżejsze krycie i spokojniejszy cień. Wieczorem, przy ciepłych lampach i świecach, taki makijaż często blednie. Na zdjęciach z flesza widać z kolei to, czego w lustrze nie widać: suchy puder oraz drobinki, które nie trzymają się powieki.
 
-Makijaż sylwestrowy i na inne imprezy świąteczne buduję więc inaczej niż dzienny: nie przez dokładanie kolejnych warstw, tylko przez wyraźniejszy akcent tam, gdzie światło zjada kolor, i przez mocniejsze utrwalenie tam, gdzie skóra się świeci albo gdzie będzie taniec.
+Makijaż sylwestrowy i każdy inny na imprezę świąteczną buduję więc inaczej niż dzienny: nie przez dokładanie kolejnych warstw, tylko przez wyraźniejszy akcent tam, gdzie światło zjada kolor, i przez mocniejsze utrwalenie tam, gdzie skóra się świeci albo przy tańcu.
 
 ## Jeden akcent: oczy albo usta
 
-Na wieczór wybieram jeden mocny punkt. Albo oczy — cień z drobinkami, wyraźniejsza kreska, rzęsy. Albo usta — głębszy kolor i wyraźny kontur. Nie łączę obu na pełnej intensywności.
+Na wieczór wybieram jeden mocny punkt. Albo oczy — cień z drobinkami, wyraźniejsza kreska, rzęsy. Albo usta — głębszy kolor i wyraźny kontur. Nie łączę ich obu na pełnej intensywności.
 
-Dwa mocne akcenty przy ciepłym świetle i fleszu konkurują ze sobą i szybciej wyglądają na przerysowane. Jeśli oczy mają drobinki, usta zostawiam w kolorze zbliżonym do naturalnego, tylko dobrze utrwalone. Jeśli cały look opiera się na ustach, oko zostaje spokojne: rzęsy, lekki cień i równa kreska przy linii rzęs.
+Dwa mocne akcenty przy ciepłym świetle i fleszu konkurują ze sobą i szybciej wyglądają na przerysowane. Jeśli oczy mają drobinki, usta zostawiam w kolorze zbliżonym do naturalnego i dobrze je utrwalam. Jeśli cały look opiera się na ustach, oko zostaje spokojne: rzęsy, lekki cień i równa kreska przy linii rzęs.
 
 ## Skóra na całą noc — bez efektu maski
 
@@ -96,11 +96,11 @@ Chcesz makijaż na sylwestra, wigilię firmową albo inne wieczorne wyjście? Na
 
 Удень світло холодніше й рівніше, тож вистачає легшого покриття і спокійнішої тіні. Увечері, при теплих лампах і свічках, такий макіяж часто блідне. На фото зі спалахом видно те, чого не видно в дзеркалі: суха пудра і блискітки, які не тримаються на повіці.
 
-Тому макіяж на Новий рік і на інші святкові вечірки я збираю інакше, ніж денний: не додатковими шарами, а виразнішим акцентом там, де тепле світло гасить колір, і міцнішою фіксацією там, де шкіра блищить або де будуть танці.
+Тому макіяж на Новий рік і на інші святкові вечірки я збираю інакше, ніж денний: не додатковими шарами, а виразнішим акцентом там, де тепле світло гасить колір, і міцнішою фіксацією там, де шкіра блищить, а також під час танців.
 
 ## Один акцент: очі або губи
 
-На вечір я обираю одну сильну точку. Або очі — сяйні тіні, виразніша підводка, вії. Або губи — глибший колір і чіткий контур. Не поєдную обидва на повну силу.
+На вечір я обираю одну сильну точку. Або очі — сяйні тіні, виразніша підводка, вії. Або губи — глибший колір і чіткий контур. Не поєдную обидва акценти на повну силу.
 
 Два сильні акценти при теплому світлі й спалаху змагаються між собою і швидше виглядають перебільшено. Якщо на очах є блиск, губи лишаю близькими до природного кольору, лише добре зафіксованими. Якщо весь образ тримається на губах, око лишається спокійним: вії, легка тінь і рівна підводка біля лінії вій.
 
@@ -144,7 +144,7 @@ Chcesz makijaż na sylwestra, wigilię firmową albo inne wieczorne wyjście? Na
 
 Ламінування не записую на день свята. У перші 24–48 годин після процедури брови й вії не можна мочити й фарбувати — про це я писала в статті про [догляд після ламінування брів і вій](/ua/blog/laminacja-brwi-rzes-po-zabiegu). Якщо хочете цей ефект на вечірку, записую ламінування із запасом у кілька днів, не напередодні.
 
-Ту саму логіку стійкості — тонкі шари, світло й губи, які лишаються після тосту, — застосовую і у [весільному макіяжі](/ua/blog/makijaz-slubny-poznan). Інша подія, та сама логіка.
+Ту саму логіку стійкості — тонкі шари, світло й губи, які лишаються після тосту — застосовую і у [весільному макіяжі](/ua/blog/makijaz-slubny-poznan). Інша подія, та сама логіка.
 
 ## Маленька косметичка для правок
 
@@ -163,7 +163,7 @@ Chcesz makijaż na sylwestra, wigilię firmową albo inne wieczorne wyjście? Na
 
 На візит приходьте з чистим, зволоженим обличчям, без макіяжу. Скажіть, куди йдете, о котрій будуть фото і чи плануєте танцювати до ранку — від цього залежить, наскільки міцно я фіксую макіяж.
 
-Якщо хочете зробити такий макіяж собі самі, я також веду індивідуальні уроки «для себе»: денний і вечірній макіяж, який відпрацьовуєте на власному обличчі. Деталі — на сторінці [курсів](/ua/kursy).
+Якщо хочете зробити такий макіяж самостійно, я також веду індивідуальні уроки «для себе»: денний і вечірній макіяж, який відпрацьовуєте на власному обличчі. Деталі — на сторінці [курсів](/ua/kursy).
 
 Хочете макіяж на Новий рік, різдвяний корпоратив чи інший вечірній вихід? Напишіть нам — у GLOW Hair Atelier на Єжицях я пораджу без зобовʼязань і допоможемо підібрати час.`,
   },
